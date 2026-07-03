@@ -1,15 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Nav, Footer } from "@/components/chrome";
+import { MapPin, Trophy, Waves, TreePalm, Heart, MessageCircle, Check, Sparkles } from "lucide-react";
 
-// Local uploaded assets
-import djAsset from "@/assets/dj.jpg.asset.json";
-import dj2Asset from "@/assets/dj2.jpg.asset.json";
-import drinksAsset from "@/assets/drinks.jpg.asset.json";
-import foodAsset from "@/assets/food.jpg.asset.json";
-import hostelAsset from "@/assets/hostel.jpg.asset.json";
-import marketAsset from "@/assets/market.jpg.asset.json";
-import surfAsset from "@/assets/surf.jpg.asset.json";
-import posterAsset from "@/assets/poster-opening.jpg.asset.json";
+// PLACEHOLDER photos — copied from the Chillout gallery so the site renders locally.
+// TODO: replace each with a real Lunja Village resort photo (pools, bungalows,
+// apartments, ocean, gardens, breakfast) from @lunjavillage.officiel.
+import dj from "@/assets/ph-dj.jpg";
+import dj2 from "@/assets/ph-dj2.jpg";
+import drinks from "@/assets/ph-drinks.jpg";
+import foodImg from "@/assets/ph-food.jpg";
+import hostel from "@/assets/ph-hostel.jpg";
+import market from "@/assets/ph-market.jpg";
+import surf from "@/assets/ph-surf.jpg";
+import poster from "@/assets/ph-poster.jpg";
 
 // Generated resort images
 import heroPool from "@/assets/hero-pool.jpg";
@@ -19,16 +23,7 @@ import apartment from "@/assets/apartment.jpg";
 import party from "@/assets/party.jpg";
 import yoga from "@/assets/yoga.jpg";
 
-const dj = djAsset.url;
-const dj2 = dj2Asset.url;
-const drinks = drinksAsset.url;
-const foodImg = foodAsset.url;
-const hostel = hostelAsset.url;
-const market = marketAsset.url;
-const surf = surfAsset.url;
-const poster = posterAsset.url;
-
-const CHILLOUT_URL = "https://vibescape-hub.vercel.app/";
+const CHILLOUT_URL = "https://chill-vibes-studio.vercel.app";
 const IG_URL = "https://www.instagram.com/lunjavillage.officiel/";
 const IG_CHILLOUT = "https://www.instagram.com/chillout_taghazout/";
 const WHATSAPP = "+212 644 96 78 58";
@@ -95,110 +90,6 @@ function ScrollProgress() {
   );
 }
 
-// ---------- Nav ----------
-const NAV = [
-  { href: "#village", label: "Village" },
-  { href: "#stay", label: "Stay" },
-  { href: "#agenda", label: "What's On" },
-  { href: "#chillout", label: "Chillout" },
-  { href: "#feed", label: "Feed" },
-];
-
-function Nav() {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 20);
-    on();
-    window.addEventListener("scroll", on, { passive: true });
-    return () => window.removeEventListener("scroll", on);
-  }, []);
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-  }, [open]);
-  return (
-    <>
-      <header
-        className={`fixed inset-x-0 top-1 z-50 transition-all ${
-          scrolled ? "bg-linen/85 backdrop-blur-md border-b-2 border-ink/90" : "bg-transparent"
-        }`}
-      >
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-          <a href="#top" className="flex items-baseline gap-1 font-display text-3xl font-black tracking-tight">
-            LUNJA
-            <span className="ml-1 inline-block -rotate-1 bg-coral px-2 py-0.5 text-linen shadow-hard">VILLAGE</span>
-          </a>
-          <nav className="hidden items-center gap-8 lg:flex">
-            {NAV.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                className="link-wipe font-display text-lg font-bold uppercase tracking-wide text-ink hover:text-coral"
-              >
-                {n.label}
-              </a>
-            ))}
-          </nav>
-          <a
-            href="#book"
-            className="hidden lg:inline-flex items-center gap-2 border-2 border-ink bg-coral px-4 py-2 font-display text-sm font-black uppercase tracking-wider text-linen shadow-hard transition-transform hover:-translate-y-0.5"
-          >
-            Book your stay →
-          </a>
-          <button
-            aria-label="Open menu"
-            className="lg:hidden inline-flex h-11 w-11 items-center justify-center border-2 border-ink bg-linen shadow-hard"
-            onClick={() => setOpen(true)}
-          >
-            <div className="space-y-1.5">
-              <span className="block h-0.5 w-6 bg-ink" />
-              <span className="block h-0.5 w-6 bg-ink" />
-              <span className="block h-0.5 w-6 bg-ink" />
-            </div>
-          </button>
-        </div>
-      </header>
-
-      {open && (
-        <div className="fixed inset-0 z-[80] grain bg-linen">
-          <div className="relative z-10 flex h-full flex-col p-6">
-            <div className="flex items-center justify-between">
-              <span className="font-display text-3xl font-black">LUNJA<span className="ml-1 bg-coral px-2 text-linen">VILLAGE</span></span>
-              <button
-                aria-label="Close menu"
-                onClick={() => setOpen(false)}
-                className="inline-flex h-11 w-11 items-center justify-center border-2 border-ink bg-yellow shadow-hard text-2xl font-black"
-              >
-                ×
-              </button>
-            </div>
-            <nav className="mt-16 flex flex-col gap-4">
-              {NAV.map((n, i) => (
-                <a
-                  key={n.href}
-                  href={n.href}
-                  onClick={() => setOpen(false)}
-                  className="font-display text-6xl font-black uppercase tracking-tight text-ink hover:text-coral"
-                  style={{ transform: `rotate(${i % 2 ? 1 : -1}deg)` }}
-                >
-                  {n.label}
-                </a>
-              ))}
-            </nav>
-            <a
-              href="#book"
-              onClick={() => setOpen(false)}
-              className="mt-auto inline-flex items-center justify-center border-2 border-ink bg-coral px-6 py-4 font-display text-2xl font-black uppercase text-linen shadow-hard-lg"
-            >
-              Réserve ton séjour →
-            </a>
-          </div>
-        </div>
-      )}
-    </>
-  );
-}
-
 // ---------- Hero ----------
 const HERO_SLIDES = [heroPool, heroAerial, surf, poster];
 
@@ -250,7 +141,7 @@ function Hero() {
           piscines, live music & bonne énergie. À 30 min d'Agadir.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Badge>📍 Taghazout Bay · Imi Ouaddar</Badge>
+          <Badge><MapPin size={13} className="mr-1.5" /> Taghazout Bay · Imi Ouaddar</Badge>
           <Badge>Ouvert 7/7 · À 5 min de l'océan</Badge>
         </div>
         <div className="mt-8 flex flex-wrap gap-4">
@@ -355,7 +246,7 @@ function Marquee() {
         {full.map((it, i) => (
           <span key={i} className="mx-6 flex items-center gap-6 font-display text-3xl font-black uppercase tracking-tight text-ink">
             {it}
-            <span className="text-coral">✦</span>
+            <Sparkles className="text-coral" size={20} />
           </span>
         ))}
       </div>
@@ -420,10 +311,10 @@ function VillageSection() {
             Tu poses tes valises, tu déposes tes soucis à l'accueil.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <span className="tape !bg-coral !text-linen">Surf hostel</span>
-            <span className="tape !bg-teal !text-linen">Beer garden</span>
-            <span className="tape">Foodcourt</span>
-            <span className="tape !bg-linen !text-ink border-2 border-ink">Café</span>
+            <span className="tape !bg-coral !text-linen">Piscines</span>
+            <span className="tape !bg-teal !text-linen">Jardins</span>
+            <span className="tape">Live music</span>
+            <span className="tape !bg-linen !text-ink border-2 border-ink">Surf & yoga</span>
           </div>
         </div>
 
@@ -547,8 +438,8 @@ function EventCard({ e }: { e: Event }) {
           <img src={e.photo} alt={e.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
           <span className={`tape absolute -top-2 left-4 ${bg}`}>{e.tape}</span>
           {e.featured && (
-            <span className="absolute right-3 top-3 -rotate-6 border-2 border-linen bg-coral px-3 py-1 font-display text-xs font-black uppercase text-linen shadow-hard">
-              ⚽ 2030
+            <span className="absolute right-3 top-3 inline-flex items-center gap-1 -rotate-6 border-2 border-linen bg-coral px-3 py-1 font-display text-xs font-black uppercase text-linen shadow-hard">
+              <Trophy size={12} /> 2030
             </span>
           )}
         </div>
@@ -673,7 +564,7 @@ function FeedSection() {
                 <span><b className="font-display text-lg">24.8k</b> followers</span>
                 <span><b className="font-display text-lg">198</b> following</span>
               </div>
-              <p className="mt-2 max-w-md text-sm text-ink/80">vibe village on Taghazout Bay 🌊🌴 stay · surf · party</p>
+              <p className="mt-2 flex flex-wrap items-center gap-1.5 max-w-md text-sm text-ink/80">vibe village on Taghazout Bay <Waves size={14} /> <TreePalm size={14} /> stay · surf · party</p>
             </div>
           </div>
         </div>
@@ -709,8 +600,8 @@ function FeedTile({ src, likes, comments }: { src: string; likes: number; commen
       <img src={src} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
       <div className="absolute inset-0 bg-ink/0 transition-colors group-hover:bg-ink/60" />
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center gap-4 opacity-0 transition-opacity group-hover:opacity-100">
-        <span className="font-display text-linen text-lg font-black">♥ {likes}</span>
-        <span className="font-display text-linen text-lg font-black">💬 {comments}</span>
+        <span className="inline-flex items-center gap-1.5 font-display text-linen text-lg font-black"><Heart size={18} fill="currentColor" /> {likes}</span>
+        <span className="inline-flex items-center gap-1.5 font-display text-linen text-lg font-black"><MessageCircle size={18} fill="currentColor" /> {comments}</span>
       </div>
       {flash && <div className="absolute inset-0 bg-linen/70 animate-pulse" />}
     </button>
@@ -783,8 +674,8 @@ function BookSection() {
             Envoyer & ouvrir WhatsApp →
           </button>
           {sent && (
-            <div className="mt-4 border-2 border-ink bg-yellow px-4 py-3 font-display text-sm font-black uppercase text-ink">
-              ✓ Merci ! On t'ouvre WhatsApp pour finaliser.
+            <div className="mt-4 flex items-center gap-2 border-2 border-ink bg-yellow px-4 py-3 font-display text-sm font-black uppercase text-ink">
+              <Check size={16} /> Merci ! On t'ouvre WhatsApp pour finaliser.
             </div>
           )}
         </form>
@@ -810,62 +701,6 @@ function Field({
         <input name={name} className={base} {...rest} />
       )}
     </label>
-  );
-}
-
-// ---------- Footer ----------
-function Footer() {
-  return (
-    <footer className="relative bg-linen border-t-2 border-ink grain">
-      <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
-        <div>
-          <div className="font-display text-4xl font-black">
-            LUNJA<span className="ml-1 inline-block bg-coral px-2 text-linen">VILLAGE</span>
-          </div>
-          <p className="mt-3 max-w-xs font-body text-sm text-ink/80">
-            Vibe village on the Atlantic coast — depuis Taghazout Bay, avec amour.
-          </p>
-        </div>
-        <div>
-          <h4 className="text-xl">Trouve-nous</h4>
-          <p className="mt-3 text-sm text-ink/80">
-            Lunja Village, Imi Ouaddar,
-            <br /> Taghazout Bay · Agadir, Maroc
-          </p>
-          <p className="mt-2 text-sm text-ink/80">📞 {WHATSAPP}</p>
-          <p className="mt-2 text-sm text-ink/80">Ouvert 7/7 · Réception 24h</p>
-        </div>
-        <div>
-          <h4 className="text-xl">Suis le village</h4>
-          <div className="mt-3 flex flex-col gap-2">
-            <a href={IG_URL} target="_blank" rel="noreferrer" className="link-wipe inline-block font-display text-sm font-bold uppercase tracking-wide">
-              IG · @lunjavillage.officiel
-            </a>
-            <a href={IG_CHILLOUT} target="_blank" rel="noreferrer" className="link-wipe inline-block font-display text-sm font-bold uppercase tracking-wide">
-              IG · @chillout_taghazout
-            </a>
-            <a href={CHILLOUT_URL} target="_blank" rel="noreferrer" className="link-wipe inline-block font-display text-sm font-bold uppercase tracking-wide text-coral">
-              → Chillout Taghazout site
-            </a>
-          </div>
-        </div>
-        <div className="flex flex-col items-start gap-4">
-          <SinceStamp />
-          <a
-            href="#book"
-            className="inline-flex items-center border-2 border-ink bg-coral px-4 py-3 font-display text-sm font-black uppercase text-linen shadow-hard"
-          >
-            Réserve →
-          </a>
-        </div>
-      </div>
-      <div className="border-t-2 border-ink bg-yellow py-4">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 sm:px-6 font-display text-xs font-black uppercase tracking-widest text-ink">
-          <span>© {new Date().getFullYear()} Lunja Village · Taghazout Bay</span>
-          <span className="font-script text-2xl normal-case tracking-normal">come for the surf, stay for the vibe ✌</span>
-        </div>
-      </div>
-    </footer>
   );
 }
 
