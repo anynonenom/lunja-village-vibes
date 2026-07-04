@@ -13,6 +13,7 @@ import hostel from "@/assets/ph-hostel.jpg";
 import market from "@/assets/ph-market.jpg";
 import surf from "@/assets/ph-surf.jpg";
 import poster from "@/assets/ph-poster.jpg";
+import worldcup from "@/assets/worldcup.jpg";
 
 // Generated resort images
 import heroPool from "@/assets/hero-pool.jpg";
@@ -428,7 +429,7 @@ function StaySection() {
 // ---------- Agenda ----------
 type Event = { title: string; when: string; desc: string; tape: string; tapeColor?: string; photo?: string; featured?: boolean; tilt: number };
 const EVENTS: Event[] = [
-  { title: "Road to 2030", when: "Match nights · 2026 →", desc: "Fan-village World Cup — écrans géants, fan zone, live bands. Le Maroc joue, on vibre.", tape: "Next up", tapeColor: "coral", featured: true, photo: poster, tilt: -2 },
+  { title: "Road to 2030", when: "Match nights · 2026 →", desc: "Fan-village World Cup — écrans géants, fan zone, live bands. Le Maroc joue, on vibre.", tape: "Next up", tapeColor: "coral", featured: true, photo: worldcup, tilt: -2 },
   { title: "DJ Sunset Sessions", when: "Vend. · Sam. · 18h → 23h", desc: "Le soleil tombe, les basses montent. Sets house & afro sur la piscine.", tape: "Live", photo: dj, tilt: 1.5 },
   { title: "Salsa Weekend", when: "Sam. · 21h", desc: "Initiations gratuites puis piste ouverte jusqu'à tard.", tape: "Danse", tapeColor: "teal", photo: party, tilt: -1.5 },
   { title: "Surf & Yoga Mornings", when: "Mer. → Dim. · 7h30", desc: "Session sunrise avec les surf coachs, retour au village pour un flow yoga.", tape: "Wellness", photo: yoga, tilt: 2 },
