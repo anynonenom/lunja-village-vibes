@@ -147,7 +147,7 @@ function Hero() {
           <span className="text-grunge text-yellow block">VILLAGE.</span>
         </h1>
         <p className="mt-6 max-w-2xl font-body text-lg text-linen/90 sm:text-xl">
-          Ta parenthèse ensoleillée sur la baie de Taghazout — appartements &amp; bungalows,
+          Ta parenthèse ensoleillée à Imi Ouaddar, sur la baie de Taghazout — appartements &amp; bungalows,
           piscines, live music & bonne énergie. À 30 min d'Agadir.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">

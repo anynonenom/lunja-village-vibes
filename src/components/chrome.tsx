@@ -8,7 +8,7 @@ export const IG_URL = "https://www.instagram.com/lunjavillage.officiel/";
 export const IG_CHILLOUT = "https://www.instagram.com/chillout_taghazout/";
 export const WHATSAPP = "+212 644 96 78 58";
 export const EMAIL = "hello@lunjavillage.com";
-export const ADDRESS = "Lunja Village, Imi Ouaddar · Taghazout Bay, Agadir, Maroc";
+export const ADDRESS = "Lunja Village, Imi Ouaddar, Taghazout Bay · Agadir, Maroc";
 
 // ---------- Reveal-on-scroll ----------
 export function useReveal() {
