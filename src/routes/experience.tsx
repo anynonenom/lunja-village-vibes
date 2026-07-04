@@ -50,7 +50,7 @@ function ExpHero() {
     <section className="relative isolate overflow-hidden bg-ink text-linen grain-dark">
       <img src={heroAerial} alt="" className="absolute inset-0 h-full w-full object-cover opacity-55 animate-kenburns" />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/45 via-ink/55 to-ink/85" />
-      <div className="relative z-20 mx-auto max-w-7xl px-4 pb-20 pt-40 sm:px-6 sm:pb-28">
+      <div className="animate-pop-in relative z-20 mx-auto max-w-7xl px-4 pb-20 pt-40 sm:px-6 sm:pb-28">
         <span className="font-script text-3xl text-yellow -rotate-2 inline-block">il y a toujours un truc</span>
         <h1 className="mt-2 font-display text-[20vw] font-black leading-[0.8] tracking-tighter sm:text-[13vw] lg:text-[11rem]">
           <span className="text-grunge text-linen block">EXPERI-</span>

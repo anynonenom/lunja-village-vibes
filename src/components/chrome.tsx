@@ -224,65 +224,71 @@ export function Nav() {
             Book your stay →
           </Link>
           <button
-            aria-label="Open menu"
-            className="lg:hidden inline-flex h-11 w-11 items-center justify-center border-2 border-ink bg-linen shadow-hard"
-            onClick={() => setOpen(true)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            className="tap lg:hidden inline-flex h-11 w-11 items-center justify-center border-2 border-ink bg-linen shadow-hard"
+            onClick={() => setOpen((v) => !v)}
           >
-            <div className="space-y-1.5">
-              <span className="block h-0.5 w-6 bg-ink" />
-              <span className="block h-0.5 w-6 bg-ink" />
-              <span className="block h-0.5 w-6 bg-ink" />
+            <div className="relative h-4 w-6">
+              <span className={`absolute left-0 block h-0.5 w-6 bg-ink transition-all duration-300 ${open ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"}`} />
+              <span className={`absolute left-0 top-1/2 block h-0.5 w-6 -translate-y-1/2 bg-ink transition-all duration-200 ${open ? "opacity-0" : "opacity-100"}`} />
+              <span className={`absolute left-0 block h-0.5 w-6 bg-ink transition-all duration-300 ${open ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"}`} />
             </div>
           </button>
         </div>
       </header>
 
-      {open && (
-        <div className="fixed inset-0 z-[80] grain bg-linen">
-          <div className="relative z-10 flex h-full flex-col p-6">
-            <div className="flex items-center justify-between">
-              <span className="font-display text-3xl font-black">LUNJA<span className="ml-1 bg-coral px-2 text-linen">VILLAGE</span></span>
-              <button
-                aria-label="Close menu"
-                onClick={() => setOpen(false)}
-                className="inline-flex h-11 w-11 items-center justify-center border-2 border-ink bg-yellow shadow-hard text-2xl font-black"
-              >
-                ×
-              </button>
-            </div>
-            <nav className="mt-14 flex flex-col gap-3">
-              {NAV.map((n, i) => (
-                <Link
-                  key={n.to}
-                  to={n.to}
-                  onClick={() => setOpen(false)}
-                  className="font-display text-6xl font-black uppercase tracking-tight text-ink hover:text-coral"
-                  style={{ transform: `rotate(${i % 2 ? 1 : -1}deg)` }}
-                >
-                  {n.label}
-                </Link>
-              ))}
-              <a
-                href={CHILLOUT_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="font-display text-6xl font-black uppercase tracking-tight text-coral"
-                style={{ transform: "rotate(-1deg)" }}
-              >
-                Chillout ↗
-              </a>
-            </nav>
-            <Link
-              to="/stay"
-              hash="book"
+      {/* Mobile menu — always mounted so open AND close animate */}
+      <div
+        className={`fixed inset-0 z-[80] grain bg-linen transition-[opacity,transform] duration-300 ease-out lg:hidden ${
+          open ? "opacity-100 scale-100 pointer-events-auto" : "pointer-events-none opacity-0 scale-[0.98]"
+        }`}
+        aria-hidden={!open}
+      >
+        <div className="relative z-10 flex h-full flex-col p-6">
+          <div className="flex items-center justify-between">
+            <span className="font-display text-3xl font-black">LUNJA<span className="ml-1 bg-coral px-2 text-linen">VILLAGE</span></span>
+            <button
+              aria-label="Close menu"
               onClick={() => setOpen(false)}
-              className="mt-auto inline-flex items-center justify-center border-2 border-ink bg-coral px-6 py-4 font-display text-2xl font-black uppercase text-linen shadow-hard-lg"
+              className="tap inline-flex h-11 w-11 items-center justify-center border-2 border-ink bg-yellow shadow-hard text-2xl font-black transition-transform hover:rotate-90"
             >
-              Réserve ton séjour →
-            </Link>
+              ×
+            </button>
           </div>
+          <nav className="mt-14 flex flex-col gap-3">
+            {NAV.map((n, i) => (
+              <Link
+                key={n.to}
+                to={n.to}
+                onClick={() => setOpen(false)}
+                className={`font-display text-6xl font-black uppercase tracking-tight text-ink transition-colors hover:text-coral active:text-coral ${open ? "animate-menu-item" : "opacity-0"}`}
+                style={{ ["--r" as string]: `${i % 2 ? 1 : -1}deg`, transform: `rotate(${i % 2 ? 1 : -1}deg)`, animationDelay: `${i * 70}ms` }}
+              >
+                {n.label}
+              </Link>
+            ))}
+            <a
+              href={CHILLOUT_URL}
+              target="_blank"
+              rel="noreferrer"
+              className={`font-display text-6xl font-black uppercase tracking-tight text-coral active:opacity-70 ${open ? "animate-menu-item" : "opacity-0"}`}
+              style={{ ["--r" as string]: "-1deg", transform: "rotate(-1deg)", animationDelay: `${NAV.length * 70}ms` }}
+            >
+              Chillout ↗
+            </a>
+          </nav>
+          <Link
+            to="/stay"
+            hash="book"
+            onClick={() => setOpen(false)}
+            className={`tap mt-auto inline-flex items-center justify-center border-2 border-ink bg-coral px-6 py-4 font-display text-2xl font-black uppercase text-linen shadow-hard-lg ${open ? "animate-menu-item" : "opacity-0"}`}
+            style={{ animationDelay: `${(NAV.length + 1) * 70}ms` }}
+          >
+            Réserve ton séjour →
+          </Link>
         </div>
-      )}
+      </div>
     </>
   );
 }

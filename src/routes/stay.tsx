@@ -51,7 +51,7 @@ function StayHero() {
     <section className="relative isolate overflow-hidden bg-ink text-linen grain-dark">
       <img src={heroPool} alt="" className="absolute inset-0 h-full w-full object-cover opacity-60" />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/55 to-ink/85" />
-      <div className="relative z-20 mx-auto max-w-7xl px-4 pb-20 pt-40 sm:px-6 sm:pb-28">
+      <div className="animate-pop-in relative z-20 mx-auto max-w-7xl px-4 pb-20 pt-40 sm:px-6 sm:pb-28">
         <span className="font-script text-3xl text-yellow -rotate-2 inline-block">pose tes valises</span>
         <h1 className="mt-2 font-display text-[24vw] font-black leading-[0.82] tracking-tighter sm:text-[15vw] lg:text-[13rem]">
           <span className="text-grunge text-linen">STAY</span>

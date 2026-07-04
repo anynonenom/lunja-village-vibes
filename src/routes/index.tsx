@@ -130,7 +130,7 @@ function Hero() {
         ))}
       </div>
 
-      <div className="relative z-20 mx-auto flex min-h-screen max-w-7xl flex-col justify-end px-4 pb-24 pt-32 sm:px-6 sm:pb-32">
+      <div className="animate-pop-in relative z-20 mx-auto flex min-h-screen max-w-7xl flex-col justify-end px-4 pb-24 pt-32 sm:px-6 sm:pb-32">
         <span className="font-script text-3xl text-yellow -rotate-2 inline-block">welcome to the village</span>
         <h1 className="mt-2 font-display text-[22vw] font-black leading-[0.82] tracking-tighter sm:text-[16vw] lg:text-[13rem]">
           <span className="text-grunge text-linen block">LUNJA</span>
