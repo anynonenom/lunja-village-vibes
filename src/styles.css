@@ -188,7 +188,7 @@
   position: relative;
   &::after {
     content: ""; position: absolute; left: 0; right: 100%; bottom: -4px;
-    height: 3px; background: var(--coral);
+    height: 3px; background: var(--yellow);
     transition: right .35s cubic-bezier(.2,.8,.2,1);
   }
   &:hover::after, &[data-active="true"]::after { right: 0; }

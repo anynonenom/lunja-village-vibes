@@ -9,7 +9,6 @@ import { MapPin, Trophy, Waves, TreePalm, Heart, MessageCircle, Check, Sparkles 
 import dj from "@/assets/ph-dj.jpg";
 import dj2 from "@/assets/ph-dj2.jpg";
 import drinks from "@/assets/ph-drinks.jpg";
-import foodImg from "@/assets/ph-food.jpg";
 import hostel from "@/assets/ph-hostel.jpg";
 import market from "@/assets/ph-market.jpg";
 import surf from "@/assets/ph-surf.jpg";
@@ -22,6 +21,17 @@ import bungalow from "@/assets/bungalow.jpg";
 import apartment from "@/assets/apartment.jpg";
 import party from "@/assets/party.jpg";
 import yoga from "@/assets/yoga.jpg";
+
+// Real @lunjavillage.officiel Instagram posts for the feed grid
+import feed1 from "@/assets/feed1.jpg";
+import feed2 from "@/assets/feed2.jpg";
+import feed3 from "@/assets/feed3.jpg";
+import feed4 from "@/assets/feed4.jpg";
+import feed5 from "@/assets/feed5.jpg";
+import feed6 from "@/assets/feed6.jpg";
+import feed7 from "@/assets/feed7.jpg";
+import feed8 from "@/assets/feed8.jpg";
+import feed9 from "@/assets/feed9.jpg";
 
 const CHILLOUT_URL = "https://chill-vibes-studio.vercel.app";
 const IG_URL = "https://www.instagram.com/lunjavillage.officiel/";
@@ -134,7 +144,7 @@ function Hero() {
         <span className="font-script text-3xl text-yellow -rotate-2 inline-block">welcome to the village</span>
         <h1 className="mt-2 font-display text-[22vw] font-black leading-[0.82] tracking-tighter sm:text-[16vw] lg:text-[13rem]">
           <span className="text-grunge text-linen block">LUNJA</span>
-          <span className="text-grunge text-coral block">VILLAGE.</span>
+          <span className="text-grunge text-yellow block">VILLAGE.</span>
         </h1>
         <p className="mt-6 max-w-2xl font-body text-lg text-linen/90 sm:text-xl">
           Ta parenthèse ensoleillée sur la baie de Taghazout — appartements &amp; bungalows,
@@ -531,7 +541,7 @@ function ChilloutSection() {
 }
 
 // ---------- Feed ----------
-const FEED = [dj, drinks, foodImg, hostel, market, surf, dj2, party, poster];
+const FEED = [feed1, feed2, feed3, feed4, feed5, feed6, feed7, feed8, feed9];
 
 function FeedSection() {
   return (

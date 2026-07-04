@@ -194,7 +194,7 @@ export function Nav() {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
           <Link to="/" className="flex items-baseline gap-1 font-display text-3xl font-black tracking-tight">
             LUNJA
-            <span className="ml-1 inline-block -rotate-1 bg-coral px-2 py-0.5 text-linen shadow-hard">VILLAGE</span>
+            <span className="ml-1 inline-block -rotate-1 bg-yellow px-2 py-0.5 text-ink shadow-hard">VILLAGE</span>
           </Link>
           <nav className="hidden items-center gap-8 lg:flex">
             {NAV.map((n) => (
@@ -247,7 +247,7 @@ export function Nav() {
       >
         <div className="relative z-10 flex h-full flex-col p-6">
           <div className="flex items-center justify-between">
-            <span className="font-display text-3xl font-black">LUNJA<span className="ml-1 bg-coral px-2 text-linen">VILLAGE</span></span>
+            <span className="font-display text-3xl font-black">LUNJA<span className="ml-1 bg-yellow px-2 text-ink">VILLAGE</span></span>
             <button
               aria-label="Close menu"
               onClick={() => setOpen(false)}
@@ -300,7 +300,7 @@ export function Footer() {
       <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
         <div>
           <div className="font-display text-4xl font-black">
-            LUNJA<span className="ml-1 inline-block bg-coral px-2 text-linen">VILLAGE</span>
+            LUNJA<span className="ml-1 inline-block bg-yellow px-2 text-ink">VILLAGE</span>
           </div>
           <p className="mt-3 max-w-xs font-body text-sm text-ink/80">
             Vibe village on the Atlantic coast — depuis Taghazout Bay, avec amour.

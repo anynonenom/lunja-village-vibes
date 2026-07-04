@@ -10,7 +10,7 @@ import market from "@/assets/ph-market.jpg";
 import dj from "@/assets/ph-dj.jpg";
 import dj2 from "@/assets/ph-dj2.jpg";
 import drinks from "@/assets/ph-drinks.jpg";
-import poster from "@/assets/ph-poster.jpg";
+import worldcup from "@/assets/worldcup.jpg";
 
 export const Route = createFileRoute("/experience")({
   head: () => ({
@@ -132,7 +132,7 @@ function WorldCupSection() {
           </Link>
         </div>
         <div className="relative reveal">
-          <img src={poster} alt="Fan village World Cup 2030" loading="lazy" className="w-full border-2 border-linen shadow-hard-lg" style={{ transform: "rotate(2deg)" }} />
+          <img src={worldcup} alt="Watch the World Cup live at Lunja Village" loading="lazy" className="w-full border-2 border-linen shadow-hard-lg" style={{ transform: "rotate(2deg)" }} />
           <img src={party} alt="Ambiance" loading="lazy" className="absolute -bottom-6 -left-6 hidden w-44 border-2 border-linen shadow-hard-lg sm:block" style={{ transform: "rotate(-6deg)" }} />
           <span className="tape absolute -top-4 right-6 !bg-yellow !text-ink text-base">Match nights</span>
         </div>
