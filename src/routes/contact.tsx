@@ -225,6 +225,7 @@ function ContactFormSection() {
 
 // ---------- FAQ ----------
 function FaqSection() {
+  const [open, setOpen] = useState<number | null>(null);
   return (
     <section className="bg-paper py-24 sm:py-28 grain">
       <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-6">
@@ -233,15 +234,27 @@ function FaqSection() {
           <h2 className="text-6xl sm:text-8xl">La <span className="text-grunge text-coral">FAQ</span>.</h2>
         </div>
         <div className="space-y-3">
-          {FAQ.map((f, i) => (
-            <details key={f.q} className="reveal group border-2 border-ink bg-linen shadow-hard" style={{ transform: `rotate(${i % 2 ? 0.4 : -0.4}deg)` }}>
-              <summary className="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 font-display text-xl font-black uppercase leading-tight [&::-webkit-details-marker]:hidden">
-                {f.q}
-                <span className="grid h-8 w-8 shrink-0 place-items-center border-2 border-ink bg-yellow text-lg font-black transition-transform group-open:rotate-45">+</span>
-              </summary>
-              <p className="border-t-2 border-ink/20 px-5 py-4 font-body text-ink/80">{f.a}</p>
-            </details>
-          ))}
+          {FAQ.map((f, i) => {
+            const isOpen = open === i;
+            return (
+              <div key={f.q} className="reveal border-2 border-ink bg-linen shadow-hard" style={{ transform: `rotate(${i % 2 ? 0.4 : -0.4}deg)` }}>
+                <button
+                  type="button"
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  className="flex w-full cursor-pointer items-center justify-between gap-4 px-5 py-4 text-left font-display text-xl font-black uppercase leading-tight"
+                >
+                  {f.q}
+                  <span className={`grid h-8 w-8 shrink-0 place-items-center border-2 border-ink bg-yellow text-lg font-black transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`}>+</span>
+                </button>
+                <div className={`grid transition-all duration-300 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+                  <div className="overflow-hidden">
+                    <p className="border-t-2 border-ink/20 px-5 py-4 font-body text-ink/80">{f.a}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
         <div className="mt-12 text-center reveal">
           <Link to="/stay" hash="book" className="inline-flex items-center gap-2 border-2 border-ink bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg hover:-translate-y-0.5 transition-transform">

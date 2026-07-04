@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Croissant, Waves, TreePalm, Wifi, Car, Music, ConciergeBell, Wallet, MapPin, Check, type LucideIcon } from "lucide-react";
 import {
-  PageShell, Marquee, WaveDivider, Badge, Kicker, Field, SinceStamp, WHATSAPP,
+  PageShell, Marquee, WaveDivider, Badge, Kicker, Field, SinceStamp, WHATSAPP, useLightbox,
 } from "@/components/chrome";
 
 import heroPool from "@/assets/hero-pool.jpg";
@@ -106,12 +106,15 @@ function IncludedStrip() {
 // ---------- Room card ----------
 function RoomCard({ r, i }: { r: Room; i: number }) {
   const tilt = i % 2 ? 1.5 : -1.5;
+  const openLightbox = useLightbox();
   return (
     <div className="polaroid group relative reveal hover:!-rotate-0 hover:!-translate-y-2" style={{ transform: `rotate(${tilt}deg)` }}>
       <div className="relative aspect-[4/3] overflow-hidden bg-ink">
-        <img src={r.photo} alt={r.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <span className="tape absolute -top-2 left-4">{r.tape}</span>
-        <span className="absolute -bottom-2 right-2 border-2 border-ink bg-yellow px-2 py-0.5 font-display text-xs font-black uppercase">{r.cap}</span>
+        <button type="button" onClick={() => openLightbox(r.photo, r.name)} className="block h-full w-full cursor-zoom-in" aria-label={`Voir ${r.name}`}>
+          <img src={r.photo} alt={r.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+        </button>
+        <span className="tape pointer-events-none absolute -top-2 left-4">{r.tape}</span>
+        <span className="pointer-events-none absolute -bottom-2 right-2 border-2 border-ink bg-yellow px-2 py-0.5 font-display text-xs font-black uppercase">{r.cap}</span>
       </div>
       <div className="mt-3 px-2">
         <div className="font-display text-2xl font-black uppercase leading-none">{r.name}</div>

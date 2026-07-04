@@ -1,6 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
-import { Phone, Waves, Sparkles } from "lucide-react";
+import { useEffect, useState, useCallback, createContext, useContext, type ReactNode } from "react";
+import { Phone, Waves, Sparkles, X } from "lucide-react";
 
 // ---------- Shared constants ----------
 export const CHILLOUT_URL = "https://chill-vibes-studio.vercel.app";
@@ -338,15 +338,71 @@ export function Footer() {
   );
 }
 
+// ---------- Lightbox (smooth image viewer, shared) ----------
+type LightData = { src: string; alt?: string } | null;
+const LightboxContext = createContext<(src: string, alt?: string) => void>(() => {});
+export function useLightbox() {
+  return useContext(LightboxContext);
+}
+
+function Lightbox({ data, onClose }: { data: LightData; onClose: () => void }) {
+  useEffect(() => {
+    if (!data) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
+  }, [data, onClose]);
+  return (
+    <div
+      className={`fixed inset-0 z-[100] flex items-center justify-center bg-ink/90 p-4 backdrop-blur-sm transition-opacity duration-300 ${
+        data ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
+      }`}
+      onClick={onClose}
+      aria-hidden={!data}
+    >
+      {data && (
+        <>
+          <button
+            onClick={onClose}
+            aria-label="Fermer"
+            className="tap absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center border-2 border-linen bg-yellow text-ink shadow-hard"
+          >
+            <X size={22} />
+          </button>
+          <figure key={data.src} className="lightbox-pop flex max-h-[90vh] max-w-[92vw] flex-col items-center" onClick={(e) => e.stopPropagation()}>
+            <img src={data.src} alt={data.alt || ""} className="max-h-[82vh] w-auto max-w-full border-4 border-linen object-contain shadow-hard-lg" />
+            {data.alt && <figcaption className="mt-3 text-center font-script text-2xl text-linen">{data.alt}</figcaption>}
+          </figure>
+        </>
+      )}
+    </div>
+  );
+}
+
+export function LightboxProvider({ children }: { children: ReactNode }) {
+  const [data, setData] = useState<LightData>(null);
+  const open = useCallback((src: string, alt?: string) => setData({ src, alt }), []);
+  return (
+    <LightboxContext.Provider value={open}>
+      {children}
+      <Lightbox data={data} onClose={() => setData(null)} />
+    </LightboxContext.Provider>
+  );
+}
+
 // ---------- Page shell ----------
 export function PageShell({ children }: { children: ReactNode }) {
   useReveal();
   return (
-    <div className="min-h-screen bg-linen text-ink">
-      <ScrollProgress />
-      <Nav />
-      <main>{children}</main>
-      <Footer />
-    </div>
+    <LightboxProvider>
+      <div className="min-h-screen bg-linen text-ink">
+        <ScrollProgress />
+        <Nav />
+        <main>{children}</main>
+        <Footer />
+      </div>
+    </LightboxProvider>
   );
 }

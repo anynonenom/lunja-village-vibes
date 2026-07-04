@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Nav, Footer } from "@/components/chrome";
+import { Nav, Footer, LightboxProvider, useLightbox } from "@/components/chrome";
 import { MapPin, Trophy, Waves, TreePalm, Heart, MessageCircle, Check, Sparkles } from "lucide-react";
 
 // PLACEHOLDER photos — copied from the Chillout gallery so the site renders locally.
@@ -87,23 +87,28 @@ function useDragScroll<T extends HTMLElement>() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    let down = false, startX = 0, startScroll = 0;
+    let down = false, startX = 0, startScroll = 0, moved = 0;
     const onDown = (e: PointerEvent) => {
       if (e.pointerType !== "mouse") return;
-      down = true; startX = e.clientX; startScroll = el.scrollLeft; el.style.cursor = "grabbing";
+      down = true; startX = e.clientX; startScroll = el.scrollLeft; moved = 0; el.style.cursor = "grabbing";
     };
     const onMove = (e: PointerEvent) => {
       if (!down) return;
+      moved = Math.max(moved, Math.abs(e.clientX - startX));
       el.scrollLeft = startScroll - (e.clientX - startX);
     };
     const stop = () => { down = false; el.style.cursor = ""; };
+    // suppress the click that follows a drag so it doesn't open the lightbox
+    const onClickCapture = (e: MouseEvent) => { if (moved > 6) { e.stopPropagation(); e.preventDefault(); } };
     el.addEventListener("pointerdown", onDown);
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", stop);
+    el.addEventListener("click", onClickCapture, true);
     return () => {
       el.removeEventListener("pointerdown", onDown);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", stop);
+      el.removeEventListener("click", onClickCapture, true);
     };
   }, []);
   return ref;
@@ -467,12 +472,18 @@ const EVENTS: Event[] = [
 
 // Scattered polaroid with a handwritten caption (distinct dark "Gram" style)
 function PolaroidShot({ e }: { e: Event }) {
+  const openLightbox = useLightbox();
   return (
     <figure
       className="polaroid group shrink-0 w-72 snap-start hover:!-rotate-0 reveal sm:w-80 lg:w-[22rem]"
       style={{ transform: `rotate(${e.tilt}deg)` }}
     >
-      <div className="relative aspect-[4/5] overflow-hidden bg-ink">
+      <button
+        type="button"
+        onClick={() => e.photo && openLightbox(e.photo, e.title)}
+        className="relative block aspect-[4/5] w-full cursor-zoom-in overflow-hidden bg-ink"
+        aria-label={`Voir ${e.title}`}
+      >
         <img
           src={e.photo}
           alt={e.title}
@@ -484,7 +495,7 @@ function PolaroidShot({ e }: { e: Event }) {
             <Trophy size={11} /> 2030
           </span>
         )}
-      </div>
+      </button>
       <figcaption className="mt-3 text-center font-script text-2xl leading-none text-ink">{e.title}</figcaption>
       <div className="mt-1 text-center font-body text-[10px] font-bold uppercase tracking-widest text-ink/55">{e.when}</div>
     </figure>
@@ -650,10 +661,12 @@ function FeedSection() {
 
 function FeedTile({ src, likes, comments }: { src: string; likes: number; comments: number }) {
   const [flash, setFlash] = useState(false);
+  const openLightbox = useLightbox();
   return (
     <button
-      className="group relative block aspect-square overflow-hidden bg-ink"
+      className="group relative block aspect-square cursor-zoom-in overflow-hidden bg-ink"
       onMouseEnter={() => { setFlash(true); setTimeout(() => setFlash(false), 300); }}
+      onClick={() => openLightbox(src)}
     >
       <img src={src} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
       <div className="absolute inset-0 bg-ink/0 transition-colors group-hover:bg-ink/60" />
@@ -766,20 +779,22 @@ function Field({
 function Home() {
   useReveal();
   return (
-    <div className="min-h-screen bg-linen text-ink">
-      <ScrollProgress />
-      <Nav />
-      <main>
-        <Hero />
-        <Marquee />
-        <VillageSection />
-        <StaySection />
-        <AgendaSection />
-        <ChilloutSection />
-        <FeedSection />
-        <BookSection />
-      </main>
-      <Footer />
-    </div>
+    <LightboxProvider>
+      <div className="min-h-screen bg-linen text-ink">
+        <ScrollProgress />
+        <Nav />
+        <main>
+          <Hero />
+          <Marquee />
+          <VillageSection />
+          <StaySection />
+          <AgendaSection />
+          <ChilloutSection />
+          <FeedSection />
+          <BookSection />
+        </main>
+        <Footer />
+      </div>
+    </LightboxProvider>
   );
 }
