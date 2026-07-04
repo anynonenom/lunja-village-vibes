@@ -81,6 +81,34 @@ function useCountUp(target: number, active: boolean, duration = 1400) {
   return v;
 }
 
+// Drag-to-scroll for the polaroid row (mouse drag on desktop; touch uses native swipe)
+function useDragScroll<T extends HTMLElement>() {
+  const ref = useRef<T | null>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let down = false, startX = 0, startScroll = 0;
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
+      down = true; startX = e.clientX; startScroll = el.scrollLeft; el.style.cursor = "grabbing";
+    };
+    const onMove = (e: PointerEvent) => {
+      if (!down) return;
+      el.scrollLeft = startScroll - (e.clientX - startX);
+    };
+    const stop = () => { down = false; el.style.cursor = ""; };
+    el.addEventListener("pointerdown", onDown);
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", stop);
+    return () => {
+      el.removeEventListener("pointerdown", onDown);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", stop);
+    };
+  }, []);
+  return ref;
+}
+
 // ---------- Scroll progress ----------
 function ScrollProgress() {
   const [p, setP] = useState(0);
@@ -441,7 +469,7 @@ const EVENTS: Event[] = [
 function PolaroidShot({ e }: { e: Event }) {
   return (
     <figure
-      className="polaroid group shrink-0 w-56 snap-start hover:!-rotate-0 reveal sm:w-64"
+      className="polaroid group shrink-0 w-72 snap-start hover:!-rotate-0 reveal sm:w-80 lg:w-[22rem]"
       style={{ transform: `rotate(${e.tilt}deg)` }}
     >
       <div className="relative aspect-[4/5] overflow-hidden bg-ink">
@@ -464,20 +492,21 @@ function PolaroidShot({ e }: { e: Event }) {
 }
 
 function AgendaSection() {
+  const rowRef = useDragScroll<HTMLDivElement>();
   return (
-    <section id="agenda" className="relative overflow-hidden bg-ink py-24 text-linen sm:py-32 grain-dark">
+    <section id="agenda" className="relative overflow-hidden bg-teal py-20 text-linen sm:py-28 grain">
       <WaveDivider className="absolute -top-1 left-0 right-0 z-10 text-paper" />
       <div className="relative z-10 mx-auto max-w-7xl px-4 pt-6 sm:px-6">
-        <div className="mb-10 reveal">
+        <div className="mb-9 reveal">
           <span className="inline-block bg-yellow px-3 py-1 font-display text-xs font-black uppercase tracking-[0.2em] text-ink">
             03 · L'agenda
           </span>
-          <div className="mt-5 font-script text-4xl text-coral -rotate-2">what's poppin'</div>
-          <h2 className="mt-1 text-6xl leading-[0.82] sm:text-8xl lg:text-9xl">
+          <div className="mt-5 font-script text-3xl text-yellow -rotate-2 sm:text-4xl">what's poppin'</div>
+          <h2 className="mt-1 text-5xl leading-[0.82] sm:text-8xl lg:text-9xl">
             <span className="neon-yellow">CETTE</span>{" "}
-            <span className="font-script text-coral">semaine</span>
+            <span className="font-script text-linen">semaine</span>
           </h2>
-          <p className="mt-5 max-w-xl font-body text-linen/70">
+          <p className="mt-5 max-w-xl font-body text-sm text-linen/85 sm:text-base">
             Chaque semaine remixée par la crew — DJ sunsets, live bands, surf, yoga & marché du
             dimanche. Tag{" "}
             <a href={IG_URL} target="_blank" rel="noreferrer" className="font-bold text-yellow hover:underline">
@@ -487,18 +516,22 @@ function AgendaSection() {
         </div>
       </div>
 
-      {/* horizontal scattered polaroid row */}
-      <div className="relative z-10 flex snap-x gap-5 overflow-x-auto px-4 py-4 sm:gap-7 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {/* horizontal scattered polaroid row — drag on desktop, swipe on mobile */}
+      <div
+        ref={rowRef}
+        className="relative z-10 flex cursor-grab snap-x snap-mandatory select-none gap-6 overflow-x-auto px-4 py-5 sm:gap-8 sm:px-6 [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
         {EVENTS.map((e) => (
           <PolaroidShot key={e.title} e={e} />
         ))}
-        <div className="shrink-0 w-2" aria-hidden />
+        <div className="w-1 shrink-0" aria-hidden />
       </div>
 
-      <div className="relative z-10 mt-8 text-center reveal">
+      <div className="relative z-10 mt-4 flex flex-col items-center gap-3 px-4 text-center reveal sm:mt-8">
+        <span className="font-script text-xl text-linen/70">← glisse pour explorer →</span>
         <Link
           to="/experience"
-          className="inline-flex items-center gap-3 border-2 border-linen bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg transition-transform hover:-translate-y-0.5"
+          className="inline-flex items-center gap-3 border-2 border-ink bg-yellow px-6 py-4 font-display text-base font-black uppercase tracking-wider text-ink shadow-hard-lg transition-transform hover:-translate-y-0.5 sm:text-lg"
         >
           Voir le line-up complet →
         </Link>
@@ -511,7 +544,7 @@ function AgendaSection() {
 function ChilloutSection() {
   return (
     <section id="chillout" className="relative overflow-hidden bg-ink py-24 text-linen sm:py-32 grain-dark">
-      <WaveDivider className="absolute -top-1 left-0 right-0 text-ink" />
+      <WaveDivider className="absolute -top-1 left-0 right-0 text-teal" />
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2 lg:gap-20">
         <div className="reveal">
           <div className="font-script text-4xl text-yellow -rotate-2">when the sun goes down</div>
