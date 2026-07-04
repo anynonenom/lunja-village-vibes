@@ -207,14 +207,6 @@ export function Nav() {
                 {n.label}
               </Link>
             ))}
-            <a
-              href={CHILLOUT_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="link-wipe font-display text-lg font-bold uppercase tracking-wide text-ink hover:text-coral"
-            >
-              Chillout ↗
-            </a>
           </nav>
           <Link
             to="/stay"
@@ -268,15 +260,6 @@ export function Nav() {
                 {n.label}
               </Link>
             ))}
-            <a
-              href={CHILLOUT_URL}
-              target="_blank"
-              rel="noreferrer"
-              className={`font-display text-6xl font-black uppercase tracking-tight text-coral active:opacity-70 ${open ? "animate-menu-item" : "opacity-0"}`}
-              style={{ ["--r" as string]: "-1deg", transform: "rotate(-1deg)", animationDelay: `${NAV.length * 70}ms` }}
-            >
-              Chillout ↗
-            </a>
           </nav>
           <Link
             to="/stay"
