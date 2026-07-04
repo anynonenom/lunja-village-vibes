@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Nav, Footer } from "@/components/chrome";
 import { MapPin, Trophy, Waves, TreePalm, Heart, MessageCircle, Check, Sparkles } from "lucide-react";
@@ -437,57 +437,71 @@ const EVENTS: Event[] = [
   { title: "Live Band Night", when: "Jeudi · 20h30", desc: "Groupes de la région et invités du Nord — reggae, gnawa, indie.", tape: "Concert", photo: dj2, tilt: 1 },
 ];
 
-function EventCard({ e }: { e: Event }) {
-  const bg = e.tapeColor === "coral" ? "!bg-coral !text-linen" : e.tapeColor === "teal" ? "!bg-teal !text-linen" : "";
+// Scattered polaroid with a handwritten caption (distinct dark "Gram" style)
+function PolaroidShot({ e }: { e: Event }) {
   return (
-    <article
-      className={`polaroid group hover:!-rotate-0 hover:!-translate-y-2 reveal ${e.featured ? "sm:col-span-2 lg:row-span-2" : ""}`}
+    <figure
+      className="polaroid group shrink-0 w-56 snap-start hover:!-rotate-0 reveal sm:w-64"
       style={{ transform: `rotate(${e.tilt}deg)` }}
     >
-      {e.photo && (
-        <div className={`relative overflow-hidden bg-ink ${e.featured ? "aspect-[16/10]" : "aspect-[4/3]"}`}>
-          <img src={e.photo} alt={e.title} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-          <span className={`tape absolute -top-2 left-4 ${bg}`}>{e.tape}</span>
-          {e.featured && (
-            <span className="absolute right-3 top-3 inline-flex items-center gap-1 -rotate-6 border-2 border-linen bg-coral px-3 py-1 font-display text-xs font-black uppercase text-linen shadow-hard">
-              <Trophy size={12} /> 2030
-            </span>
-          )}
-        </div>
-      )}
-      <div className="mt-3 px-1">
-        <div className={`font-display font-black uppercase leading-none ${e.featured ? "text-4xl sm:text-5xl" : "text-2xl"}`}>
-          {e.title}
-        </div>
-        <div className="mt-2 font-body text-xs font-bold uppercase tracking-widest text-coral">{e.when}</div>
-        <p className="mt-2 font-body text-sm text-ink/80">{e.desc}</p>
+      <div className="relative aspect-[4/5] overflow-hidden bg-ink">
+        <img
+          src={e.photo}
+          alt={e.title}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
+        {e.featured && (
+          <span className="absolute right-2 top-2 inline-flex items-center gap-1 -rotate-6 border-2 border-linen bg-coral px-2 py-0.5 font-display text-[10px] font-black uppercase text-linen shadow-hard">
+            <Trophy size={11} /> 2030
+          </span>
+        )}
       </div>
-    </article>
+      <figcaption className="mt-3 text-center font-script text-2xl leading-none text-ink">{e.title}</figcaption>
+      <div className="mt-1 text-center font-body text-[10px] font-bold uppercase tracking-widest text-ink/55">{e.when}</div>
+    </figure>
   );
 }
 
 function AgendaSection() {
   return (
-    <section id="agenda" className="relative bg-linen py-24 sm:py-32 grain">
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="mb-14 reveal">
-          <div className="mb-4 flex items-center gap-3 font-display text-sm font-bold uppercase tracking-[0.3em] text-muted-foreground">
-            <span className="h-px w-10 bg-ink" /> 03 / Vis le village
-          </div>
-          <div className="font-script text-4xl text-coral -rotate-2">what's on</div>
-          <h2 className="mt-1 text-6xl sm:text-8xl">
-            L'<span className="text-grunge text-teal">agenda</span>.
+    <section id="agenda" className="relative overflow-hidden bg-ink py-24 text-linen sm:py-32 grain-dark">
+      <WaveDivider className="absolute -top-1 left-0 right-0 z-10 text-paper" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 pt-6 sm:px-6">
+        <div className="mb-10 reveal">
+          <span className="inline-block bg-yellow px-3 py-1 font-display text-xs font-black uppercase tracking-[0.2em] text-ink">
+            03 · L'agenda
+          </span>
+          <div className="mt-5 font-script text-4xl text-coral -rotate-2">what's poppin'</div>
+          <h2 className="mt-1 text-6xl leading-[0.82] sm:text-8xl lg:text-9xl">
+            <span className="neon-yellow">CETTE</span>{" "}
+            <span className="font-script text-coral">semaine</span>
           </h2>
-          <p className="mt-4 max-w-xl font-body text-ink/80">
-            Tape les cartes du corkboard. Chaque semaine remixée par la crew, ouvert à tous
-            les résidents du village — et à tes potes.
+          <p className="mt-5 max-w-xl font-body text-linen/70">
+            Chaque semaine remixée par la crew — DJ sunsets, live bands, surf, yoga & marché du
+            dimanche. Tag{" "}
+            <a href={IG_URL} target="_blank" rel="noreferrer" className="font-bold text-yellow hover:underline">
+              @lunjavillage.officiel
+            </a>.
           </p>
         </div>
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {EVENTS.map((e) => (
-            <EventCard key={e.title} e={e} />
-          ))}
-        </div>
+      </div>
+
+      {/* horizontal scattered polaroid row */}
+      <div className="relative z-10 flex snap-x gap-5 overflow-x-auto px-4 py-4 sm:gap-7 sm:px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {EVENTS.map((e) => (
+          <PolaroidShot key={e.title} e={e} />
+        ))}
+        <div className="shrink-0 w-2" aria-hidden />
+      </div>
+
+      <div className="relative z-10 mt-8 text-center reveal">
+        <Link
+          to="/experience"
+          className="inline-flex items-center gap-3 border-2 border-linen bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg transition-transform hover:-translate-y-0.5"
+        >
+          Voir le line-up complet →
+        </Link>
       </div>
     </section>
   );
@@ -497,7 +511,7 @@ function AgendaSection() {
 function ChilloutSection() {
   return (
     <section id="chillout" className="relative overflow-hidden bg-ink py-24 text-linen sm:py-32 grain-dark">
-      <WaveDivider className="absolute -top-1 left-0 right-0 text-linen" />
+      <WaveDivider className="absolute -top-1 left-0 right-0 text-ink" />
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2 lg:gap-20">
         <div className="reveal">
           <div className="font-script text-4xl text-yellow -rotate-2">when the sun goes down</div>

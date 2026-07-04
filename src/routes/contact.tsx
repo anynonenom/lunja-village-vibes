@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Plane, Car, Waves, ConciergeBell, MapPin, Clock, SquareParking, Smartphone, Mail, Instagram, Check, type LucideIcon } from "lucide-react";
+import { Plane, Car, Waves, ConciergeBell, MapPin, Clock, SquareParking, Smartphone, Mail, Instagram, Check, Phone, type LucideIcon } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
 import {
   PageShell, WaveDivider, Badge, Kicker, Field, SinceStamp,
   WHATSAPP, EMAIL, IG_URL, ADDRESS,
@@ -196,6 +197,26 @@ function ContactFormSection() {
               <Check size={16} /> Merci ! On t'ouvre WhatsApp pour continuer.
             </div>
           )}
+
+          {/* Scan-to-call QR — fills the postcard */}
+          <div className="mt-8 flex items-center gap-5 border-t-2 border-dashed border-ink pt-6">
+            <a
+              href={`tel:${WHATSAPP.replace(/[^0-9+]/g, "")}`}
+              className="shrink-0 border-2 border-ink bg-white p-2.5 shadow-hard transition-transform hover:-translate-y-0.5"
+              aria-label="Scanner pour appeler"
+            >
+              <QRCodeSVG value={`tel:${WHATSAPP.replace(/[^0-9+]/g, "")}`} size={104} bgColor="#ffffff" fgColor="#141010" level="M" />
+            </a>
+            <div>
+              <div className="flex items-center gap-2 font-display text-xl font-black uppercase leading-none">
+                <Phone size={18} /> Scanne pour appeler
+              </div>
+              <p className="mt-2 max-w-[16rem] font-body text-sm text-ink/70">
+                Pointe ta caméra sur le code — on décroche direct.
+              </p>
+              <div className="mt-2 font-display text-lg font-black">{WHATSAPP}</div>
+            </div>
+          </div>
         </form>
       </div>
     </section>

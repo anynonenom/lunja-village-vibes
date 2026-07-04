@@ -216,6 +216,12 @@
   animation: pop-in 0.6s cubic-bezier(.2,.8,.2,1) both;
 }
 
+/* ---------- Neon glow (dark sections) ---------- */
+@utility neon-yellow {
+  color: var(--yellow);
+  text-shadow: 0 0 6px rgba(251,243,4,.55), 0 0 22px rgba(251,243,4,.40), 0 0 48px rgba(251,243,4,.22);
+}
+
 /* ---------- Tap feedback (touch) ---------- */
 @utility tap {
   transition: transform 0.14s ease;
