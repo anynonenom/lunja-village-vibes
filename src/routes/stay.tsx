@@ -66,7 +66,7 @@ function StayHero() {
           <Badge dark><MapPin size={14} className="mr-1.5" /> Taghazout Bay</Badge>
         </div>
         <div className="mt-8 flex flex-wrap gap-4">
-          <Link to="/stay" hash="book" className="inline-flex items-center gap-2 border-2 border-linen bg-coral px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-linen shadow-hard transition-transform hover:-translate-y-0.5">
+          <Link to="/stay" hash="book" className="inline-flex items-center gap-2 border-2 border-linen bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard transition-transform hover:-translate-y-0.5">
             Réserve maintenant →
           </Link>
           <Link to="/stay" hash="tarifs" className="inline-flex items-center gap-2 border-2 border-linen px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-linen hover:bg-linen hover:text-ink">
@@ -127,7 +127,7 @@ function RoomCard({ r, i }: { r: Room; i: number }) {
             </div>
             <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">par nuit · petit-déj inclus</div>
           </div>
-          <Link to="/stay" hash="book" className="inline-flex items-center border-2 border-ink bg-coral px-3 py-2 font-display text-sm font-black uppercase text-linen shadow-hard transition-transform group-hover:-translate-y-0.5">
+          <Link to="/stay" hash="book" className="inline-flex items-center border-2 border-ink bg-yellow px-3 py-2 font-display text-sm font-black uppercase text-ink shadow-hard transition-transform group-hover:-translate-y-0.5">
             Book →
           </Link>
         </div>
@@ -207,7 +207,7 @@ function TariffTicket() {
               <div className="mt-4 border-t-2 border-dashed border-ink pt-3 font-body text-sm text-muted-foreground">
                 + Taxe touristique&nbsp;: <b className="text-ink">13,20 MAD / personne / nuit</b> · Petit-déjeuner inclus dans tous les tarifs.
               </div>
-              <Link to="/stay" hash="book" className="mt-5 inline-flex w-full items-center justify-center gap-2 border-2 border-ink bg-coral px-6 py-3 font-display text-lg font-black uppercase tracking-wider text-linen shadow-hard hover:-translate-y-0.5 transition-transform">
+              <Link to="/stay" hash="book" className="mt-5 inline-flex w-full items-center justify-center gap-2 border-2 border-ink bg-yellow px-6 py-3 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard hover:-translate-y-0.5 transition-transform">
                 Réserver mon séjour →
               </Link>
             </div>
@@ -237,7 +237,7 @@ function BookSection() {
         <div className="reveal">
           <div className="font-script text-4xl text-yellow -rotate-2">don't sleep on it</div>
           <h2 className="mt-2 text-[14vw] leading-[0.85] sm:text-8xl lg:text-9xl">
-            Book your<br /><span className="inline-block -rotate-1 border-2 border-linen bg-coral px-3 shadow-hard">STAY</span>.
+            Book your<br /><span className="inline-block -rotate-1 border-2 border-linen bg-yellow px-3 text-ink shadow-hard">STAY</span>.
           </h2>
           <p className="mt-6 max-w-md font-body text-lg text-linen/85">
             Dis-nous quand tu arrives, on garde ta place. Confirmation par WhatsApp
@@ -265,7 +265,7 @@ function BookSection() {
           <div className="mt-4">
             <Field name="msg" label="Message" as="textarea" placeholder="Occasion, besoins, questions…" />
           </div>
-          <button type="submit" className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-ink bg-coral px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-linen shadow-hard-lg hover:-translate-y-0.5 transition-transform">
+          <button type="submit" className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-ink bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg hover:-translate-y-0.5 transition-transform">
             Envoyer & ouvrir WhatsApp →
           </button>
           {sent && (

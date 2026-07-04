@@ -95,7 +95,7 @@ function ScrollProgress() {
   }, []);
   return (
     <div className="fixed inset-x-0 top-0 z-[70] h-1 bg-transparent">
-      <div className="h-full bg-coral transition-[width] duration-100" style={{ width: `${p * 100}%` }} />
+      <div className="h-full bg-yellow transition-[width] duration-100" style={{ width: `${p * 100}%` }} />
     </div>
   );
 }
@@ -157,7 +157,7 @@ function Hero() {
         <div className="mt-8 flex flex-wrap gap-4">
           <a
             href="#book"
-            className="inline-flex items-center gap-2 border-2 border-linen bg-coral px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-linen shadow-hard transition-transform hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 border-2 border-linen bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard transition-transform hover:-translate-y-0.5"
           >
             Réserve ton séjour →
           </a>
@@ -212,7 +212,7 @@ function SinceStamp({ className = "" }: { className?: string }) {
         <defs>
           <path id="cir" d="M 80,80 m -60,0 a 60,60 0 1,1 120,0 a 60,60 0 1,1 -120,0" />
         </defs>
-        <circle cx="80" cy="80" r="72" fill="#FFD400" stroke="#141010" strokeWidth="3" />
+        <circle cx="80" cy="80" r="72" fill="#FBF304" stroke="#141010" strokeWidth="3" />
         <circle cx="80" cy="80" r="55" fill="none" stroke="#141010" strokeWidth="2" strokeDasharray="4 4" />
         <text fontFamily="Barlow Condensed" fontWeight="900" fontSize="13" fill="#141010" letterSpacing="2">
           <textPath href="#cir" startOffset="0">SINCE · TAGHAZOUT BAY · OPEN 7/7 · </textPath>
@@ -371,7 +371,7 @@ function RoomCard({ r, i }: { r: Room; i: number }) {
           </div>
           <a
             href="#book"
-            className="inline-flex items-center border-2 border-ink bg-coral px-3 py-2 font-display text-sm font-black uppercase text-linen shadow-hard transition-transform group-hover:-translate-y-0.5"
+            className="inline-flex items-center border-2 border-ink bg-yellow px-3 py-2 font-display text-sm font-black uppercase text-ink shadow-hard transition-transform group-hover:-translate-y-0.5"
           >
             Book →
           </a>
@@ -503,7 +503,7 @@ function ChilloutSection() {
           <h2 className="mt-2 text-[13vw] leading-[0.85] sm:text-8xl lg:text-9xl">
             After dark?
             <br />
-            It's <span className="inline-block -rotate-1 border-2 border-linen bg-coral px-3 text-linen shadow-hard">CHILLOUT</span>
+            It's <span className="inline-block -rotate-1 border-2 border-linen bg-yellow px-3 text-ink shadow-hard">CHILLOUT</span>
           </h2>
           <p className="mt-6 max-w-lg font-body text-lg text-linen/85">
             Le lounge bar du village. Live music, cocktails signature, tapas et sunset
@@ -513,7 +513,7 @@ function ChilloutSection() {
             href={CHILLOUT_URL}
             target="_blank"
             rel="noreferrer"
-            className="mt-8 inline-flex items-center gap-3 border-2 border-linen bg-coral px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-linen shadow-hard-lg transition-transform hover:-translate-y-0.5"
+            className="mt-8 inline-flex items-center gap-3 border-2 border-linen bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg transition-transform hover:-translate-y-0.5"
           >
             Enter Chillout Taghazout →
           </a>
@@ -564,7 +564,7 @@ function FeedSection() {
                   href={IG_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center border-2 border-ink bg-coral px-3 py-1.5 font-display text-xs font-black uppercase text-linen shadow-hard hover:-translate-y-0.5 transition-transform"
+                  className="inline-flex items-center border-2 border-ink bg-yellow px-3 py-1.5 font-display text-xs font-black uppercase text-ink shadow-hard hover:-translate-y-0.5 transition-transform"
                 >
                   Follow
                 </a>
@@ -643,7 +643,7 @@ function BookSection() {
           <h2 className="mt-2 text-[14vw] leading-[0.85] sm:text-8xl lg:text-9xl">
             Book your
             <br />
-            <span className="inline-block -rotate-1 border-2 border-linen bg-coral px-3 shadow-hard">STAY</span>.
+            <span className="inline-block -rotate-1 border-2 border-linen bg-yellow px-3 text-ink shadow-hard">STAY</span>.
           </h2>
           <ul className="mt-8 space-y-3 font-display text-lg font-bold uppercase tracking-wide">
             {["Petit-déj inclus", "Piscines & jardins", "À 5 min de l'océan", "Live music 7/7"].map((p) => (
@@ -679,7 +679,7 @@ function BookSection() {
           </div>
           <button
             type="submit"
-            className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-ink bg-coral px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-linen shadow-hard-lg hover:-translate-y-0.5 transition-transform"
+            className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-ink bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg hover:-translate-y-0.5 transition-transform"
           >
             Envoyer & ouvrir WhatsApp →
           </button>

@@ -189,7 +189,7 @@ function CtaSection() {
         <div className="font-script text-4xl text-yellow -rotate-2 reveal">prêt à vibrer ?</div>
         <h2 className="mt-2 text-6xl sm:text-8xl reveal">Viens vivre le <span className="text-grunge text-coral">village</span>.</h2>
         <div className="mt-8 flex flex-wrap justify-center gap-4 reveal">
-          <Link to="/stay" hash="book" className="inline-flex items-center gap-2 border-2 border-linen bg-coral px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-linen shadow-hard-lg hover:-translate-y-0.5 transition-transform">
+          <Link to="/stay" hash="book" className="inline-flex items-center gap-2 border-2 border-linen bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg hover:-translate-y-0.5 transition-transform">
             Réserve ton séjour →
           </Link>
           <Link to="/contact" className="inline-flex items-center gap-2 border-2 border-linen px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-linen hover:bg-linen hover:text-ink">
@@ -205,7 +205,7 @@ function ExperiencePage() {
   return (
     <PageShell>
       <ExpHero />
-      <Marquee items={["Surf", "Yoga", "Pool days", "DJ sunset", "Salsa", "Market", "World Cup 2030", "Good vibes"]} bg="bg-coral" />
+      <Marquee items={["Surf", "Yoga", "Pool days", "DJ sunset", "Salsa", "Market", "World Cup 2030", "Good vibes"]} />
       <ActivitiesSection />
       <WorldCupSection />
       <LineupSection />

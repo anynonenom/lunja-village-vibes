@@ -118,7 +118,7 @@ function PostcardSection() {
               <a href={`https://wa.me/${WHATSAPP.replace(/[^0-9]/g, "")}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border-2 border-ink bg-teal px-4 py-3 font-display text-sm font-black uppercase text-linen shadow-hard hover:-translate-y-0.5 transition-transform">
                 WhatsApp →
               </a>
-              <a href={MAPS_LINK} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border-2 border-ink bg-coral px-4 py-3 font-display text-sm font-black uppercase text-linen shadow-hard hover:-translate-y-0.5 transition-transform">
+              <a href={MAPS_LINK} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border-2 border-ink bg-yellow px-4 py-3 font-display text-sm font-black uppercase text-ink shadow-hard hover:-translate-y-0.5 transition-transform">
                 Itinéraire →
               </a>
             </div>
@@ -159,7 +159,7 @@ function ContactFormSection() {
         <div className="reveal">
           <div className="font-script text-4xl text-yellow -rotate-2">on te répond vite</div>
           <h2 className="mt-2 text-[13vw] leading-[0.85] sm:text-8xl lg:text-9xl">
-            Dis-nous<br /><span className="inline-block -rotate-1 border-2 border-linen bg-coral px-3 shadow-hard">HELLO</span>.
+            Dis-nous<br /><span className="inline-block -rotate-1 border-2 border-linen bg-yellow px-3 text-ink shadow-hard">HELLO</span>.
           </h2>
           <div className="mt-8 flex flex-col gap-3">
             <a href={`https://wa.me/${WHATSAPP.replace(/[^0-9]/g, "")}`} target="_blank" rel="noreferrer" className="group flex items-center justify-between border-2 border-linen bg-ink px-5 py-4 font-display text-lg font-black uppercase tracking-wide hover:bg-linen hover:text-ink transition-colors">
@@ -188,7 +188,7 @@ function ContactFormSection() {
           <div className="mt-4">
             <Field name="msg" label="Ton message" as="textarea" placeholder="Dates, nombre de personnes, questions, occasion…" />
           </div>
-          <button type="submit" className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-ink bg-coral px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-linen shadow-hard-lg hover:-translate-y-0.5 transition-transform">
+          <button type="submit" className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-ink bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg hover:-translate-y-0.5 transition-transform">
             Envoyer & ouvrir WhatsApp →
           </button>
           {sent && (
@@ -223,7 +223,7 @@ function FaqSection() {
           ))}
         </div>
         <div className="mt-12 text-center reveal">
-          <Link to="/stay" hash="book" className="inline-flex items-center gap-2 border-2 border-ink bg-coral px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-linen shadow-hard-lg hover:-translate-y-0.5 transition-transform">
+          <Link to="/stay" hash="book" className="inline-flex items-center gap-2 border-2 border-ink bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg hover:-translate-y-0.5 transition-transform">
             Réserve ton séjour →
           </Link>
         </div>

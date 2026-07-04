@@ -46,7 +46,7 @@ export function ScrollProgress() {
   }, []);
   return (
     <div className="fixed inset-x-0 top-0 z-[70] h-1 bg-transparent">
-      <div className="h-full bg-coral transition-[width] duration-100" style={{ width: `${p * 100}%` }} />
+      <div className="h-full bg-yellow transition-[width] duration-100" style={{ width: `${p * 100}%` }} />
     </div>
   );
 }
@@ -94,7 +94,7 @@ export function SinceStamp({ className = "" }: { className?: string }) {
         <defs>
           <path id="cir" d="M 80,80 m -60,0 a 60,60 0 1,1 120,0 a 60,60 0 1,1 -120,0" />
         </defs>
-        <circle cx="80" cy="80" r="72" fill="#FFD400" stroke="#141010" strokeWidth="3" />
+        <circle cx="80" cy="80" r="72" fill="#FBF304" stroke="#141010" strokeWidth="3" />
         <circle cx="80" cy="80" r="55" fill="none" stroke="#141010" strokeWidth="2" strokeDasharray="4 4" />
         <text fontFamily="Barlow Condensed" fontWeight="900" fontSize="13" fill="#141010" letterSpacing="2">
           <textPath href="#cir" startOffset="0">SINCE · TAGHAZOUT BAY · OPEN 7/7 · </textPath>
@@ -211,7 +211,7 @@ export function Nav() {
           <Link
             to="/stay"
             hash="book"
-            className="hidden lg:inline-flex items-center gap-2 border-2 border-ink bg-coral px-4 py-2 font-display text-sm font-black uppercase tracking-wider text-linen shadow-hard transition-transform hover:-translate-y-0.5"
+            className="hidden lg:inline-flex items-center gap-2 border-2 border-ink bg-yellow px-4 py-2 font-display text-sm font-black uppercase tracking-wider text-ink shadow-hard transition-transform hover:-translate-y-0.5"
           >
             Book your stay →
           </Link>
@@ -265,7 +265,7 @@ export function Nav() {
             to="/stay"
             hash="book"
             onClick={() => setOpen(false)}
-            className={`tap mt-auto inline-flex items-center justify-center border-2 border-ink bg-coral px-6 py-4 font-display text-2xl font-black uppercase text-linen shadow-hard-lg ${open ? "animate-menu-item" : "opacity-0"}`}
+            className={`tap mt-auto inline-flex items-center justify-center border-2 border-ink bg-yellow px-6 py-4 font-display text-2xl font-black uppercase text-ink shadow-hard-lg ${open ? "animate-menu-item" : "opacity-0"}`}
             style={{ animationDelay: `${(NAV.length + 1) * 70}ms` }}
           >
             Réserve ton séjour →
@@ -322,7 +322,7 @@ export function Footer() {
           <Link
             to="/stay"
             hash="book"
-            className="inline-flex items-center border-2 border-ink bg-coral px-4 py-3 font-display text-sm font-black uppercase text-linen shadow-hard"
+            className="inline-flex items-center border-2 border-ink bg-yellow px-4 py-3 font-display text-sm font-black uppercase text-ink shadow-hard"
           >
             Réserve →
           </Link>

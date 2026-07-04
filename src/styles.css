@@ -27,6 +27,8 @@
   --color-coral: var(--coral);
   --color-teal: var(--teal);
   --color-yellow: var(--yellow);
+  --color-yellow-deep: var(--yellow-deep);
+  --color-yellow-soft: var(--yellow-soft);
   --color-ink: var(--foreground);
   --color-linen: var(--background);
   --color-paper: var(--card);
@@ -46,7 +48,9 @@
   --card: #EDE8DC;
   --coral: #F25C2A;
   --teal: #1E9E8A;
-  --yellow: #FFD400;
+  --yellow: #FBF304;        /* primary — bright */
+  --yellow-deep: #D4CC14;   /* deeper gold — borders/text on light */
+  --yellow-soft: #E6E27F;   /* muted — soft fills */
   --muted-ink: #7A7060;
   --border: #C8BFA8;
   --radius: 4px;
@@ -122,7 +126,7 @@
 @utility tape {
   display: inline-block;
   background: #141010;
-  color: #FFD400;
+  color: #FBF304;
   font-family: var(--font-display);
   font-weight: 900;
   text-transform: uppercase;
