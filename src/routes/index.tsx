@@ -554,15 +554,15 @@ function AgendaSection() {
 // ---------- Chillout Crossover ----------
 function ChilloutSection() {
   return (
-    <section id="chillout" className="relative overflow-hidden bg-coral py-24 text-linen sm:py-32 grain">
+    <section id="chillout" className="relative overflow-hidden bg-teal-deep py-24 text-linen sm:py-32 grain-dark">
       <WaveDivider className="absolute -top-1 left-0 right-0 text-teal" />
       <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2 lg:gap-20">
         <div className="reveal">
-          <div className="font-script text-4xl text-ink -rotate-2">when the sun goes down</div>
+          <div className="font-script text-4xl text-yellow -rotate-2">when the sun goes down</div>
           <h2 className="mt-2 text-[13vw] leading-[0.85] sm:text-8xl lg:text-9xl">
             After dark?
             <br />
-            It's <span className="inline-block -rotate-1 border-2 border-ink bg-yellow px-3 text-ink shadow-hard">CHILLOUT</span>
+            It's <span className="inline-block -rotate-1 border-2 border-linen bg-yellow px-3 text-ink shadow-hard">CHILLOUT</span>
           </h2>
           <p className="mt-6 max-w-lg font-body text-lg text-linen/85">
             Le lounge bar du village. Live music, cocktails signature, tapas et sunset

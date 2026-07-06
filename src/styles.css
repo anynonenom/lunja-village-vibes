@@ -26,6 +26,7 @@
   --color-ring: var(--coral);
   --color-coral: var(--coral);
   --color-teal: var(--teal);
+  --color-teal-deep: var(--teal-deep);
   --color-yellow: var(--yellow);
   --color-yellow-deep: var(--yellow-deep);
   --color-yellow-soft: var(--yellow-soft);
@@ -48,6 +49,7 @@
   --card: #EDE8DC;
   --coral: #F25C2A;
   --teal: #1E9E8A;
+  --teal-deep: #0F4A42;      /* deep petrol — dark section that matches the teal */
   --yellow: #FBF304;        /* primary — bright */
   --yellow-deep: #D4CC14;   /* deeper gold — borders/text on light */
   --yellow-soft: #E6E27F;   /* muted — soft fills */
