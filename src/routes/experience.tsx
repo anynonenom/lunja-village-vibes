@@ -16,7 +16,7 @@ export const Route = createFileRoute("/experience")({
   head: () => ({
     meta: [
       { title: "EXPERIENCE · Lunja Village — Surf, Yoga, Live Music & World Cup 2030" },
-      { name: "description", content: "Surf, yoga sunrise, pool days, DJ sunset, marché, salsa et la fan-village World Cup 2030. Il y a toujours un truc qui se passe au Lunja Village, Taghazout Bay." },
+      { name: "description", content: "Surf, yoga sunrise, pool days, DJ sunset, marché, salsa et la fan-village World Cup 2030. Il y a toujours un truc qui se passe au Lunja Village, Imi Ouaddar." },
     ],
   }),
   component: ExperiencePage,

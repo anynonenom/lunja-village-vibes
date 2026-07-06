@@ -8,7 +8,7 @@ export const IG_URL = "https://www.instagram.com/lunjavillage.officiel/";
 export const IG_CHILLOUT = "https://www.instagram.com/chillout_taghazout/";
 export const WHATSAPP = "+212 644 96 78 58";
 export const EMAIL = "hello@lunjavillage.com";
-export const ADDRESS = "Lunja Village, Imi Ouaddar, Taghazout Bay · Agadir, Maroc";
+export const ADDRESS = "Lunja Village, Imi Ouaddar · Agadir, Maroc";
 
 // ---------- Reveal-on-scroll ----------
 export function useReveal() {
@@ -68,7 +68,7 @@ export function WaveDivider({ className = "", flip = false }: { className?: stri
 
 // ---------- Marquee ----------
 export function Marquee({
-  items = ["Surf", "Sunset", "Pool Days", "Live Music", "Good Vibes", "Taghazout Bay", "Community", "World Cup 2030"],
+  items = ["Surf", "Sunset", "Pool Days", "Live Music", "Good Vibes", "Imi Ouaddar", "Community", "World Cup 2030"],
   bg = "bg-yellow",
 }: { items?: string[]; bg?: string }) {
   const full = [...items, ...items, ...items, ...items];
@@ -97,7 +97,7 @@ export function SinceStamp({ className = "" }: { className?: string }) {
         <circle cx="80" cy="80" r="72" fill="#FBF304" stroke="#141010" strokeWidth="3" />
         <circle cx="80" cy="80" r="55" fill="none" stroke="#141010" strokeWidth="2" strokeDasharray="4 4" />
         <text fontFamily="Barlow Condensed" fontWeight="900" fontSize="13" fill="#141010" letterSpacing="2">
-          <textPath href="#cir" startOffset="0">SINCE · TAGHAZOUT BAY · OPEN 7/7 · </textPath>
+          <textPath href="#cir" startOffset="0">SINCE · IMI OUADDAR · OPEN 7/7 · </textPath>
         </text>
         <text x="80" y="76" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="900" fontSize="26" fill="#141010">VIBE</text>
         <text x="80" y="100" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="900" fontSize="26" fill="#F25C2A">VILLAGE</text>
@@ -286,7 +286,7 @@ export function Footer() {
             LUNJA<span className="ml-1 inline-block bg-yellow px-2 text-ink">VILLAGE</span>
           </div>
           <p className="mt-3 max-w-xs font-body text-sm text-ink/80">
-            Vibe village on the Atlantic coast — depuis Taghazout Bay, avec amour.
+            Vibe village on the Atlantic coast — depuis Imi Ouaddar, avec amour.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <Link to="/stay" className="tape !bg-teal !text-linen">Stay</Link>
@@ -298,7 +298,7 @@ export function Footer() {
           <h4 className="text-xl">Trouve-nous</h4>
           <p className="mt-3 text-sm text-ink/80">
             Lunja Village, Imi Ouaddar,
-            <br /> Taghazout Bay · Agadir, Maroc
+            <br /> Agadir, Maroc
           </p>
           <p className="mt-2 flex items-center gap-1.5 text-sm text-ink/80"><Phone size={14} /> {WHATSAPP}</p>
           <p className="mt-2 text-sm text-ink/80">Ouvert 7/7 · Réception 24h</p>
@@ -313,7 +313,7 @@ export function Footer() {
               IG · @chillout_taghazout
             </a>
             <a href={CHILLOUT_URL} target="_blank" rel="noreferrer" className="link-wipe inline-block font-display text-sm font-bold uppercase tracking-wide text-coral">
-              → Chillout Taghazout site
+              → Chillout site
             </a>
           </div>
         </div>
@@ -330,7 +330,7 @@ export function Footer() {
       </div>
       <div className="border-t-2 border-ink bg-yellow py-4">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 sm:px-6 font-display text-xs font-black uppercase tracking-widest text-ink">
-          <span>© {new Date().getFullYear()} Lunja Village · Taghazout Bay</span>
+          <span>© {new Date().getFullYear()} Lunja Village · Imi Ouaddar</span>
           <span className="inline-flex items-center gap-1.5 font-script text-2xl normal-case tracking-normal">come for the surf, stay for the vibe <Waves size={18} /></span>
         </div>
       </div>

@@ -14,7 +14,7 @@ import hostel from "@/assets/ph-hostel.jpg";
 export const Route = createFileRoute("/stay")({
   head: () => ({
     meta: [
-      { title: "STAY · Lunja Village — Appartements & Bungalows, Taghazout Bay" },
+      { title: "STAY · Lunja Village — Appartements & Bungalows, Imi Ouaddar" },
       { name: "description", content: "Appartements et bungalows tout confort au Lunja Village, petit-déjeuner inclus, piscines & jardins à 5 min de l'océan. Tarifs de 1180 à 1580 MAD / nuit." },
     ],
   }),
@@ -63,7 +63,7 @@ function StayHero() {
         <div className="mt-6 flex flex-wrap gap-3">
           <Badge dark><Wallet size={14} className="mr-1.5" /> Dès 1180 MAD / nuit</Badge>
           <Badge dark><Croissant size={14} className="mr-1.5" /> Petit-déj inclus</Badge>
-          <Badge dark><MapPin size={14} className="mr-1.5" /> Taghazout Bay</Badge>
+          <Badge dark><MapPin size={14} className="mr-1.5" /> Imi Ouaddar</Badge>
         </div>
         <div className="mt-8 flex flex-wrap gap-4">
           <Link to="/stay" hash="book" className="inline-flex items-center gap-2 border-2 border-linen bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard transition-transform hover:-translate-y-0.5">
@@ -187,7 +187,7 @@ function TariffTicket() {
                 <div className="mt-2 font-display text-3xl font-black uppercase leading-none">Lunja<br />Village</div>
               </div>
               <div className="mt-6 font-display text-xs font-black uppercase tracking-widest">
-                <div>Gate · Taghazout Bay</div>
+                <div>Gate · Imi Ouaddar</div>
                 <div>Seat · 5 min from ocean</div>
                 <div>Class · Vibe</div>
               </div>

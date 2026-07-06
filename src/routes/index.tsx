@@ -181,11 +181,11 @@ function Hero() {
           <span className="text-grunge text-yellow block">VILLAGE.</span>
         </h1>
         <p className="mt-6 max-w-2xl font-body text-lg text-linen/90 sm:text-xl">
-          Ta parenthèse ensoleillée à Imi Ouaddar, sur la baie de Taghazout — appartements &amp; bungalows,
+          Ta parenthèse ensoleillée à Imi Ouaddar — appartements &amp; bungalows,
           piscines, live music & bonne énergie. À 30 min d'Agadir.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Badge><MapPin size={13} className="mr-1.5" /> Taghazout Bay · Imi Ouaddar</Badge>
+          <Badge><MapPin size={13} className="mr-1.5" /> Imi Ouaddar · Agadir</Badge>
           <Badge>Ouvert 7/7 · À 5 min de l'océan</Badge>
         </div>
         <div className="mt-8 flex flex-wrap gap-4">
@@ -249,7 +249,7 @@ function SinceStamp({ className = "" }: { className?: string }) {
         <circle cx="80" cy="80" r="72" fill="#FBF304" stroke="#141010" strokeWidth="3" />
         <circle cx="80" cy="80" r="55" fill="none" stroke="#141010" strokeWidth="2" strokeDasharray="4 4" />
         <text fontFamily="Barlow Condensed" fontWeight="900" fontSize="13" fill="#141010" letterSpacing="2">
-          <textPath href="#cir" startOffset="0">SINCE · TAGHAZOUT BAY · OPEN 7/7 · </textPath>
+          <textPath href="#cir" startOffset="0">SINCE · IMI OUADDAR · OPEN 7/7 · </textPath>
         </text>
         <text x="80" y="76" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="900" fontSize="26" fill="#141010">
           VIBE
@@ -282,7 +282,7 @@ function WaveDivider({ className = "", flip = false }: { className?: string; fli
 
 // ---------- Marquee ----------
 function Marquee() {
-  const items = ["Surf", "Sunset", "Pool Days", "Live Music", "Good Vibes", "Taghazout Bay", "Community", "World Cup 2030"];
+  const items = ["Surf", "Sunset", "Pool Days", "Live Music", "Good Vibes", "Imi Ouaddar", "Community", "World Cup 2030"];
   const full = [...items, ...items, ...items, ...items];
   return (
     <div className="relative overflow-hidden border-y-2 border-ink bg-yellow py-4">
@@ -574,7 +574,7 @@ function ChilloutSection() {
             rel="noreferrer"
             className="mt-8 inline-flex items-center gap-3 border-2 border-linen bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg transition-transform hover:-translate-y-0.5"
           >
-            Enter Chillout Taghazout →
+            Enter Chillout →
           </a>
         </div>
         <div className="relative reveal">
@@ -633,7 +633,7 @@ function FeedSection() {
                 <span><b className="font-display text-lg">24.8k</b> followers</span>
                 <span><b className="font-display text-lg">198</b> following</span>
               </div>
-              <p className="mt-2 flex flex-wrap items-center gap-1.5 max-w-md text-sm text-ink/80">vibe village on Taghazout Bay <Waves size={14} /> <TreePalm size={14} /> stay · surf · party</p>
+              <p className="mt-2 flex flex-wrap items-center gap-1.5 max-w-md text-sm text-ink/80">vibe village in Imi Ouaddar <Waves size={14} /> <TreePalm size={14} /> stay · surf · party</p>
             </div>
           </div>
         </div>

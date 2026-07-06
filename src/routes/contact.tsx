@@ -12,8 +12,8 @@ import market from "@/assets/ph-market.jpg";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "VISIT · Lunja Village — Nous trouver à Taghazout Bay" },
-      { name: "description", content: "Lunja Village, Imi Ouaddar, Taghazout Bay — à 30 min d'Agadir et de l'aéroport Al Massira. Contact, itinéraire, WhatsApp et FAQ." },
+      { title: "VISIT · Lunja Village — Nous trouver à Imi Ouaddar" },
+      { name: "description", content: "Lunja Village, Imi Ouaddar — à 30 min d'Agadir et de l'aéroport Al Massira. Contact, itinéraire, WhatsApp et FAQ." },
     ],
   }),
   component: ContactPage,
@@ -21,8 +21,8 @@ export const Route = createFileRoute("/contact")({
 
 const GETTING: { Icon: LucideIcon; title: string; desc: string }[] = [
   { Icon: Plane, title: "Depuis l'aéroport", desc: "Aéroport Agadir–Al Massira à ~45 min. Transfert privé sur demande." },
-  { Icon: Car, title: "Depuis Agadir", desc: "~30 min par la route côtière direction Taghazout / Imi Ouaddar." },
-  { Icon: Waves, title: "Depuis Taghazout", desc: "10 min au nord du village de surf, en bord de baie." },
+  { Icon: Car, title: "Depuis Agadir", desc: "~30 min par la route côtière direction Imi Ouaddar." },
+  { Icon: Waves, title: "Bord de mer", desc: "À quelques minutes des plages et des spots de surf de la région." },
   { Icon: ConciergeBell, title: "Arrivée", desc: "Check-in dès 14h · Check-out 11h · Réception 24h/24." },
 ];
 
@@ -35,7 +35,7 @@ const FAQ = [
   { q: "Acceptez-vous les groupes et événements ?", a: "Avec plaisir — séminaires, anniversaires, fan-village World Cup. Écris-nous sur WhatsApp pour un devis." },
 ];
 
-const MAPS_LINK = "https://www.google.com/maps/search/?api=1&query=Lunja+Village+Imi+Ouaddar+Taghazout";
+const MAPS_LINK = "https://www.google.com/maps/search/?api=1&query=Lunja+Village+Imi+Ouaddar";
 
 function ContactHero() {
   return (
@@ -48,7 +48,7 @@ function ContactHero() {
           <span className="text-grunge text-linen">VISIT.</span>
         </h1>
         <p className="mt-4 max-w-2xl font-body text-lg text-linen/90 sm:text-xl">
-          On est posés sur la baie de Taghazout, à Imi Ouaddar — à 30 min d'Agadir,
+          On est posés à Imi Ouaddar — à 30 min d'Agadir,
           les pieds presque dans l'eau. Viens comme tu es.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
@@ -104,7 +104,7 @@ function PostcardSection() {
               <div className="flex items-start justify-between">
                 <div className="font-script text-3xl text-coral -rotate-2">bienvenue</div>
                 <div className="border-2 border-ink bg-yellow px-2 py-1 font-display text-xs font-black uppercase leading-tight text-ink" style={{ transform: "rotate(4deg)" }}>
-                  Taghazout<br />Bay
+                  Imi<br />Ouaddar
                 </div>
               </div>
               <h3 className="mt-4 text-3xl">Lunja Village</h3>
