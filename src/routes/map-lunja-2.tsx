@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Instagram,
   MapPin,
+  QrCode,
   BedDouble,
   Users,
   UtensilsCrossed,
@@ -472,63 +473,67 @@ function JojoPage() {
         </div>
       </header>
 
-      {/* ---------------- Hero ---------------- */}
-      <section className="relative">
+      {/* ---------------- Hero (ported from the classic version) ---------------- */}
+      <section className="relative flex min-h-[62svh] items-center overflow-hidden grain sm:min-h-[72vh]">
         <img
           src={heroImg}
           alt="Lunja Village at sunset, Imi Ouaddar"
-          className="h-[60svh] min-h-[440px] w-full object-cover sm:h-[74vh]"
+          width={1200}
+          height={900}
+          className="absolute inset-0 size-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/25" />
-        <div className="absolute inset-x-0 bottom-0">
-          <div className="mx-auto max-w-[92rem] px-5 pb-10 sm:px-10 sm:pb-16 lg:px-16">
-            <h1 className="font-display text-[clamp(2.4rem,9vw,7rem)] leading-[1.45] tracking-tight text-white">
-              <span className="jojo-highlight box-decoration-clone">Come and stay</span>
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10" />
+        <div className="relative z-10 mx-auto w-full max-w-[92rem] px-5 pb-12 pt-24 text-linen sm:px-10 sm:pt-28 lg:px-16">
+          <div>
+            <span className="inline-flex items-center gap-2 -rotate-2 bg-sun px-3 py-1 font-display text-xs uppercase tracking-widest text-ink ring-2 ring-ink sm:text-sm">
+              <QrCode className="size-4 shrink-0" /> You scanned it · welcome
+            </span>
+            <h1 className="mt-4 font-display text-[clamp(2.75rem,9vw,6.5rem)] uppercase leading-[0.82] tracking-tight sm:mt-5">
+              LUNJA
               <br />
-              <span className="jojo-highlight box-decoration-clone">in the village.</span>
+              <span className="text-sun">VILLAGE</span>
             </h1>
-            <p className="mt-5 max-w-xl text-sm text-white/90 sm:mt-6 sm:text-lg">
-              Scanned the code? Here is the whole of Lunja Village, Imi Ouaddar — the interactive
-              map, five ways to sleep, and the surf, bars and beach on the doorstep.
+            <p className="ml-1 mt-1 rotate-[-2deg] font-script text-2xl text-terra sm:text-4xl">
+              Imi Ouaddar · Atlantic side
             </p>
-            <div className="mt-6 flex flex-col gap-3 sm:mt-7 sm:flex-row sm:flex-wrap sm:items-center">
-              <Pill href="#map" className="justify-center bg-[#FFE600] text-neutral-900 shadow-lg">
-                <MapPin className="size-5" /> Explore the map
-              </Pill>
-              <Pill
+            <p className="mt-5 max-w-xl text-sm text-linen/80 sm:mt-6 sm:text-base">
+              284 bungalows and apartments scattered through 38.5 hectares of gardens between
+              sea and mountain: three pools, a sports ground, a kids club, a restaurant and
+              lounge bars, plus a private path to the beach. Everything below is the real
+              village, so explore it before you even unpack.
+            </p>
+            <div className="mt-6 flex flex-col flex-wrap gap-3 sm:mt-7 sm:flex-row">
+              <a
+                href="#map"
+                className="inline-flex items-center justify-center gap-2 bg-sun px-5 py-3 font-display text-sm uppercase tracking-wider text-ink ring-2 ring-ink transition-colors hover:bg-terra hover:text-linen sm:text-base"
+              >
+                <MapPin className="size-5 shrink-0" /> Explore the map
+              </a>
+              <a
                 href="#rooms"
-                className="justify-center border-2 border-white text-white hover:bg-white hover:text-neutral-900"
+                className="inline-flex items-center justify-center gap-2 border-2 border-linen px-5 py-3 font-display text-sm uppercase tracking-wider transition-colors hover:bg-linen hover:text-ink sm:text-base"
               >
                 Where to sleep
-              </Pill>
+              </a>
             </div>
           </div>
         </div>
-        <span className="absolute right-4 top-4 z-10 sm:right-10 sm:top-1/2 sm:-translate-y-1/2">
-          <LogoMark className="jojo-bob size-14 border-2 shadow-[0_14px_34px_-12px_rgba(0,0,0,0.55)] sm:size-28 sm:border-[3px]" />
-        </span>
       </section>
 
-      {/* ---------------- Stats strip (dark band) ---------------- */}
-      <section className="bg-neutral-900 text-white">
-        <div className="mx-auto grid max-w-[92rem] grid-cols-2 divide-white/10 px-5 sm:grid-cols-4 sm:divide-x sm:px-10 lg:px-16">
-          {[
-            ["284", "apartments & bungalows"],
-            ["38.5", "hectares of gardens"],
-            ["3", "swimming pools"],
-            ["5 min", "to the Atlantic"],
-          ].map(([n, l], k) => (
-            <div
-              key={l}
-              className={`reveal px-2 py-8 text-center sm:py-10 ${k % 2 === 1 ? "border-l border-white/10 sm:border-l-0" : ""} ${k >= 2 ? "border-t border-white/10 sm:border-t-0" : ""}`}
-              style={{ ["--reveal-delay" as string]: `${k * 0.07}s` }}
-            >
-              <div className="font-display text-4xl tracking-tight sm:text-6xl">{n}</div>
-              <div className="mt-1.5 text-[11px] uppercase tracking-widest text-white/50 sm:text-xs">{l}</div>
-            </div>
+      {/* ---------------- Marquee (ported from the classic version) ---------------- */}
+      <div className="overflow-hidden border-y-4 border-terra bg-ink py-3 text-sun">
+        <div className="flex w-max animate-marquee font-display text-2xl uppercase tracking-widest">
+          {Array.from({ length: 2 }).map((_, k) => (
+            <span key={k} className="flex">
+              {["3 pools", "sports ground", "kids club", "surf nearby", "quad trails", "beach access", "restaurant & bars", "38.5 ha of gardens"].map((t) => (
+                <span key={t} className="px-6">
+                  {t} <span className="text-terra">✦</span>
+                </span>
+              ))}
+            </span>
           ))}
         </div>
-      </section>
+      </div>
 
       {/* ---------------- Intro ---------------- */}
       <section className="mx-auto max-w-[92rem] px-5 py-16 sm:px-10 sm:py-24 lg:px-16">
