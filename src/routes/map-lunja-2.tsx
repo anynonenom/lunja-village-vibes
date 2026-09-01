@@ -520,21 +520,6 @@ function JojoPage() {
         </div>
       </section>
 
-      {/* ---------------- Marquee (ported from the classic version) ---------------- */}
-      <div className="overflow-hidden border-y-4 border-terra bg-ink py-3 text-sun">
-        <div className="flex w-max animate-marquee font-display text-2xl uppercase tracking-widest">
-          {Array.from({ length: 2 }).map((_, k) => (
-            <span key={k} className="flex">
-              {["3 pools", "sports ground", "kids club", "surf nearby", "quad trails", "beach access", "restaurant & bars", "38.5 ha of gardens"].map((t) => (
-                <span key={t} className="px-6">
-                  {t} <span className="text-terra">✦</span>
-                </span>
-              ))}
-            </span>
-          ))}
-        </div>
-      </div>
-
       {/* ---------------- Intro ---------------- */}
       <section className="mx-auto max-w-[92rem] px-5 py-16 sm:px-10 sm:py-24 lg:px-16">
         <div className="reveal grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-end md:gap-16">
@@ -578,7 +563,7 @@ function JojoPage() {
           </div>
         </div>
         <div className="reveal px-2 sm:px-6 lg:px-10">
-          <LunjaMap light heightClass="!h-[56vh] sm:!h-[80vh]" />
+          <LunjaMap light heightClass="!h-[46vh] sm:!h-[64vh]" />
         </div>
       </section>
 

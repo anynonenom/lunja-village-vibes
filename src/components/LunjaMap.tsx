@@ -35,7 +35,7 @@ function Controls({ light }: { light?: boolean }) {
 
 export function LunjaMap({
   light = false,
-  heightClass = "!h-[48vh] sm:!h-[66vh]",
+  heightClass = "!h-[42vh] sm:!h-[56vh]",
 }: {
   light?: boolean;
   heightClass?: string;
