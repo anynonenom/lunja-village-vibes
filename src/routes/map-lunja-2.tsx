@@ -23,7 +23,9 @@ import {
 import { LunjaMap } from "@/components/LunjaMap";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { WHATSAPP } from "@/components/chrome";
-import { ACCOR_URL, EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay } from "@/data/lunja";
+import { EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay } from "@/data/lunja";
+
+const WA_LINK = `https://wa.me/${WHATSAPP.replace(/\D/g, "")}`;
 import heroImg from "@/assets/real-lunja-aerial.jpg";
 import lunjaLogo from "@/assets/lunja-logo.png";
 
@@ -259,7 +261,7 @@ function RoomDetailsPanel({
           className="block w-full"
           aria-label={`Open photos of ${s.name}`}
         >
-          <img src={gallery[0]} alt={s.name} className="aspect-[4/3] w-full object-cover" />
+          <img src={gallery[0]} alt={s.name} className="aspect-[3/2] w-full bg-neutral-100 object-contain" />
         </button>
         <span className="absolute left-3 top-3 rounded-full bg-neutral-900 px-3 py-1 font-display text-xs uppercase tracking-widest text-white">
           {s.code}
@@ -312,14 +314,20 @@ function RoomDetailsPanel({
           ))}
         </div>
 
-        <a
-          href={ACCOR_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#FFE600] px-5 py-2.5 font-display tracking-wide text-neutral-900"
-        >
-          Check rates <ArrowUpRight className="size-4" />
-        </a>
+        <div className="mt-6 flex items-end justify-between gap-3 border-t border-black/10 pt-4">
+          <div>
+            <span className="font-display text-2xl leading-none tracking-tight text-neutral-900">{s.from}</span>
+            <span className="ml-1 font-display text-xs uppercase tracking-widest text-neutral-400">/ night</span>
+          </div>
+          <a
+            href={WA_LINK}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full bg-[#FFE600] px-5 py-2.5 font-display text-sm uppercase tracking-widest text-neutral-900"
+          >
+            Enquire <ArrowUpRight className="size-4" />
+          </a>
+        </div>
       </div>
     </SheetContent>
   );
@@ -340,7 +348,11 @@ function RoomBlock({
   const tilt = flip ? "sm:rotate-[1.2deg]" : "sm:-rotate-[1.2deg]";
 
   return (
-    <div className="grid items-center gap-8 sm:gap-12 lg:grid-cols-[1.25fr_0.75fr] lg:gap-16">
+    <div
+      className={`grid items-center gap-8 sm:gap-12 lg:gap-16 ${
+        flip ? "lg:grid-cols-[0.8fr_1.2fr]" : "lg:grid-cols-[1.2fr_0.8fr]"
+      }`}
+    >
       {/* photo */}
       <div className={`reveal relative ${flip ? "lg:order-2" : ""}`}>
         <div className={`relative rounded-3xl border-4 border-white bg-white shadow-[0_40px_90px_-35px_rgba(0,0,0,0.4)] ${tilt} transition-transform hover:rotate-0`}>
@@ -354,7 +366,7 @@ function RoomBlock({
               src={gallery[gi]}
               alt={s.name}
               loading="lazy"
-              className="aspect-[4/3] w-full object-cover sm:aspect-[16/10]"
+              className="aspect-[3/2] w-full bg-neutral-100 object-contain"
             />
           </button>
           <span className="absolute right-3 top-3 grid size-9 place-items-center rounded-lg bg-[#FFE600] text-neutral-900 shadow">
@@ -416,19 +428,17 @@ function RoomBlock({
           ))}
         </div>
 
-        <div className="mt-7 flex flex-wrap items-center gap-4">
-          <Pill
-            href={ACCOR_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-[#FFE600] text-neutral-900 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.35)]"
-          >
-            Check rates <ArrowUpRight className="size-5" />
-          </Pill>
+        <div className="mt-7 flex flex-wrap items-end gap-x-8 gap-y-4">
+          <div>
+            <span className="font-display text-[clamp(1.9rem,4vw,2.75rem)] leading-none tracking-tight text-neutral-900">
+              {s.from}
+            </span>
+            <span className="ml-1.5 font-display text-sm uppercase tracking-widest text-neutral-400">/ night</span>
+          </div>
 
           {s.specs && (
             <Sheet>
-              <SheetTrigger className="inline-flex items-center gap-2 font-display text-sm uppercase tracking-widest text-neutral-500 transition-colors hover:text-neutral-900">
+              <SheetTrigger className="inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3.5 font-display text-sm uppercase tracking-widest text-white shadow-[0_14px_36px_-14px_rgba(0,0,0,0.5)] transition-transform hover:-translate-y-0.5">
                 Full room details <ArrowRight className="size-4" />
               </SheetTrigger>
               <RoomDetailsPanel s={s} onZoom={onZoom} />
@@ -517,9 +527,7 @@ function JojoPage() {
           </nav>
 
           <a
-            href={ACCOR_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#rooms"
             className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE600] px-4 py-2.5 font-display text-xs uppercase tracking-widest text-neutral-900 shadow-md transition-transform hover:-translate-y-0.5 sm:px-5 sm:text-sm"
           >
             Book your stay <ArrowUpRight className="size-4" />
@@ -705,16 +713,17 @@ function JojoPage() {
             Ready when you are
           </h2>
           <p className="mx-auto mt-4 max-w-md text-[15px] text-neutral-500 sm:text-base">
-            Rooms, dates and prices live on ALL.com. Everything else, we will sort when you arrive.
+            Send us your dates on WhatsApp and we will hold your room. Everything else, we sort
+            when you arrive.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
             <Pill
-              href={ACCOR_URL}
+              href={WA_LINK}
               target="_blank"
               rel="noopener noreferrer"
               className="justify-center bg-[#FFE600] text-neutral-900 shadow-lg"
             >
-              Check rates on ALL.com <ArrowUpRight className="size-5" />
+              Enquire on WhatsApp <ArrowUpRight className="size-5" />
             </Pill>
             <Pill
               href={INSTAGRAM_URL}
@@ -764,8 +773,8 @@ function JojoPage() {
               <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-white/70 hover:text-white">
                 <Instagram size={15} /> @lunjavillage.officiel
               </a>
-              <a href={ACCOR_URL} target="_blank" rel="noreferrer" className="text-white/70 hover:text-white">
-                Book on ALL.com →
+              <a href={WA_LINK} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-white/70 hover:text-white">
+                <Phone size={14} /> Message us on WhatsApp
               </a>
             </div>
           </div>
