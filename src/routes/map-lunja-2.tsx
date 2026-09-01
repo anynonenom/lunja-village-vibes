@@ -483,7 +483,7 @@ function JojoPage() {
           className="absolute inset-0 size-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10" />
-        <div className="relative z-10 mx-auto w-full max-w-[92rem] px-5 pb-12 pt-24 text-linen sm:px-10 sm:pt-28 lg:px-16">
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-12 pt-24 text-linen sm:px-6 sm:pt-28">
           <div>
             <span className="inline-flex items-center gap-2 -rotate-2 bg-sun px-3 py-1 font-display text-xs uppercase tracking-widest text-ink ring-2 ring-ink sm:text-sm">
               <QrCode className="size-4 shrink-0" /> You scanned it · welcome
@@ -549,21 +549,22 @@ function JojoPage() {
         </div>
       </section>
 
-      {/* ---------------- Map ---------------- */}
-      <section id="map" className="scroll-mt-20 bg-neutral-50 py-16 sm:py-24">
-        <div className="mx-auto mb-8 max-w-[92rem] px-5 sm:mb-10 sm:px-10 lg:px-16">
-          <div className="reveal">
-            <Kicker>Discover</Kicker>
-            <SectionTitle className="mt-4">
-              The village, <span className="text-[#caa500]">pin by pin</span>
-            </SectionTitle>
-            <p className="mt-3 max-w-lg text-[15px] text-neutral-600 sm:text-base">
-              Zoom, drag and tap the numbers. Filter by what you are looking for.
+      {/* ---------------- Map (classic version design) ---------------- */}
+      <section id="map" className="scroll-mt-20 px-4 py-14 sm:px-6 sm:py-24">
+        <div className="mx-auto max-w-6xl">
+          <div className="reveal mb-6 sm:mb-8">
+            <span className="font-script text-2xl text-terra sm:text-3xl">Discover</span>
+            <h2 className="font-display text-[clamp(2.25rem,8vw,5.5rem)] uppercase leading-[0.85] tracking-tight">
+              The village, <span className="italic text-terra">pin by pin</span>
+            </h2>
+            <p className="mt-3 max-w-xl text-sm text-ink/70 sm:text-base">
+              Zoom, drag and tap the numbers. Every pin is a real spot on the Lunja site plan,
+              from reception to the beach path.
             </p>
           </div>
-        </div>
-        <div className="reveal px-2 sm:px-6 lg:px-10">
-          <LunjaMap light heightClass="!h-[46vh] sm:!h-[64vh]" />
+          <div className="reveal">
+            <LunjaMap />
+          </div>
         </div>
       </section>
 
