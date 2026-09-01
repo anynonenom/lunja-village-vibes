@@ -35,6 +35,7 @@ function Controls() {
 export function LunjaMap() {
   const [active, setActive] = useState<Poi | null>(null);
   const [filter, setFilter] = useState<Poi["kind"] | "all">("all");
+  const [showList, setShowList] = useState(false);
 
   const kinds = Array.from(new Set(POIS.map((p) => p.kind)));
   const visible = POIS.filter((p) => filter === "all" || p.kind === filter);
@@ -57,7 +58,7 @@ export function LunjaMap() {
         ))}
       </div>
 
-      <div className="relative overflow-hidden bg-ink ring-2 ring-ink shadow-[10px_10px_0_0_var(--terra)]">
+      <div className="relative overflow-hidden bg-ink ring-2 ring-ink shadow-[6px_6px_0_0_var(--terra)] sm:shadow-[10px_10px_0_0_var(--terra)]">
         <TransformWrapper
           minScale={1}
           maxScale={5}
@@ -67,7 +68,7 @@ export function LunjaMap() {
         >
           <>
             <TransformComponent
-              wrapperClass="!w-full !h-[62vh] sm:!h-[70vh] cursor-grab active:cursor-grabbing"
+              wrapperClass="!w-full !h-[48vh] sm:!h-[66vh] cursor-grab active:cursor-grabbing"
               contentClass="!w-full"
             >
               <div className="relative w-full">
@@ -130,26 +131,38 @@ export function LunjaMap() {
         </div>
       </div>
 
-      {/* Legend list */}
-      <ul className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {visible.map((p) => (
-          <li key={p.id}>
-            <button
-              type="button"
-              onClick={() => setActive(p)}
-              className="w-full text-left flex items-center gap-3 bg-linen ring-2 ring-ink px-3 py-2 hover:bg-sun transition-colors"
-            >
-              <span className={`shrink-0 grid place-items-center size-7 rounded-full font-display text-sm ring-2 ring-ink ${KIND_COLOR[p.kind]}`}>
-                {p.n}
-              </span>
-              <span className="min-w-0">
-                <span className="block font-display uppercase tracking-wide leading-none">{p.name}</span>
-                <span className="block text-xs text-ink/60 truncate">{p.blurb}</span>
-              </span>
-            </button>
-          </li>
-        ))}
-      </ul>
+      {/* Legend list — collapsed by default so the section stays short on mobile */}
+      <button
+        type="button"
+        onClick={() => setShowList((v) => !v)}
+        aria-expanded={showList}
+        className="mt-4 w-full flex items-center justify-between bg-ink text-sun ring-2 ring-ink px-3 py-2 font-display uppercase text-sm tracking-widest hover:bg-terra hover:text-linen transition-colors"
+      >
+        {showList ? "Hide the list" : `Browse all ${visible.length} spots as a list`}
+        <span className={`transition-transform ${showList ? "rotate-180" : ""}`}>▾</span>
+      </button>
+
+      {showList && (
+        <ul className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {visible.map((p) => (
+            <li key={p.id}>
+              <button
+                type="button"
+                onClick={() => setActive(p)}
+                className="w-full text-left flex items-center gap-3 bg-linen ring-2 ring-ink px-3 py-2 hover:bg-sun transition-colors"
+              >
+                <span className={`shrink-0 grid place-items-center size-7 rounded-full font-display text-sm ring-2 ring-ink ${KIND_COLOR[p.kind]}`}>
+                  {p.n}
+                </span>
+                <span className="min-w-0">
+                  <span className="block font-display uppercase tracking-wide leading-none">{p.name}</span>
+                  <span className="block text-xs text-ink/60 truncate">{p.blurb}</span>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

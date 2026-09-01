@@ -58,8 +58,10 @@ export const KIND_LABEL: Record<Poi["kind"], string> = {
 };
 
 export type StaySpec = { group: string; items: string[] };
+export type StayGroup = "Apartments" | "Bungalows";
 export type Stay = {
   id: string;
+  group: StayGroup;
   code: string;
   name: string;
   img: string;
@@ -81,6 +83,7 @@ const APARTMENT_2BR_GALLERY = [appart0, appart1, appart2, appart3, appart4, appa
 export const STAYS: Stay[] = [
   {
     id: "apartment",
+    group: "Apartments",
     code: "Apartment",
     name: "2-bedroom apartment",
     img: appart0,
@@ -101,6 +104,7 @@ export const STAYS: Stay[] = [
   },
   {
     id: "apartment-sea",
+    group: "Apartments",
     code: "Sea View",
     name: "Apartment - sea view",
     img: appartSea0,
@@ -122,6 +126,7 @@ export const STAYS: Stay[] = [
   },
   {
     id: "bungalow",
+    group: "Bungalows",
     code: "Bungalow",
     name: "2 bedroom bungalow",
     img: bungalow2br0,
@@ -142,6 +147,7 @@ export const STAYS: Stay[] = [
   },
   {
     id: "bungalow-pool",
+    group: "Bungalows",
     code: "Pool View",
     name: "Bungalow - pool view",
     img: bungalowPool0,
@@ -163,6 +169,7 @@ export const STAYS: Stay[] = [
   },
   {
     id: "bungalow-sea",
+    group: "Bungalows",
     code: "Sea View",
     name: "Bungalow - sea view",
     img: bungalowSea0,
