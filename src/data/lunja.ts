@@ -1,10 +1,7 @@
 // Real Lunja Village photos (Imi Ouaddar): guest and property shots.
-import surf from "@/assets/lunja-surf.jpg";
-import quad from "@/assets/lunja-quad.jpg";
-import plage from "@/assets/real-lunja-9.jpg";
-import poolLife from "@/assets/real-lunja-golden.jpg";
-import gardens from "@/assets/real-lunja-4.jpg";
-import nights from "@/assets/real-lunja-fireshow.jpg";
+import surf from "@/assets/feed8.jpg";
+import plage from "@/assets/feed7.jpg";
+import nights from "@/assets/ph-dj.jpg";
 import appart0 from "@/assets/appart-2br-0.jpg";
 import appart1 from "@/assets/appart-2br-1.jpg";
 import appart2 from "@/assets/appart-2br-2.jpg";
@@ -187,12 +184,9 @@ export const STAYS: Stay[] = [
   },
 ];
 
-/** What the village actually offers on site + on its doorstep (ALL / Accor). */
+/** What the village actually offers on its doorstep (ALL / Accor). */
 export const EXPERIENCES = [
-  { id: "pools", title: "3 Pools", img: poolLife, line: "Three swimming pools across the grounds, each with its own snack: Tmada, Ayoub and the central deck." },
-  { id: "beach", title: "Beach Access", img: plage, line: "A private path from the east side straight down to the open Atlantic sand." },
-  { id: "surf", title: "Surf", img: surf, line: "Imi Ouaddar and the points just north sit on the classic Atlantic surf coast, minutes away." },
-  { id: "quad", title: "Quad Biking", img: quad, line: "Argan trees and hinterland tracks, with quad rides straight from the village gate." },
-  { id: "gardens", title: "Gardens & Sport", img: gardens, line: "38.5 hectares of planted gardens between sea and mountain, plus a sports ground and kids club." },
   { id: "nights", title: "Bars & Live Nights", img: nights, line: "One restaurant, two snack bars and two lounge bars (Le Consul, Mimosa), with live shows after dark." },
+  { id: "surf", title: "Surf", img: surf, line: "Imi Ouaddar and the points just north sit on the classic Atlantic surf coast, minutes away." },
+  { id: "beach", title: "Beach Access", img: plage, line: "A private path from the east side straight down to the open Atlantic sand." },
 ];
