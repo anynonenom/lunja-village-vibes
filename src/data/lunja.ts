@@ -36,22 +36,22 @@ export type Poi = {
 
 /** Coordinates traced from the official Lunja Village site plan. */
 export const POIS: Poi[] = [
-  { id: "accueil", n: 1, name: "Accueil / Réservation", kind: "hub", x: 13.5, y: 33.0, blurb: "Check-in, bracelets, keys", detail: "\"Vous êtes ici\". Your first stop after the gate: check-in, luggage drop, and every question about the village answered here." },
-  { id: "social", n: 2, name: "Social Hub", kind: "hub", x: 45.5, y: 58.0, blurb: "Hall d'accueil, bar, terrace", detail: "The beating heart: reception hall, bar, big terrace and the daily good-vibe headquarters of the village." },
-  { id: "resto", n: 3, name: "Restaurant Le Sahariat & Le Consul Bar", kind: "hub", x: 49.5, y: 47.0, blurb: "Le Sahariat · Mimosa · Le Consul", detail: "Breakfast until late dinner across Le Sahariat and Mimosa, with Le Consul bar for sunset drinks." },
-  { id: "piscine-main", n: 4, name: "Piscine centrale", kind: "water", x: 64.5, y: 59.0, blurb: "Big pool + sun deck", detail: "The main pool with loungers and shade, in the eastern gardens." },
-  { id: "piscine-kids", n: 5, name: "Piscine & Snack Tmada", kind: "water", x: 24.5, y: 69.0, blurb: "Pool + light bites", detail: "Western pool with the Tmada snack for a quick lunch without leaving the water." },
-  { id: "kids-club", n: 6, name: "Kids Club", kind: "kids", x: 31.5, y: 75.0, blurb: "Games, crafts, mini disco", detail: "Supervised activities all day, ending with the mini disco the parents secretly love." },
-  { id: "riad", n: 7, name: "Riad des Saveurs", kind: "hub", x: 11.5, y: 44.0, blurb: "Chill-out lounge & bar", detail: "Chill-out lounge and bar by the western gardens, for slow afternoons and long drinks." },
-  { id: "bungalows-jardin", n: 8, name: "Garden Bungalows", kind: "stay", x: 33.0, y: 83.0, blurb: "Private terrace on the garden", detail: "Low white bungalows with their own terrace and total quiet at night." },
-  { id: "bungalows-piscine", n: 9, name: "Pool Bungalows", kind: "stay", x: 67.0, y: 68.0, blurb: "Steps from the water", detail: "Bungalows opening straight onto a pool deck. Towel, ten steps, splash." },
-  { id: "bungalows-mer", n: 10, name: "Sea View Bungalows", kind: "stay", x: 81.0, y: 62.0, blurb: "Atlantic on the horizon", detail: "The front row on the east side: terraces angled at the ocean for the whole sunset show." },
-  { id: "asayas", n: 11, name: "Asayas", kind: "sport", x: 41.0, y: 65.0, blurb: "Conference & events hall", detail: "Salle de conférence for meetings and events, next to the Social Hub." },
-  { id: "piscine-ayoub", n: 12, name: "Piscine & Snack Ayoub", kind: "water", x: 83.0, y: 80.0, blurb: "East pool + snack", detail: "The eastern pool closest to the beach path, with the Ayoub snack alongside." },
-  { id: "chillout", n: 13, name: "Accès Plage / CHILLOUT", kind: "hub", x: 91.5, y: 76.0, blurb: "Beach club & sunset sets", detail: "The path down to the sand and the surf-to-sunset social club: beer garden, café and the loudest sunsets in Imi Ouaddar." },
-  { id: "beach", n: 14, name: "Beach Access", kind: "access", x: 95.0, y: 66.0, blurb: "Direct path to the sand", detail: "A short walkway straight down to the Atlantic. Surf lessons meet here at sunrise." },
-  { id: "parking-n", n: 15, name: "Parking Nord", kind: "access", x: 24.0, y: 29.0, blurb: "Visitor parking", detail: "Parking by the north gate, closest to the western gardens and reception." },
-  { id: "parking-s", n: 16, name: "Parking central", kind: "access", x: 44.0, y: 42.0, blurb: "Main parking", detail: "Central parking by the Social Hub, with drop-off zone for shuttles and taxis." },
+  { id: "accueil", n: 1, name: "Accueil / Réservation", kind: "hub", x: 13.3, y: 33.5, blurb: "Check-in, bracelets, keys", detail: "\"Vous êtes ici\". Your first stop after the gate: check-in, luggage drop, and every question about the village answered here." },
+  { id: "social", n: 2, name: "Social Hub", kind: "hub", x: 45.8, y: 58.9, blurb: "Hall d'accueil, bar, terrace", detail: "The beating heart: reception hall, bar, big terrace and the daily good-vibe headquarters of the village." },
+  { id: "resto", n: 3, name: "Restaurant Le Sahariat & Le Consul Bar", kind: "hub", x: 49.2, y: 47.5, blurb: "Le Sahariat · Mimosa · Le Consul", detail: "Breakfast until late dinner across Le Sahariat and Mimosa, with Le Consul bar for sunset drinks." },
+  { id: "piscine-main", n: 4, name: "Piscine centrale", kind: "water", x: 64.4, y: 57.3, blurb: "Big pool + sun deck", detail: "The main pool with loungers and shade, in the eastern gardens." },
+  { id: "piscine-kids", n: 5, name: "Piscine & Snack Tmada", kind: "water", x: 24.4, y: 65.7, blurb: "Pool + light bites", detail: "Western pool with the Tmada snack for a quick lunch without leaving the water." },
+  { id: "kids-club", n: 6, name: "Kids Club", kind: "kids", x: 31.4, y: 68.3, blurb: "Games, crafts, mini disco", detail: "Supervised activities all day, ending with the mini disco the parents secretly love." },
+  { id: "riad", n: 7, name: "Riad des Saveurs", kind: "hub", x: 11.8, y: 44.3, blurb: "Chill-out lounge & bar", detail: "Chill-out lounge and bar by the western gardens, for slow afternoons and long drinks." },
+  { id: "bungalows-jardin", n: 8, name: "Garden Bungalows", kind: "stay", x: 34.0, y: 78.0, blurb: "Private terrace on the garden", detail: "Low white bungalows with their own terrace and total quiet at night." },
+  { id: "bungalows-piscine", n: 9, name: "Pool Bungalows", kind: "stay", x: 60.0, y: 63.0, blurb: "Steps from the water", detail: "Bungalows opening straight onto a pool deck. Towel, ten steps, splash." },
+  { id: "bungalows-mer", n: 10, name: "Sea View Bungalows", kind: "stay", x: 85.0, y: 63.0, blurb: "Atlantic on the horizon", detail: "The front row on the east side: terraces angled at the ocean for the whole sunset show." },
+  { id: "asayas", n: 11, name: "Asayas", kind: "sport", x: 41.4, y: 64.3, blurb: "Conference & events hall", detail: "Salle de conférence for meetings and events, next to the Social Hub." },
+  { id: "piscine-ayoub", n: 12, name: "Piscine & Snack Ayoub", kind: "water", x: 71.4, y: 78.7, blurb: "East pool + snack", detail: "The eastern pool closest to the beach path, with the Ayoub snack alongside." },
+  { id: "chillout", n: 13, name: "Accès Plage / CHILLOUT", kind: "hub", x: 91.5, y: 73.5, blurb: "Beach club & sunset sets", detail: "The path down to the sand and the surf-to-sunset social club: beer garden, café and the loudest sunsets in Imi Ouaddar." },
+  { id: "beach", n: 14, name: "Beach Access", kind: "access", x: 95.4, y: 64.3, blurb: "Direct path to the sand", detail: "A short walkway straight down to the Atlantic. Surf lessons meet here at sunrise." },
+  { id: "parking-n", n: 15, name: "Parking Nord", kind: "access", x: 23.9, y: 28.5, blurb: "Visitor parking", detail: "Parking by the north gate, closest to the western gardens and reception." },
+  { id: "parking-s", n: 16, name: "Parking central", kind: "access", x: 43.9, y: 42.5, blurb: "Main parking", detail: "Central parking by the Social Hub, with drop-off zone for shuttles and taxis." },
 ];
 
 export const KIND_LABEL: Record<Poi["kind"], string> = {

@@ -16,13 +16,14 @@ import {
 import mapImg from "@/assets/lunja-map.png";
 import { KIND_LABEL, POIS, type Poi } from "@/data/lunja";
 
+// Pin colours match the site-plan's own legend palette.
 const KIND_COLOR: Record<Poi["kind"], string> = {
-  hub: "bg-terra text-linen",
-  stay: "bg-ink text-sun",
-  water: "bg-[oklch(0.72_0.13_215)] text-ink",
-  kids: "bg-[oklch(0.78_0.16_145)] text-ink",
-  sport: "bg-[oklch(0.7_0.17_300)] text-linen",
-  access: "bg-sun text-ink",
+  hub: "bg-[#1e9e5a] text-white",
+  stay: "bg-neutral-900 text-[#FFE600]",
+  water: "bg-[#1f9fe0] text-white",
+  kids: "bg-[#7b3ff2] text-white",
+  sport: "bg-[#7b3ff2] text-white",
+  access: "bg-[#2f4bd6] text-white",
 };
 
 type IconType = ComponentType<{ className?: string; strokeWidth?: number }>;
