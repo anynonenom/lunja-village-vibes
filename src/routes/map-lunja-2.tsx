@@ -32,12 +32,30 @@ import lunjaLogo from "@/assets/lunja-logo.png";
 
 const HERO_SLIDES = [heroAerial, heroSurf, heroBeach, heroWater];
 
-function LogoMark({ className = "size-10" }: { className?: string }) {
+function LogoMark({
+  className = "size-10",
+  borderClass = "border-2 border-neutral-900",
+}: {
+  className?: string;
+  borderClass?: string;
+}) {
   return (
     <span
-      className={`grid shrink-0 place-items-center overflow-hidden rounded-full border-2 border-neutral-900 bg-[#FFE600] ${className}`}
+      className={`grid shrink-0 place-items-center overflow-hidden rounded-full bg-[#FFE600] ${borderClass} ${className}`}
     >
       <img src={lunjaLogo} alt="Lunja Village" className="h-full w-full object-contain" />
+    </span>
+  );
+}
+
+/** Site wordmark: "LUNJA" + a yellow "VILLAGE" tag, echoing the hero. */
+function Wordmark({ dark = false }: { dark?: boolean }) {
+  return (
+    <span className="flex items-baseline gap-1.5 font-display leading-none tracking-tight">
+      <span className={`text-xl sm:text-2xl ${dark ? "text-white" : "text-neutral-900"}`}>LUNJA</span>
+      <span className="rounded-[3px] bg-[#FFE600] px-1.5 py-0.5 text-sm text-neutral-900 sm:text-base">
+        VILLAGE
+      </span>
     </span>
   );
 }
@@ -453,36 +471,73 @@ function JojoPage() {
   const rootRef = useReveal();
   const [box, setBox] = useState<{ images: string[]; start: number } | null>(null);
   const [slide, setSlide] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const t = window.setInterval(() => setSlide((v) => (v + 1) % HERO_SLIDES.length), 5000);
     return () => window.clearInterval(t);
   }, []);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const dark = !scrolled; // transparent over the hero -> white text/marks
+
   return (
     <div ref={rootRef} className="jojo font-sans text-neutral-800 antialiased overflow-x-hidden">
       {/* ---------------- Header ---------------- */}
-      <header className="sticky top-0 z-40 border-b border-black/5 bg-white/85 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-[92rem] items-center justify-between px-5 sm:px-10 lg:px-16">
-          <Link to="/map-lunja-2" className="flex items-center gap-2.5">
-            <LogoMark className="size-10" />
-            <span className="font-display text-xl tracking-tight text-neutral-900">Lunja Village</span>
+      <header
+        className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
+          scrolled
+            ? "border-b border-black/5 bg-white/90 shadow-sm backdrop-blur"
+            : "bg-gradient-to-b from-black/45 via-black/20 to-transparent"
+        }`}
+      >
+        {/* brand hairline */}
+        <div className="h-1 w-full bg-gradient-to-r from-terra via-[#FFE600] to-terra" />
+        <div className="mx-auto flex h-16 max-w-[92rem] items-center justify-between px-5 sm:h-20 sm:px-10 lg:px-16">
+          <Link to="/map-lunja-2" className="group flex items-center gap-3">
+            <LogoMark
+              className="size-11 transition-transform group-hover:-rotate-6 sm:size-14"
+              borderClass={scrolled ? "border-2 border-neutral-900" : "border-2 border-white/90"}
+            />
+            <span className="hidden flex-col gap-0.5 sm:flex">
+              <Wordmark dark={dark} />
+              <span
+                className={`font-display text-[10px] uppercase tracking-[0.25em] ${
+                  dark ? "text-white/70" : "text-neutral-400"
+                }`}
+              >
+                Imi Ouaddar · Atlantic
+              </span>
+            </span>
           </Link>
-          <nav className="hidden items-center gap-7 font-display text-[15px] tracking-wide text-neutral-600 sm:flex">
-            <a href="#map" className="hover:text-neutral-900">The map</a>
-            <a href="#rooms" className="hover:text-neutral-900">Sleep</a>
-            <a href="#doorstep" className="hover:text-neutral-900">Doorstep</a>
+
+          <nav
+            className={`hidden items-center gap-8 font-display text-[13px] uppercase tracking-widest md:flex ${
+              dark ? "text-white/85" : "text-neutral-500"
+            }`}
+          >
+            <a href="#map" className="transition-colors hover:text-[#c9971a]">The map</a>
+            <a href="#rooms" className="transition-colors hover:text-[#c9971a]">Sleep</a>
+            <a href="#doorstep" className="transition-colors hover:text-[#c9971a]">Doorstep</a>
           </nav>
+
           <a
             href={ACCOR_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full bg-neutral-900 px-4 py-2 font-display text-sm tracking-wide text-white hover:bg-neutral-700"
+            className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE600] px-4 py-2.5 font-display text-xs uppercase tracking-widest text-neutral-900 shadow-md transition-transform hover:-translate-y-0.5 sm:px-5 sm:text-sm"
           >
-            Book
+            Book your stay <ArrowUpRight className="size-4" />
           </a>
         </div>
       </header>
+      {/* header is fixed; the hero sits behind it, so no spacer needed */}
 
       {/* ---------------- Hero (ported from the classic version) ---------------- */}
       <section className="relative flex min-h-[62svh] items-center overflow-hidden grain sm:min-h-[72vh]">
@@ -758,13 +813,6 @@ function JojoPage() {
           </div>
         </div>
       </footer>
-
-      <Link
-        to="/map-lunja"
-        className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-1.5 rounded-full bg-neutral-900 px-4 py-2 font-display text-xs uppercase tracking-widest text-white shadow-lg hover:bg-neutral-700"
-      >
-        Try the bold look →
-      </Link>
 
       {box && <Lightbox images={box.images} start={box.start} onClose={() => setBox(null)} />}
     </div>

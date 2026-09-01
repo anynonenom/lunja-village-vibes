@@ -1,11 +1,9 @@
 /**
  * Site-wide soft launch lock.
  *
- * While LOCKED (the default):
- *   - every route except `/map-lunja` redirects to `/map-lunja`
- *   - the top nav shows no links and no "Book your stay"
- *   - the footer hides its page links, the Chillout links and the booking CTA
- *   - the "Enter CHILLOUT" button on /map-lunja is hidden
+ * While LOCKED (the default) every route redirects to the approved
+ * landing page (`/map-lunja-2`). The older `/map-lunja` version is
+ * blocked along with the rest of the site.
  *
  * To OPEN the whole site later — no code change needed:
  *   add an env var in Vercel → Project → Settings → Environment Variables
@@ -21,8 +19,8 @@ const flag = import.meta.env.VITE_SITE_LOCKED as string | undefined;
 export const SITE_LOCKED =
   flag == null || flag === "" ? DEFAULT_LOCKED : flag.toLowerCase() !== "false";
 
-/** The pages reachable while the site is locked (both landing versions). */
-export const PUBLIC_ROUTES = ["/map-lunja", "/map-lunja-2"] as const;
+/** The only page reachable while the site is locked (the approved version). */
+export const PUBLIC_ROUTES = ["/map-lunja-2"] as const;
 
 /** Where locked traffic lands. */
 export const PUBLIC_ROUTE = PUBLIC_ROUTES[0];
