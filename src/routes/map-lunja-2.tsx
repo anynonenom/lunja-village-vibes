@@ -24,13 +24,8 @@ import { LunjaMap } from "@/components/LunjaMap";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { WHATSAPP } from "@/components/chrome";
 import { ACCOR_URL, EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay } from "@/data/lunja";
-import heroAerial from "@/assets/real-lunja-aerial.jpg";
-import heroSurf from "@/assets/feed8.jpg";
-import heroBeach from "@/assets/feed7.jpg";
-import heroWater from "@/assets/feed2.jpg";
+import heroImg from "@/assets/real-lunja-aerial.jpg";
 import lunjaLogo from "@/assets/lunja-logo.png";
-
-const HERO_SLIDES = [heroAerial, heroSurf, heroBeach, heroWater];
 
 function LogoMark({
   className = "size-10",
@@ -470,13 +465,7 @@ const FACILITIES = [
 function JojoPage() {
   const rootRef = useReveal();
   const [box, setBox] = useState<{ images: string[]; start: number } | null>(null);
-  const [slide, setSlide] = useState(0);
   const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const t = window.setInterval(() => setSlide((v) => (v + 1) % HERO_SLIDES.length), 5000);
-    return () => window.clearInterval(t);
-  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -541,15 +530,13 @@ function JojoPage() {
 
       {/* ---------------- Hero (ported from the classic version) ---------------- */}
       <section className="relative flex min-h-[62svh] items-center overflow-hidden grain sm:min-h-[72vh]">
-        {HERO_SLIDES.map((src, idx) => (
-          <div
-            key={src}
-            className="absolute inset-0 transition-opacity duration-[1400ms]"
-            style={{ opacity: slide === idx ? 1 : 0 }}
-          >
-            <img src={src} alt="" className="size-full object-cover animate-kenburns" />
-          </div>
-        ))}
+        <img
+          src={heroImg}
+          alt="Lunja Village at sunset, Imi Ouaddar"
+          width={1400}
+          height={784}
+          className="absolute inset-0 size-full object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10" />
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-12 pt-24 text-linen sm:px-6 sm:pt-28">
           <div>
@@ -583,21 +570,6 @@ function JojoPage() {
               >
                 Where to sleep
               </a>
-            </div>
-
-            {/* Slide dots */}
-            <div className="mt-8 flex items-center gap-2.5">
-              {HERO_SLIDES.map((_, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  aria-label={`Slide ${idx + 1}`}
-                  onClick={() => setSlide(idx)}
-                  className={`h-2 border border-linen transition-all ${
-                    slide === idx ? "w-10 bg-sun" : "w-5 bg-transparent hover:bg-linen/40"
-                  }`}
-                />
-              ))}
             </div>
           </div>
         </div>
