@@ -21,7 +21,7 @@ import {
   Wine,
 } from "lucide-react";
 import { LunjaMap } from "@/components/LunjaMap";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { WHATSAPP } from "@/components/chrome";
 import { EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay } from "@/data/lunja";
 import heroImg from "@/assets/real-lunja-aerial.jpg";
@@ -252,6 +252,10 @@ function RoomDetailsPanel({
       side="right"
       className="w-full overflow-y-auto border-l border-black/10 bg-white p-0 text-neutral-800 sm:max-w-md"
     >
+      <SheetClose className="absolute right-3 top-3 z-20 grid size-9 place-items-center rounded-full bg-[#FFE600] text-neutral-900 shadow-lg ring-2 ring-white transition-transform hover:rotate-90">
+        <X className="size-5" />
+        <span className="sr-only">Close</span>
+      </SheetClose>
       <div className="relative">
         <button
           type="button"
@@ -732,9 +736,9 @@ function JojoPage() {
         </button>
         <div className="mx-auto grid max-w-[92rem] gap-10 px-5 py-16 sm:grid-cols-2 sm:px-10 lg:grid-cols-4 lg:px-16">
           <div>
-            <div className="flex items-center gap-3">
-              <LogoMark className="size-12" borderClass="border-2 border-white/80" />
-              <span className="flex flex-col gap-0.5">
+            <div className="flex items-center gap-4">
+              <LogoMark className="size-16 sm:size-20" borderClass="border-2 border-white/80" />
+              <span className="flex flex-col gap-1">
                 <Wordmark dark />
                 <span className="font-display text-[10px] uppercase tracking-[0.25em] text-white/60">
                   Imi Ouaddar · Atlantic
