@@ -1,6 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState, useCallback, createContext, useContext, type ReactNode } from "react";
 import { Phone, Waves, Sparkles, X } from "lucide-react";
+import lunjaLogo from "@/assets/lunja-logo.png";
+import { SITE_LOCKED } from "@/lib/site-lock";
 
 // ---------- Shared constants ----------
 export const CHILLOUT_URL = "https://chill-vibes-studio.vercel.app";
@@ -90,18 +92,9 @@ export function Marquee({
 export function SinceStamp({ className = "" }: { className?: string }) {
   return (
     <div className={`animate-float ${className}`} style={{ ["--r" as string]: "-8deg" }}>
-      <svg viewBox="0 0 160 160" className="h-32 w-32">
-        <defs>
-          <path id="cir" d="M 80,80 m -60,0 a 60,60 0 1,1 120,0 a 60,60 0 1,1 -120,0" />
-        </defs>
-        <circle cx="80" cy="80" r="72" fill="#FBF304" stroke="#141010" strokeWidth="3" />
-        <circle cx="80" cy="80" r="55" fill="none" stroke="#141010" strokeWidth="2" strokeDasharray="4 4" />
-        <text fontFamily="Barlow Condensed" fontWeight="900" fontSize="13" fill="#141010" letterSpacing="2">
-          <textPath href="#cir" startOffset="0">SINCE · IMI OUADDAR · OPEN 7/7 · </textPath>
-        </text>
-        <text x="80" y="76" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="900" fontSize="26" fill="#141010">VIBE</text>
-        <text x="80" y="100" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="900" fontSize="26" fill="#F25C2A">VILLAGE</text>
-      </svg>
+      <div className="h-32 w-32 overflow-hidden rounded-full border-[3px] border-ink bg-yellow shadow-hard">
+        <img src={lunjaLogo} alt="Lunja Village, Imi Ouaddar" className="h-full w-full scale-105 object-cover" />
+      </div>
     </div>
   );
 }
@@ -153,6 +146,7 @@ const NAV: { to: string; label: string }[] = [
   { to: "/", label: "Village" },
   { to: "/stay", label: "Stay" },
   { to: "/experience", label: "Experience" },
+  { to: "/map-lunja", label: "Map" },
   { to: "/contact", label: "Visit" },
 ];
 
@@ -183,6 +177,24 @@ export function Nav() {
     }
     window.scrollTo({ top: 0, left: 0 });
   }, [pathname, hash]);
+
+  // Soft-launch lock: header with the logo only, no navigation, no CTA.
+  if (SITE_LOCKED) {
+    return (
+      <header
+        className={`fixed inset-x-0 top-1 z-50 transition-all ${
+          scrolled ? "bg-linen/85 backdrop-blur-md border-b-2 border-ink/90" : "bg-transparent"
+        }`}
+      >
+        <div className="mx-auto flex h-16 max-w-7xl items-center px-4 sm:px-6">
+          <Link to="/map-lunja" className="flex items-baseline gap-1 font-display text-3xl font-black tracking-tight">
+            LUNJA
+            <span className="ml-1 inline-block -rotate-1 bg-yellow px-2 py-0.5 text-ink shadow-hard">VILLAGE</span>
+          </Link>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <>
@@ -230,7 +242,7 @@ export function Nav() {
         </div>
       </header>
 
-      {/* Mobile menu — always mounted so open AND close animate */}
+      {/* Mobile menu: always mounted so open AND close animate */}
       <div
         className={`fixed inset-0 z-[80] grain bg-linen transition-[opacity,transform] duration-300 ease-out lg:hidden ${
           open ? "opacity-100 scale-100 pointer-events-auto" : "pointer-events-none opacity-0 scale-[0.98]"
@@ -286,13 +298,15 @@ export function Footer() {
             LUNJA<span className="ml-1 inline-block bg-yellow px-2 text-ink">VILLAGE</span>
           </div>
           <p className="mt-3 max-w-xs font-body text-sm text-ink/80">
-            Vibe village on the Atlantic coast — depuis Imi Ouaddar, avec amour.
+            Vibe village on the Atlantic coast, depuis Imi Ouaddar, avec amour.
           </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <Link to="/stay" className="tape !bg-teal !text-linen">Stay</Link>
-            <Link to="/experience" className="tape">Experience</Link>
-            <Link to="/contact" className="tape !bg-coral !text-linen">Visit</Link>
-          </div>
+          {!SITE_LOCKED && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link to="/stay" className="tape !bg-teal !text-linen">Stay</Link>
+              <Link to="/experience" className="tape">Experience</Link>
+              <Link to="/contact" className="tape !bg-coral !text-linen">Visit</Link>
+            </div>
+          )}
         </div>
         <div>
           <h4 className="text-xl">Trouve-nous</h4>
@@ -309,28 +323,34 @@ export function Footer() {
             <a href={IG_URL} target="_blank" rel="noreferrer" className="link-wipe inline-block font-display text-sm font-bold uppercase tracking-wide">
               IG · @lunjavillage.officiel
             </a>
-            <a href={IG_CHILLOUT} target="_blank" rel="noreferrer" className="link-wipe inline-block font-display text-sm font-bold uppercase tracking-wide">
-              IG · @chillout_taghazout
-            </a>
-            <a href={CHILLOUT_URL} target="_blank" rel="noreferrer" className="link-wipe inline-block font-display text-sm font-bold uppercase tracking-wide text-coral">
-              → Chillout site
-            </a>
+            {!SITE_LOCKED && (
+              <>
+                <a href={IG_CHILLOUT} target="_blank" rel="noreferrer" className="link-wipe inline-block font-display text-sm font-bold uppercase tracking-wide">
+                  IG · @chillout_taghazout
+                </a>
+                <a href={CHILLOUT_URL} target="_blank" rel="noreferrer" className="link-wipe inline-block font-display text-sm font-bold uppercase tracking-wide text-coral">
+                  → Chillout site
+                </a>
+              </>
+            )}
           </div>
         </div>
         <div className="flex flex-col items-start gap-4">
           <SinceStamp />
-          <Link
-            to="/stay"
-            hash="book"
-            className="inline-flex items-center border-2 border-ink bg-yellow px-4 py-3 font-display text-sm font-black uppercase text-ink shadow-hard"
-          >
-            Réserve →
-          </Link>
+          {!SITE_LOCKED && (
+            <Link
+              to="/stay"
+              hash="book"
+              className="inline-flex items-center border-2 border-ink bg-yellow px-4 py-3 font-display text-sm font-black uppercase text-ink shadow-hard"
+            >
+              Réserve →
+            </Link>
+          )}
         </div>
       </div>
       <div className="border-t-2 border-ink bg-yellow py-4">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 sm:px-6 font-display text-xs font-black uppercase tracking-widest text-ink">
-          <span>© {new Date().getFullYear()} Lunja Village · Imi Ouaddar</span>
+          <span>© {new Date().getFullYear()} Lunja Village · Imi Ouaddar · Developed by EIDEN GROUP</span>
           <span className="inline-flex items-center gap-1.5 font-script text-2xl normal-case tracking-normal">come for the surf, stay for the vibe <Waves size={18} /></span>
         </div>
       </div>

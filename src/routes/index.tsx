@@ -33,6 +33,7 @@ import feed6 from "@/assets/feed6.jpg";
 import feed7 from "@/assets/feed7.jpg";
 import feed8 from "@/assets/feed8.jpg";
 import feed9 from "@/assets/feed9.jpg";
+import lunjaLogo from "@/assets/lunja-logo.png";
 
 const CHILLOUT_URL = "https://chill-vibes-studio.vercel.app";
 const IG_URL = "https://www.instagram.com/lunjavillage.officiel/";
@@ -611,7 +612,7 @@ function FeedSection() {
             <div className="relative">
               <div className="rounded-full bg-gradient-to-tr from-coral via-yellow to-teal p-1">
                 <div className="h-20 w-20 overflow-hidden rounded-full border-2 border-linen bg-linen">
-                  <img src={heroPool} alt="Lunja Village" className="h-full w-full object-cover" />
+                  <img src={lunjaLogo} alt="Lunja Village" className="h-full w-full object-cover" />
                 </div>
               </div>
               <span className="absolute -bottom-1 -right-1 tape !bg-coral !text-linen text-[10px]">Live</span>

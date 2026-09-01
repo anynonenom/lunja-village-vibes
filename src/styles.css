@@ -34,6 +34,8 @@
   --color-linen: var(--background);
   --color-paper: var(--card);
   --color-tan: var(--border);
+  --color-sun: var(--sun);
+  --color-terra: var(--terra);
   --radius-sm: 2px;
   --radius-md: 3px;
   --radius-lg: 4px;
@@ -41,6 +43,7 @@
   --font-display: "Barlow Condensed", sans-serif;
   --font-script: "Caveat Brush", cursive;
   --font-body: "DM Sans", sans-serif;
+  --font-sans: "DM Sans", sans-serif;
 }
 
 :root {
@@ -56,6 +59,9 @@
   --muted-ink: #7A7060;
   --border: #C8BFA8;
   --radius: 4px;
+  /* Map-Lunja landing page palette (ported from CHILLOUT zine system) */
+  --sun: #FFE600;
+  --terra: #C4552E;
 }
 
 @layer base {
@@ -242,6 +248,26 @@
 /* Kill the blue tap flash on touch, keep taps snappy */
 @media (hover: none) and (pointer: coarse) {
   a, button, summary { -webkit-tap-highlight-color: transparent; }
+}
+
+/* ---------- Map-Lunja helpers ---------- */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* The /map-lunja page (ported from another design system) expects .font-display
+   to carry weight 900 like a display face, not just the family. */
+.map-lunja .font-display { font-weight: 900; }
+
+/* Snappier scroll-reveal on /map-lunja so copy is not gated behind a slow fade. */
+.map-lunja .reveal { transition-duration: 0.4s; }
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(255,230,0,0.5); }
+  70% { box-shadow: 0 0 0 18px rgba(255,230,0,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,230,0,0); }
+}
+@utility animate-pulse-ring {
+  animation: pulse-ring 2s infinite;
 }
 
 /* Respect reduced-motion */
