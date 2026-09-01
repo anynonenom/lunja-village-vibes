@@ -702,10 +702,13 @@ function JojoPage() {
       {/* ---------------- CTA ---------------- */}
       <section className="bg-white">
         <div className="mx-auto max-w-[92rem] px-5 py-20 text-center sm:px-10 sm:py-28 lg:px-16">
-          <LogoMark className="jojo-bob mx-auto size-16 border-[3px] shadow-[0_16px_40px_-14px_rgba(0,0,0,0.35)] sm:size-20" />
-          <h2 className="mt-6 font-display text-[clamp(2.2rem,8vw,5rem)] leading-[1.02] tracking-tight text-neutral-900">
-            Ready when you are
-          </h2>
+          <div className="flex items-center justify-center gap-4 sm:gap-6">
+            <LogoMark className="jojo-bob size-14 shrink-0 border-[3px] shadow-[0_16px_40px_-14px_rgba(0,0,0,0.35)] sm:size-24" />
+            <h2 className="text-left font-display text-[clamp(2.2rem,8vw,5rem)] leading-[0.95] tracking-tight text-neutral-900">
+              Ready when
+              <br className="hidden sm:block" /> you are
+            </h2>
+          </div>
           <p className="mx-auto mt-4 max-w-md text-[15px] text-neutral-500 sm:text-base">
             The whole village is above. Everything else, we sort when you arrive.
           </p>
