@@ -20,6 +20,7 @@ import {
   Wine,
 } from "lucide-react";
 import { LunjaMap } from "@/components/LunjaMap";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { WHATSAPP } from "@/components/chrome";
 import { ACCOR_URL, EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay, type StayGroup } from "@/data/lunja";
 import heroImg from "@/assets/real-lunja-aerial.jpg";
@@ -218,6 +219,93 @@ function metaFor(s: Stay) {
   ];
 }
 
+/** Right-side pop-out with the full room spec sheet. */
+function RoomDetailsPanel({
+  s,
+  onZoom,
+}: {
+  s: Stay;
+  onZoom: (images: string[], start: number) => void;
+}) {
+  const gallery = s.images && s.images.length ? s.images : [s.img];
+  return (
+    <SheetContent
+      side="right"
+      className="w-full overflow-y-auto border-l border-black/10 bg-white p-0 text-neutral-800 sm:max-w-md"
+    >
+      <div className="relative">
+        <button
+          type="button"
+          onClick={() => onZoom(gallery, 0)}
+          className="block w-full"
+          aria-label={`Open photos of ${s.name}`}
+        >
+          <img src={gallery[0]} alt={s.name} className="aspect-[4/3] w-full object-cover" />
+        </button>
+        <span className="absolute left-3 top-3 rounded-full bg-neutral-900 px-3 py-1 font-display text-xs uppercase tracking-widest text-white">
+          {s.code}
+        </span>
+        {gallery.length > 1 && (
+          <span className="absolute bottom-3 right-3 grid size-9 place-items-center rounded-lg bg-[#FFE600] text-neutral-900 shadow">
+            <Maximize2 className="size-4" />
+          </span>
+        )}
+      </div>
+
+      <div className="p-6 sm:p-7">
+        <h3 className="font-display text-2xl leading-tight tracking-tight text-neutral-900">{s.name}</h3>
+        <p className="mt-1 text-sm text-neutral-500">{s.sleeps} · {s.size}</p>
+        {s.description && (
+          <p className="mt-3 text-sm leading-relaxed text-neutral-600">{s.description}</p>
+        )}
+
+        <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2">
+          {metaFor(s).map(({ Icon, label }) => (
+            <span key={label} className="inline-flex items-center gap-2 text-sm text-neutral-700">
+              <Icon className="size-4 shrink-0 text-neutral-400" strokeWidth={1.75} />
+              {label}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-5 space-y-4">
+          {s.bedding && (
+            <div>
+              <p className="font-display text-xs uppercase tracking-widest text-neutral-500">Bedding</p>
+              <ul className="mt-1.5 flex flex-wrap gap-2">
+                {s.bedding.map((b) => (
+                  <li key={b} className="rounded-full border border-black/10 px-2.5 py-0.5 text-xs text-neutral-600">
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {s.specs?.map((grp) => (
+            <div key={grp.group}>
+              <p className="font-display text-xs uppercase tracking-widest text-neutral-500">{grp.group}</p>
+              <ul className="mt-1 list-disc space-y-0.5 pl-4 text-[13px] text-neutral-600">
+                {grp.items.map((it) => (
+                  <li key={it}>{it}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <a
+          href={ACCOR_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#FFE600] px-5 py-2.5 font-display tracking-wide text-neutral-900"
+        >
+          Check rates <ArrowUpRight className="size-4" />
+        </a>
+      </div>
+    </SheetContent>
+  );
+}
+
 function RoomBlock({
   s,
   flip,
@@ -309,35 +397,25 @@ function RoomBlock({
           ))}
         </div>
 
-        {s.specs && (
-          <details className="group mt-5">
-            <summary className="cursor-pointer list-none font-display text-sm uppercase tracking-widest text-neutral-500 hover:text-neutral-900">
-              <span className="group-open:hidden">Full room details +</span>
-              <span className="hidden group-open:inline">Hide details −</span>
-            </summary>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              {s.specs.map((grp) => (
-                <div key={grp.group} className="rounded-2xl bg-neutral-50 p-3">
-                  <p className="font-display text-xs uppercase tracking-widest text-neutral-500">{grp.group}</p>
-                  <ul className="mt-1 space-y-0.5 text-[13px] text-neutral-600">
-                    {grp.items.map((it) => (
-                      <li key={it}>{it}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </details>
-        )}
+        <div className="mt-7 flex flex-wrap items-center gap-4">
+          <Pill
+            href={ACCOR_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#FFE600] text-neutral-900 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.35)]"
+          >
+            Check rates <ArrowUpRight className="size-5" />
+          </Pill>
 
-        <Pill
-          href={ACCOR_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-7 bg-[#FFE600] text-neutral-900 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.35)]"
-        >
-          Check rates <ArrowUpRight className="size-5" />
-        </Pill>
+          {s.specs && (
+            <Sheet>
+              <SheetTrigger className="inline-flex items-center gap-2 font-display text-sm uppercase tracking-widest text-neutral-500 transition-colors hover:text-neutral-900">
+                Full room details <ArrowRight className="size-4" />
+              </SheetTrigger>
+              <RoomDetailsPanel s={s} onZoom={onZoom} />
+            </Sheet>
+          )}
+        </div>
       </div>
     </div>
   );
