@@ -55,7 +55,7 @@ function Wordmark({ dark = false }: { dark?: boolean }) {
   );
 }
 
-export const Route = createFileRoute("/map-lunja-2")({
+export const Route = createFileRoute("/lunja-map")({
   head: () => ({
     meta: [
       { title: "Lunja Village Imi Ouaddar · Village map, apartments & bungalows" },
@@ -493,7 +493,7 @@ function JojoPage() {
         {/* brand hairline */}
         <div className="h-1 w-full bg-gradient-to-r from-terra via-[#FFE600] to-terra" />
         <div className="mx-auto flex h-16 max-w-[92rem] items-center justify-between px-5 sm:h-20 sm:px-10 lg:px-16">
-          <Link to="/map-lunja-2" className="group flex items-center gap-3">
+          <Link to="/lunja-map" className="group flex items-center gap-3">
             <LogoMark
               className="size-11 transition-transform group-hover:-rotate-6 sm:size-14"
               borderClass={scrolled ? "border-2 border-neutral-900" : "border-2 border-white/90"}

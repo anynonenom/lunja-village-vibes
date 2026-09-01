@@ -2,7 +2,7 @@
  * Site-wide soft launch lock.
  *
  * While LOCKED (the default) every route redirects to the approved
- * landing page (`/map-lunja-2`). The older `/map-lunja` version is
+ * landing page (`/lunja-map`). The older `/map-lunja` version is
  * blocked along with the rest of the site.
  *
  * To OPEN the whole site later — no code change needed:
@@ -20,7 +20,7 @@ export const SITE_LOCKED =
   flag == null || flag === "" ? DEFAULT_LOCKED : flag.toLowerCase() !== "false";
 
 /** The only page reachable while the site is locked (the approved version). */
-export const PUBLIC_ROUTES = ["/map-lunja-2"] as const;
+export const PUBLIC_ROUTES = ["/lunja-map"] as const;
 
 /** Where locked traffic lands. */
 export const PUBLIC_ROUTE = PUBLIC_ROUTES[0];

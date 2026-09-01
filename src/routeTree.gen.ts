@@ -10,8 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StayRouteImport } from './routes/stay'
-import { Route as MapLunja2RouteImport } from './routes/map-lunja-2'
 import { Route as MapLunjaRouteImport } from './routes/map-lunja'
+import { Route as LunjaMapRouteImport } from './routes/lunja-map'
 import { Route as ExperienceRouteImport } from './routes/experience'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
@@ -21,14 +21,14 @@ const StayRoute = StayRouteImport.update({
   path: '/stay',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MapLunja2Route = MapLunja2RouteImport.update({
-  id: '/map-lunja-2',
-  path: '/map-lunja-2',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MapLunjaRoute = MapLunjaRouteImport.update({
   id: '/map-lunja',
   path: '/map-lunja',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LunjaMapRoute = LunjaMapRouteImport.update({
+  id: '/lunja-map',
+  path: '/lunja-map',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ExperienceRoute = ExperienceRouteImport.update({
@@ -51,16 +51,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/experience': typeof ExperienceRoute
+  '/lunja-map': typeof LunjaMapRoute
   '/map-lunja': typeof MapLunjaRoute
-  '/map-lunja-2': typeof MapLunja2Route
   '/stay': typeof StayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/experience': typeof ExperienceRoute
+  '/lunja-map': typeof LunjaMapRoute
   '/map-lunja': typeof MapLunjaRoute
-  '/map-lunja-2': typeof MapLunja2Route
   '/stay': typeof StayRoute
 }
 export interface FileRoutesById {
@@ -68,8 +68,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/experience': typeof ExperienceRoute
+  '/lunja-map': typeof LunjaMapRoute
   '/map-lunja': typeof MapLunjaRoute
-  '/map-lunja-2': typeof MapLunja2Route
   '/stay': typeof StayRoute
 }
 export interface FileRouteTypes {
@@ -78,18 +78,18 @@ export interface FileRouteTypes {
     | '/'
     | '/contact'
     | '/experience'
+    | '/lunja-map'
     | '/map-lunja'
-    | '/map-lunja-2'
     | '/stay'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/experience' | '/map-lunja' | '/map-lunja-2' | '/stay'
+  to: '/' | '/contact' | '/experience' | '/lunja-map' | '/map-lunja' | '/stay'
   id:
     | '__root__'
     | '/'
     | '/contact'
     | '/experience'
+    | '/lunja-map'
     | '/map-lunja'
-    | '/map-lunja-2'
     | '/stay'
   fileRoutesById: FileRoutesById
 }
@@ -97,8 +97,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
   ExperienceRoute: typeof ExperienceRoute
+  LunjaMapRoute: typeof LunjaMapRoute
   MapLunjaRoute: typeof MapLunjaRoute
-  MapLunja2Route: typeof MapLunja2Route
   StayRoute: typeof StayRoute
 }
 
@@ -111,18 +111,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StayRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/map-lunja-2': {
-      id: '/map-lunja-2'
-      path: '/map-lunja-2'
-      fullPath: '/map-lunja-2'
-      preLoaderRoute: typeof MapLunja2RouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/map-lunja': {
       id: '/map-lunja'
       path: '/map-lunja'
       fullPath: '/map-lunja'
       preLoaderRoute: typeof MapLunjaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lunja-map': {
+      id: '/lunja-map'
+      path: '/lunja-map'
+      fullPath: '/lunja-map'
+      preLoaderRoute: typeof LunjaMapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/experience': {
@@ -153,8 +153,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
   ExperienceRoute: ExperienceRoute,
+  LunjaMapRoute: LunjaMapRoute,
   MapLunjaRoute: MapLunjaRoute,
-  MapLunja2Route: MapLunja2Route,
   StayRoute: StayRoute,
 }
 export const routeTree = rootRouteImport
