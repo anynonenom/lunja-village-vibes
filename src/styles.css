@@ -316,7 +316,7 @@
   .jojo-dots > * + *::before {
     content: "";
     position: absolute;
-    left: -1.25rem;
+    left: -2rem;
     top: 0.4rem;
     bottom: 0.4rem;
     border-left: 3px dotted #d8d8d8;

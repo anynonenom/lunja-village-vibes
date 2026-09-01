@@ -33,7 +33,13 @@ function Controls({ light }: { light?: boolean }) {
   );
 }
 
-export function LunjaMap({ light = false }: { light?: boolean }) {
+export function LunjaMap({
+  light = false,
+  heightClass = "!h-[48vh] sm:!h-[66vh]",
+}: {
+  light?: boolean;
+  heightClass?: string;
+}) {
   const [active, setActive] = useState<Poi | null>(null);
   const [filter, setFilter] = useState<Poi["kind"] | "all">("all");
   const [showList, setShowList] = useState(false);
@@ -82,7 +88,7 @@ export function LunjaMap({ light = false }: { light?: boolean }) {
         >
           <>
             <TransformComponent
-              wrapperClass="!w-full !h-[48vh] sm:!h-[66vh] cursor-grab active:cursor-grabbing"
+              wrapperClass={`!w-full ${heightClass} cursor-grab active:cursor-grabbing`}
               contentClass="!w-full"
             >
               <div className="relative w-full">
