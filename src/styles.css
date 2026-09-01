@@ -292,9 +292,10 @@
   }
 }
 
-/* Playful float for the pointing-finger marks */
-@keyframes jojo-bob { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-6px) rotate(-8deg); } }
-.jojo-bob { animation: jojo-bob 2.8s ease-in-out infinite; }
+/* Gentle float for the Lunja logo marks */
+@keyframes jojo-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.jojo-bob { animation: jojo-bob 3.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .jojo-bob { animation: none; } }
 
 @keyframes pulse-ring {
   0% { box-shadow: 0 0 0 0 rgba(255,230,0,0.5); }

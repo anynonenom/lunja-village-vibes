@@ -23,6 +23,15 @@ import { LunjaMap } from "@/components/LunjaMap";
 import { WHATSAPP } from "@/components/chrome";
 import { ACCOR_URL, EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay, type StayGroup } from "@/data/lunja";
 import heroImg from "@/assets/real-lunja-aerial.jpg";
+import lunjaLogo from "@/assets/lunja-logo.png";
+
+function LogoMark({ className = "size-10" }: { className?: string }) {
+  return (
+    <span className={`grid place-items-center overflow-hidden rounded-full bg-[#FFE600] ${className}`}>
+      <img src={lunjaLogo} alt="Lunja Village" className="h-full w-full object-contain" />
+    </span>
+  );
+}
 
 export const Route = createFileRoute("/map-lunja-2")({
   head: () => ({
@@ -361,9 +370,7 @@ function JojoPage() {
       <header className="sticky top-0 z-40 border-b border-black/5 bg-white/85 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
           <Link to="/map-lunja-2" className="flex items-center gap-2.5">
-            <span className="grid size-10 place-items-center rounded-full bg-[#FFE600] font-display text-lg leading-none text-neutral-900">
-              LV
-            </span>
+            <LogoMark className="size-10" />
             <span className="font-display text-xl tracking-tight text-neutral-900">Lunja Village</span>
           </Link>
           <nav className="hidden items-center gap-7 font-display text-[15px] tracking-wide text-neutral-600 sm:flex">
@@ -404,10 +411,12 @@ function JojoPage() {
               <Pill href="#rooms" className="border-2 border-white text-white hover:bg-white hover:text-neutral-900">
                 Where to sleep
               </Pill>
-              <span className="jojo-bob ml-1 hidden select-none text-3xl sm:inline">👆</span>
             </div>
           </div>
         </div>
+        <span className="absolute right-5 top-1/2 z-10 -translate-y-1/2 sm:right-10">
+          <LogoMark className="jojo-bob size-16 ring-4 ring-white/80 shadow-[0_18px_40px_-12px_rgba(0,0,0,0.55)] sm:size-28" />
+        </span>
       </section>
 
       {/* ---------------- Stats strip ---------------- */}
@@ -573,8 +582,8 @@ function JojoPage() {
       {/* ---------------- CTA ---------------- */}
       <section className="py-20 sm:py-28">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <span className="jojo-bob inline-block select-none text-4xl">👇</span>
-          <SectionTitle className="mt-3">Ready when you are</SectionTitle>
+          <LogoMark className="jojo-bob mx-auto size-16 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.35)]" />
+          <SectionTitle className="mt-4">Ready when you are</SectionTitle>
           <p className="mx-auto mt-3 max-w-md text-[15px] text-neutral-600">
             Rooms, dates and prices live on ALL.com. Everything else, we will sort when you arrive.
           </p>
@@ -606,7 +615,7 @@ function JojoPage() {
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
           <div>
             <div className="flex items-center gap-2.5">
-              <span className="grid size-10 place-items-center rounded-full bg-[#FFE600] font-display text-lg text-neutral-900">LV</span>
+              <LogoMark className="size-10" />
               <span className="font-display text-xl tracking-tight">Lunja Village</span>
             </div>
             <p className="mt-3 max-w-xs text-sm text-white/70">
