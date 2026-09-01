@@ -24,8 +24,6 @@ import { LunjaMap } from "@/components/LunjaMap";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { WHATSAPP } from "@/components/chrome";
 import { EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay } from "@/data/lunja";
-
-const WA_LINK = `https://wa.me/${WHATSAPP.replace(/\D/g, "")}`;
 import heroImg from "@/assets/real-lunja-aerial.jpg";
 import lunjaLogo from "@/assets/lunja-logo.png";
 
@@ -314,20 +312,10 @@ function RoomDetailsPanel({
           ))}
         </div>
 
-        <div className="mt-6 flex items-end justify-between gap-3 border-t border-black/10 pt-4">
-          <div>
-            <span className="font-display text-2xl leading-none tracking-tight text-neutral-900">{s.from}</span>
-            <span className="ml-1 font-display text-xs uppercase tracking-widest text-neutral-400">/ night</span>
-            <p className="mt-1 text-[11px] text-neutral-400">Room only · taxes incl. · up to 4</p>
-          </div>
-          <a
-            href={WA_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-[#FFE600] px-5 py-2.5 font-display text-sm uppercase tracking-widest text-neutral-900"
-          >
-            Enquire <ArrowUpRight className="size-4" />
-          </a>
+        <div className="mt-6 border-t border-black/10 pt-4">
+          <span className="font-display text-2xl leading-none tracking-tight text-neutral-900">{s.from}</span>
+          <span className="ml-1 font-display text-xs uppercase tracking-widest text-neutral-400">/ night</span>
+          <p className="mt-1 text-[11px] text-neutral-400">Room only · taxes incl. · up to 4 guests · late checkout to 2pm</p>
         </div>
       </div>
     </SheetContent>
@@ -715,17 +703,11 @@ function JojoPage() {
             Ready when you are
           </h2>
           <p className="mx-auto mt-4 max-w-md text-[15px] text-neutral-500 sm:text-base">
-            Send us your dates on WhatsApp and we will hold your room. Everything else, we sort
-            when you arrive.
+            The whole village is above. Everything else, we sort when you arrive.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
-            <Pill
-              href={WA_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="justify-center bg-[#FFE600] text-neutral-900 shadow-lg"
-            >
-              Enquire on WhatsApp <ArrowUpRight className="size-5" />
+            <Pill href="#rooms" className="justify-center bg-[#FFE600] text-neutral-900 shadow-lg">
+              See the rooms <ArrowUpRight className="size-5" />
             </Pill>
             <Pill
               href={INSTAGRAM_URL}
@@ -750,11 +732,16 @@ function JojoPage() {
         </button>
         <div className="mx-auto grid max-w-[92rem] gap-10 px-5 py-16 sm:grid-cols-2 sm:px-10 lg:grid-cols-4 lg:px-16">
           <div>
-            <div className="flex items-center gap-2.5">
-              <LogoMark className="size-10" />
-              <span className="font-display text-xl tracking-tight">Lunja Village</span>
+            <div className="flex items-center gap-3">
+              <LogoMark className="size-12" borderClass="border-2 border-white/80" />
+              <span className="flex flex-col gap-0.5">
+                <Wordmark dark />
+                <span className="font-display text-[10px] uppercase tracking-[0.25em] text-white/60">
+                  Imi Ouaddar · Atlantic
+                </span>
+              </span>
             </div>
-            <p className="mt-3 max-w-xs text-sm text-white/70">
+            <p className="mt-4 max-w-xs text-sm text-white/70">
               Vibe village on the Atlantic coast, depuis Imi Ouaddar, avec amour.
             </p>
           </div>
@@ -774,9 +761,6 @@ function JojoPage() {
             <div className="mt-3 flex flex-col gap-2 text-sm">
               <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-white/70 hover:text-white">
                 <Instagram size={15} /> @lunjavillage.officiel
-              </a>
-              <a href={WA_LINK} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-white/70 hover:text-white">
-                <Phone size={14} /> Message us on WhatsApp
               </a>
             </div>
           </div>
