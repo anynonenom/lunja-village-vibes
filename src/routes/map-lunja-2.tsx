@@ -215,7 +215,7 @@ function Lightbox({
 /*  Room block (alternating image / text)                              */
 /* ------------------------------------------------------------------ */
 function metaFor(s: Stay) {
-  const view = s.specs?.find((g) => g.group === "View")?.items[0];
+  const view = s.specs?.find((g) => g.group.startsWith("View"))?.items[0];
   return [
     { Icon: Users, label: s.sleeps },
     view
@@ -670,14 +670,14 @@ function JojoPage() {
         </div>
       </section>
 
-      {/* ---------------- CTA (dark panel) ---------------- */}
-      <section className="bg-neutral-900 text-white">
+      {/* ---------------- CTA ---------------- */}
+      <section className="bg-white">
         <div className="mx-auto max-w-[92rem] px-5 py-20 text-center sm:px-10 sm:py-28 lg:px-16">
-          <LogoMark className="jojo-bob mx-auto size-16 border-[3px] border-white shadow-[0_16px_40px_-12px_rgba(0,0,0,0.6)] sm:size-20" />
-          <h2 className="mt-6 font-display text-[clamp(2.2rem,8vw,5rem)] leading-[1.02] tracking-tight">
+          <LogoMark className="jojo-bob mx-auto size-16 border-[3px] shadow-[0_16px_40px_-14px_rgba(0,0,0,0.35)] sm:size-20" />
+          <h2 className="mt-6 font-display text-[clamp(2.2rem,8vw,5rem)] leading-[1.02] tracking-tight text-neutral-900">
             Ready when you are
           </h2>
-          <p className="mx-auto mt-4 max-w-md text-[15px] text-white/70 sm:text-base">
+          <p className="mx-auto mt-4 max-w-md text-[15px] text-neutral-500 sm:text-base">
             Rooms, dates and prices live on ALL.com. Everything else, we will sort when you arrive.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
@@ -693,7 +693,7 @@ function JojoPage() {
               href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="justify-center border-2 border-white text-white hover:bg-white hover:text-neutral-900"
+              className="justify-center border-2 border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white"
             >
               <Instagram className="size-5" /> @lunjavillage.officiel
             </Pill>
@@ -702,7 +702,7 @@ function JojoPage() {
       </section>
 
       {/* ---------------- Footer ---------------- */}
-      <footer className="relative border-t border-white/10 bg-neutral-900 text-white">
+      <footer className="relative bg-[#333] text-white">
         <button
           type="button"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}

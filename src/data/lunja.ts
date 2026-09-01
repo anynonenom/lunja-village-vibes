@@ -2,17 +2,23 @@
 import surf from "@/assets/feed8.jpg";
 import plage from "@/assets/feed7.jpg";
 import nights from "@/assets/ph-dj.jpg";
-import appart0 from "@/assets/appart-2br-0.jpg";
-import appart1 from "@/assets/appart-2br-1.jpg";
-import appart2 from "@/assets/appart-2br-2.jpg";
-import appart3 from "@/assets/appart-2br-3.jpg";
-import appart4 from "@/assets/appart-2br-4.jpg";
-import appart5 from "@/assets/appart-2br-5.jpg";
-import appart6 from "@/assets/appart-2br-6.jpg";
-import appartSea0 from "@/assets/appart-sea-0.png";
-import bungalow2br0 from "@/assets/bungalow-2br-0.png";
-import bungalowPool0 from "@/assets/bungalow-pool-0.png";
-import bungalowSea0 from "@/assets/bungalow-sea-0.png";
+import appt1 from "@/assets/appt-1.jpg";
+import appt2 from "@/assets/appt-2.jpg";
+import appt3 from "@/assets/appt-3.jpg";
+import appt4 from "@/assets/appt-4.jpg";
+import appt5 from "@/assets/appt-5.jpg";
+import appt6 from "@/assets/appt-6.jpg";
+import bung1 from "@/assets/bung-1.jpg";
+import bung2 from "@/assets/bung-2.jpg";
+import bung3 from "@/assets/bung-3.jpg";
+import bung4 from "@/assets/bung-4.jpg";
+import bung5 from "@/assets/bung-5.jpg";
+import bung6 from "@/assets/bung-6.jpg";
+import bung7 from "@/assets/bung-7.jpg";
+import bung8 from "@/assets/bung-8.jpg";
+import bung9 from "@/assets/bung-9.jpg";
+import bung10 from "@/assets/bung-10.jpg";
+import bung11 from "@/assets/bung-11.jpg";
 
 export const ACCOR_URL = "https://all.accor.com/hotel/C477/index.en.shtml";
 export const INSTAGRAM_URL = "https://www.instagram.com/lunjavillage.officiel";
@@ -76,51 +82,31 @@ export type Stay = {
   specs?: StaySpec[];
 };
 
-const APARTMENT_2BR_GALLERY = [appart0, appart1, appart2, appart3, appart4, appart5, appart6];
+const APARTMENT_GALLERY = [appt1, appt2, appt3, appt4, appt5, appt6];
+const BUNGALOW_GALLERY = [bung1, bung2, bung3, bung4, bung5, bung6, bung7, bung8, bung9, bung10, bung11];
 
 // Accommodation details from the official ALL / Accor page (hotel C477).
-// Every unit is a 2-bedroom, 75 m² apartment-style stay for up to 4 guests.
+// Every unit is a 75 m² stay with two bedrooms for up to 4 guests.
 export const STAYS: Stay[] = [
   {
     id: "apartment",
     group: "Apartments",
     code: "Apartment",
     name: "Apartment",
-    img: appart0,
-    images: APARTMENT_2BR_GALLERY,
+    img: appt1,
+    images: APARTMENT_GALLERY,
     sleeps: "Max. 4 guests",
     size: "From 75 m² · 807 sq ft",
     from: "Rates on ALL.com",
     perks: ["1 double + 2 single beds", "Equipped kitchen", "Lounge + balcony"],
     description:
-      "Spacious apartment with a lounge, two bedrooms and a bathroom with tub. The kitchen is equipped with a hob, fridge, oven, utensils and a kettle tray. Flat-screen satellite TV.",
+      "Spacious apartment with a lounge, two bedrooms and a bathroom with tub. The kitchen is equipped with a hob, fridge, oven, utensils and a kettle tray. Flat-screen satellite TV. Garden and sea-view balconies available.",
     bedding: ["1 double bed", "2 twin beds", "Baby crib on request"],
     specs: [
+      { group: "Views", items: ["Garden or ocean / sea view (by unit)"] },
       { group: "Kitchen & dining", items: ["Hob, oven and fridge", "Mini-refrigerator", "Kitchen utensils and kettle tray", "Free in-room mineral water"] },
-      { group: "Bathroom", items: ["Bathtub", "Make-up / magnifying mirror", "Mirror", "Universal shaving plug"] },
-      { group: "Media & tech", items: ["Satellite / cable colour TV", '32" / 81 cm flat screen'] },
-      { group: "Comfort & safety", items: ["Opening windows", "Vacuum cleaner", "220 / 240 V AC", "Keycard-operated door locks", "Emergency info in room"] },
-    ],
-  },
-  {
-    id: "apartment-sea",
-    group: "Apartments",
-    code: "Sea View",
-    name: "Apartment - sea view",
-    img: appartSea0,
-    images: [appartSea0],
-    sleeps: "Max. 4 guests",
-    size: "From 75 m² · 807 sq ft",
-    from: "Rates on ALL.com",
-    perks: ["1 double + 2 single beds", "Sea-view terrace", "Equipped kitchen"],
-    description:
-      "Spacious apartment with a lounge, two bedrooms and a bathroom with tub. Kitchen equipped with a hob, fridge, oven, utensils and a kettle tray. Flat-screen satellite TV, and a terrace looking out over the ocean.",
-    bedding: ["1 double bed", "2 twin beds"],
-    specs: [
-      { group: "View", items: ["Ocean / sea view"] },
-      { group: "Kitchen & dining", items: ["Hob, oven and fridge", "Mini-refrigerator", "Kitchen utensils and kettle tray"] },
       { group: "Bathroom", items: ["Bathtub", "Bathroom products", "Make-up / magnifying mirror", "Mirror", "Universal shaving plug"] },
-      { group: "Media & tech", items: ["Direct-dial telephone", "Satellite / cable colour TV"] },
+      { group: "Media & tech", items: ["Direct-dial telephone", "Satellite / cable colour TV", '32" / 81 cm flat screen'] },
       { group: "Comfort & safety", items: ["Opening windows", "Vacuum cleaner", "220 / 240 V AC", "Keycard-operated door locks", "Emergency info in room"] },
     ],
   },
@@ -129,60 +115,17 @@ export const STAYS: Stay[] = [
     group: "Bungalows",
     code: "Bungalow",
     name: "Bungalow",
-    img: bungalow2br0,
-    images: [bungalow2br0],
+    img: bung1,
+    images: BUNGALOW_GALLERY,
     sleeps: "Max. 4 guests",
     size: "From 75 m² · 807 sq ft",
     from: "Rates on ALL.com",
     perks: ["1 double + 2 single beds", "Lounge + terrace", "Equipped kitchen"],
     description:
-      "Spacious chalet with two bedrooms, a bathroom with tub, a lounge area and a terrace. Kitchen equipped with a hob, fridge, oven, utensils, kettle tray and a dining area, plus a wardrobe and flat-screen satellite TV.",
+      "Spacious chalet with two bedrooms, a bathroom with tub, a lounge area and a private terrace. Kitchen with a hob, fridge, oven, utensils, kettle tray and a dining area, plus a wardrobe and flat-screen satellite TV. Garden, pool-side and sea-view terraces available.",
     bedding: ["1 double bed", "2 twin beds"],
     specs: [
-      { group: "Kitchen & dining", items: ["Hob, oven and fridge", "Mini-refrigerator", "Utensils, kettle tray and dining area", "Wardrobe"] },
-      { group: "Bathroom", items: ["Bathtub", "Bathroom products", "Make-up / magnifying mirror", "Mirror", "Universal shaving plug"] },
-      { group: "Media & tech", items: ["Direct-dial telephone", "Satellite / cable colour TV"] },
-      { group: "Comfort & safety", items: ["Opening windows", "Vacuum cleaner", "220 / 240 V AC", "Keycard-operated door locks", "Emergency info in room"] },
-    ],
-  },
-  {
-    id: "bungalow-pool",
-    group: "Bungalows",
-    code: "Pool View",
-    name: "Bungalow - pool view",
-    img: bungalowPool0,
-    images: [bungalowPool0],
-    sleeps: "Max. 4 guests",
-    size: "From 75 m² · 807 sq ft",
-    from: "Rates on ALL.com",
-    perks: ["1 double + 2 single beds", "Pool-side terrace", "Equipped kitchen"],
-    description:
-      "Spacious chalet with two bedrooms, a bathroom with tub, a lounge area and a terrace on the pool side. Kitchen with a hob, fridge, oven, utensils, kettle tray and dining area, plus a wardrobe and flat-screen satellite TV.",
-    bedding: ["1 double bed", "2 twin beds"],
-    specs: [
-      { group: "View", items: ["Pool side"] },
-      { group: "Kitchen & dining", items: ["Hob, oven and fridge", "Mini-refrigerator", "Utensils, kettle tray and dining area", "Wardrobe"] },
-      { group: "Bathroom", items: ["Bathtub", "Bathroom products", "Make-up / magnifying mirror", "Mirror", "Universal shaving plug"] },
-      { group: "Media & tech", items: ["Direct-dial telephone", "Satellite / cable colour TV"] },
-      { group: "Comfort & safety", items: ["Opening windows", "Vacuum cleaner", "220 / 240 V AC", "Keycard-operated door locks", "Emergency info in room"] },
-    ],
-  },
-  {
-    id: "bungalow-sea",
-    group: "Bungalows",
-    code: "Sea View",
-    name: "Bungalow - sea view",
-    img: bungalowSea0,
-    images: [bungalowSea0],
-    sleeps: "Max. 4 guests",
-    size: "From 75 m² · 807 sq ft",
-    from: "Rates on ALL.com",
-    perks: ["1 double + 1 twin bed", "Sea-view terrace", "Equipped kitchen"],
-    description:
-      "Spacious chalet with two bedrooms, a bathroom with tub, a lounge area and a terrace with sea view. Kitchen with a hob, fridge, oven, utensils, kettle tray and dining area, plus a wardrobe and flat-screen satellite TV.",
-    bedding: ["1 double bed", "1 twin bed"],
-    specs: [
-      { group: "View", items: ["Ocean / sea view"] },
+      { group: "Views", items: ["Garden, pool side or ocean / sea view (by unit)"] },
       { group: "Kitchen & dining", items: ["Hob, oven and fridge", "Mini-refrigerator", "Utensils, kettle tray and dining area", "Wardrobe"] },
       { group: "Bathroom", items: ["Bathtub", "Bathroom products", "Make-up / magnifying mirror", "Mirror", "Universal shaving plug"] },
       { group: "Media & tech", items: ["Direct-dial telephone", "Satellite / cable colour TV"] },
