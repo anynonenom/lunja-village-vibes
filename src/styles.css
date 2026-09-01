@@ -261,6 +261,40 @@
 /* Snappier scroll-reveal on /map-lunja so copy is not gated behind a slow fade. */
 .map-lunja .reveal { transition-duration: 0.4s; }
 
+/* ---------- /map-lunja-2 · JO&JOE-inspired light theme ---------- */
+.jojo {
+  background: #ffffff;
+  color: #2a2a2a;
+}
+.jojo .font-display { font-weight: 900; letter-spacing: -0.015em; }
+.jojo .reveal { transition-duration: 0.5s; }
+
+/* Chunky text highlight behind hero lines */
+.jojo-highlight {
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  background: #1f1f1f;
+  color: #fff;
+  padding: 0.06em 0.28em;
+}
+
+/* Dotted vertical rule between feature columns (desktop only) */
+@media (min-width: 768px) {
+  .jojo-dots > * + * { position: relative; }
+  .jojo-dots > * + *::before {
+    content: "";
+    position: absolute;
+    left: -1.25rem;
+    top: 0.4rem;
+    bottom: 0.4rem;
+    border-left: 3px dotted #d8d8d8;
+  }
+}
+
+/* Playful float for the pointing-finger marks */
+@keyframes jojo-bob { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-6px) rotate(-8deg); } }
+.jojo-bob { animation: jojo-bob 2.8s ease-in-out infinite; }
+
 @keyframes pulse-ring {
   0% { box-shadow: 0 0 0 0 rgba(255,230,0,0.5); }
   70% { box-shadow: 0 0 0 18px rgba(255,230,0,0); }

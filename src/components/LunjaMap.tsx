@@ -13,10 +13,11 @@ const KIND_COLOR: Record<Poi["kind"], string> = {
   access: "bg-sun text-ink",
 };
 
-function Controls() {
+function Controls({ light }: { light?: boolean }) {
   const { zoomIn, zoomOut, resetTransform } = useControls();
-  const btn =
-    "size-11 grid place-items-center bg-ink text-sun ring-2 ring-sun/40 active:scale-95 transition-transform";
+  const btn = light
+    ? "size-11 grid place-items-center rounded-full bg-white text-neutral-800 border border-black/10 shadow-md active:scale-95 transition-transform"
+    : "size-11 grid place-items-center bg-ink text-sun ring-2 ring-sun/40 active:scale-95 transition-transform";
   return (
     <div className="absolute right-3 bottom-3 z-20 flex flex-col gap-2">
       <button type="button" aria-label="Zoom in" onClick={() => zoomIn()} className={btn}>
@@ -32,7 +33,7 @@ function Controls() {
   );
 }
 
-export function LunjaMap() {
+export function LunjaMap({ light = false }: { light?: boolean }) {
   const [active, setActive] = useState<Poi | null>(null);
   const [filter, setFilter] = useState<Poi["kind"] | "all">("all");
   const [showList, setShowList] = useState(false);
@@ -40,25 +41,38 @@ export function LunjaMap() {
   const kinds = Array.from(new Set(POIS.map((p) => p.kind)));
   const visible = POIS.filter((p) => filter === "all" || p.kind === filter);
 
+  const chip = (on: boolean) =>
+    light
+      ? `shrink-0 rounded-full px-4 py-1.5 font-display text-sm tracking-wide border transition-colors ${
+          on ? "bg-[#FFE600] text-neutral-900 border-transparent" : "bg-white text-neutral-500 border-black/15 hover:border-black/40"
+        }`
+      : `shrink-0 px-3 py-1.5 font-display uppercase text-sm tracking-widest ring-2 ring-ink transition-colors ${
+          on ? "bg-ink text-sun" : "bg-linen text-ink hover:bg-sun"
+        }`;
+
   return (
     <div className="relative">
       {/* Filters */}
-      <div className="flex gap-2 overflow-x-auto no-scrollbar pb-3">
+      <div className={`flex gap-2 overflow-x-auto no-scrollbar pb-3 ${light ? "justify-start sm:justify-center" : ""}`}>
         {(["all", ...kinds] as const).map((k) => (
           <button
             key={k}
             type="button"
             onClick={() => setFilter(k as Poi["kind"] | "all")}
-            className={`shrink-0 px-3 py-1.5 font-display uppercase text-sm tracking-widest ring-2 ring-ink transition-colors ${
-              filter === k ? "bg-ink text-sun" : "bg-linen text-ink hover:bg-sun"
-            }`}
+            className={chip(filter === k)}
           >
             {k === "all" ? "Everything" : KIND_LABEL[k as Poi["kind"]]}
           </button>
         ))}
       </div>
 
-      <div className="relative overflow-hidden bg-ink ring-2 ring-ink shadow-[6px_6px_0_0_var(--terra)] sm:shadow-[10px_10px_0_0_var(--terra)]">
+      <div
+        className={
+          light
+            ? "relative overflow-hidden rounded-3xl border border-black/10 bg-neutral-100 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.25)]"
+            : "relative overflow-hidden bg-ink ring-2 ring-ink shadow-[6px_6px_0_0_var(--terra)] sm:shadow-[10px_10px_0_0_var(--terra)]"
+        }
+      >
         <TransformWrapper
           minScale={1}
           maxScale={5}
@@ -88,9 +102,9 @@ export function LunjaMap() {
                     className="absolute -translate-x-1/2 -translate-y-1/2 group"
                   >
                     <span
-                      className={`relative grid place-items-center size-7 rounded-full font-display text-sm ring-2 ring-ink shadow-lg transition-transform group-hover:scale-125 ${
-                        KIND_COLOR[p.kind]
-                      } ${active?.id === p.id ? "scale-125" : ""}`}
+                      className={`relative grid place-items-center size-7 rounded-full font-display text-sm shadow-lg transition-transform group-hover:scale-125 ${
+                        light ? "ring-2 ring-white" : "ring-2 ring-ink"
+                      } ${KIND_COLOR[p.kind]} ${active?.id === p.id ? "scale-125" : ""}`}
                     >
                       {p.n}
                       <span className="absolute inset-0 rounded-full animate-pulse-ring" />
@@ -99,11 +113,17 @@ export function LunjaMap() {
                 ))}
               </div>
             </TransformComponent>
-            <Controls />
+            <Controls light={light} />
           </>
         </TransformWrapper>
 
-        <p className="absolute left-3 top-3 z-10 bg-sun text-ink px-2 py-1 font-display uppercase text-xs tracking-widest ring-2 ring-ink">
+        <p
+          className={
+            light
+              ? "absolute left-3 top-3 z-10 rounded-full bg-white/95 text-neutral-700 border border-black/10 shadow px-3 py-1 font-display text-xs tracking-wide"
+              : "absolute left-3 top-3 z-10 bg-sun text-ink px-2 py-1 font-display uppercase text-xs tracking-widest ring-2 ring-ink"
+          }
+        >
           Pinch · drag · tap a number
         </p>
 
@@ -114,18 +134,36 @@ export function LunjaMap() {
           }`}
         >
           {active && (
-            <div className="bg-ink text-linen border-t-4 border-sun p-5 pr-14 relative">
+            <div
+              className={
+                light
+                  ? "bg-white text-neutral-800 border-t border-black/10 p-5 pr-14 relative rounded-t-3xl shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.25)]"
+                  : "bg-ink text-linen border-t-4 border-sun p-5 pr-14 relative"
+              }
+            >
               <button
                 type="button"
                 aria-label="Close"
                 onClick={() => setActive(null)}
-                className="absolute top-4 right-4 size-9 grid place-items-center bg-sun text-ink"
+                className={`absolute top-4 right-4 size-9 grid place-items-center ${
+                  light ? "rounded-full bg-[#FFE600] text-neutral-900" : "bg-sun text-ink"
+                }`}
               >
                 <X className="size-5" />
               </button>
-              <span className="font-script text-xl text-sun">{KIND_LABEL[active.kind]} · 0{active.n}</span>
-              <h3 className="font-display uppercase text-3xl leading-none tracking-tight">{active.name}</h3>
-              <p className="mt-2 text-sm text-linen/75">{active.detail}</p>
+              <span className={light ? "font-display text-xs tracking-widest uppercase text-neutral-400" : "font-script text-xl text-sun"}>
+                {KIND_LABEL[active.kind]} · 0{active.n}
+              </span>
+              <h3
+                className={
+                  light
+                    ? "font-display text-2xl leading-tight tracking-tight mt-1"
+                    : "font-display uppercase text-3xl leading-none tracking-tight"
+                }
+              >
+                {active.name}
+              </h3>
+              <p className={`mt-2 text-sm ${light ? "text-neutral-600" : "text-linen/75"}`}>{active.detail}</p>
             </div>
           )}
         </div>
@@ -136,7 +174,11 @@ export function LunjaMap() {
         type="button"
         onClick={() => setShowList((v) => !v)}
         aria-expanded={showList}
-        className="mt-4 w-full flex items-center justify-between bg-ink text-sun ring-2 ring-ink px-3 py-2 font-display uppercase text-sm tracking-widest hover:bg-terra hover:text-linen transition-colors"
+        className={
+          light
+            ? "mt-4 w-full flex items-center justify-center gap-2 rounded-full border border-black/15 bg-white text-neutral-700 px-4 py-2.5 font-display text-sm tracking-wide hover:border-black/40 transition-colors"
+            : "mt-4 w-full flex items-center justify-between bg-ink text-sun ring-2 ring-ink px-3 py-2 font-display uppercase text-sm tracking-widest hover:bg-terra hover:text-linen transition-colors"
+        }
       >
         {showList ? "Hide the list" : `Browse all ${visible.length} spots as a list`}
         <span className={`transition-transform ${showList ? "rotate-180" : ""}`}>▾</span>
@@ -149,14 +191,28 @@ export function LunjaMap() {
               <button
                 type="button"
                 onClick={() => setActive(p)}
-                className="w-full text-left flex items-center gap-3 bg-linen ring-2 ring-ink px-3 py-2 hover:bg-sun transition-colors"
+                className={
+                  light
+                    ? "w-full text-left flex items-center gap-3 rounded-2xl border border-black/10 bg-white px-3 py-2.5 hover:border-black/30 transition-colors"
+                    : "w-full text-left flex items-center gap-3 bg-linen ring-2 ring-ink px-3 py-2 hover:bg-sun transition-colors"
+                }
               >
-                <span className={`shrink-0 grid place-items-center size-7 rounded-full font-display text-sm ring-2 ring-ink ${KIND_COLOR[p.kind]}`}>
+                <span
+                  className={`shrink-0 grid place-items-center size-7 rounded-full font-display text-sm ${
+                    light ? "ring-2 ring-white" : "ring-2 ring-ink"
+                  } ${KIND_COLOR[p.kind]}`}
+                >
                   {p.n}
                 </span>
                 <span className="min-w-0">
-                  <span className="block font-display uppercase tracking-wide leading-none">{p.name}</span>
-                  <span className="block text-xs text-ink/60 truncate">{p.blurb}</span>
+                  <span
+                    className={`block font-display tracking-wide leading-none ${
+                      light ? "text-neutral-900" : "uppercase"
+                    }`}
+                  >
+                    {p.name}
+                  </span>
+                  <span className={`block text-xs truncate ${light ? "text-neutral-500" : "text-ink/60"}`}>{p.blurb}</span>
                 </span>
               </button>
             </li>

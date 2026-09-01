@@ -21,5 +21,13 @@ const flag = import.meta.env.VITE_SITE_LOCKED as string | undefined;
 export const SITE_LOCKED =
   flag == null || flag === "" ? DEFAULT_LOCKED : flag.toLowerCase() !== "false";
 
-/** The only page reachable while the site is locked. */
-export const PUBLIC_ROUTE = "/map-lunja";
+/** The pages reachable while the site is locked (both landing versions). */
+export const PUBLIC_ROUTES = ["/map-lunja", "/map-lunja-2"] as const;
+
+/** Where locked traffic lands. */
+export const PUBLIC_ROUTE = PUBLIC_ROUTES[0];
+
+export function isPublicRoute(pathname: string): boolean {
+  const p = pathname.replace(/\/+$/, "") || "/";
+  return (PUBLIC_ROUTES as readonly string[]).includes(p);
+}

@@ -468,6 +468,13 @@ function LunjaPage() {
           <p className="mt-8 font-script text-2xl -rotate-2">See you on the sand ✦</p>
         </div>
       </section>
+
+      <Link
+        to="/map-lunja-2"
+        className="fixed bottom-4 right-4 z-40 inline-flex items-center gap-1.5 rounded-full bg-ink text-sun px-4 py-2 font-display uppercase text-xs tracking-widest shadow-lg ring-2 ring-sun/40 hover:bg-terra hover:text-linen transition-colors"
+      >
+        Try the light look →
+      </Link>
       </div>
     </PageShell>
   );
