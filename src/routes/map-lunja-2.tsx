@@ -388,7 +388,7 @@ function JojoPage() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
         <div className="absolute inset-x-0 bottom-0">
           <div className="mx-auto max-w-6xl px-4 pb-10 sm:px-6 sm:pb-14">
-            <h1 className="font-display text-[clamp(2.5rem,8vw,6rem)] leading-[1.06] tracking-tight text-white">
+            <h1 className="font-display text-[clamp(2.5rem,8vw,6rem)] leading-[1.5] tracking-tight text-white">
               <span className="jojo-highlight box-decoration-clone">Come and stay</span>
               <br />
               <span className="jojo-highlight box-decoration-clone">in the village.</span>

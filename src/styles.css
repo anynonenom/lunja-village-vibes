@@ -275,7 +275,8 @@
   -webkit-box-decoration-break: clone;
   background: #1f1f1f;
   color: #fff;
-  padding: 0.06em 0.28em;
+  padding: 0.04em 0.3em;
+  border-radius: 2px;
 }
 
 /* Dotted vertical rule between feature columns (desktop only) */
