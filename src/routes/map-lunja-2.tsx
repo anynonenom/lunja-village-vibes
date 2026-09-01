@@ -23,9 +23,14 @@ import {
 import { LunjaMap } from "@/components/LunjaMap";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { WHATSAPP } from "@/components/chrome";
-import { ACCOR_URL, EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay, type StayGroup } from "@/data/lunja";
-import heroImg from "@/assets/real-lunja-aerial.jpg";
+import { ACCOR_URL, EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay } from "@/data/lunja";
+import heroAerial from "@/assets/real-lunja-aerial.jpg";
+import heroSurf from "@/assets/feed8.jpg";
+import heroBeach from "@/assets/feed7.jpg";
+import heroWater from "@/assets/feed2.jpg";
 import lunjaLogo from "@/assets/lunja-logo.png";
+
+const HERO_SLIDES = [heroAerial, heroSurf, heroBeach, heroWater];
 
 function LogoMark({ className = "size-10" }: { className?: string }) {
   return (
@@ -215,7 +220,7 @@ function metaFor(s: Stay) {
     { Icon: Users, label: s.sleeps },
     view
       ? { Icon: Waves, label: view }
-      : { Icon: BedDouble, label: s.bedding?.[0] ?? "2 bedrooms" },
+      : { Icon: BedDouble, label: s.bedding?.[0] ?? s.size },
     { Icon: UtensilsCrossed, label: "Equipped kitchen" },
   ];
 }
@@ -425,7 +430,10 @@ function RoomBlock({
 /* ------------------------------------------------------------------ */
 /*  Page                                                               */
 /* ------------------------------------------------------------------ */
-const STAY_TABS: Array<"All" | StayGroup> = ["All", "Apartments", "Bungalows"];
+/** One representative card per type. */
+const SLEEP_CARDS = ["apartment", "bungalow"]
+  .map((id) => STAYS.find((s) => s.id === id))
+  .filter((s): s is (typeof STAYS)[number] => Boolean(s));
 
 const DOORSTEP_ICON: Record<string, typeof Waves> = {
   nights: Wine,
@@ -443,10 +451,13 @@ const FACILITIES = [
 
 function JojoPage() {
   const rootRef = useReveal();
-  const [stayTab, setStayTab] = useState<"All" | StayGroup>("All");
   const [box, setBox] = useState<{ images: string[]; start: number } | null>(null);
+  const [slide, setSlide] = useState(0);
 
-  const stays = STAYS.filter((s) => stayTab === "All" || s.group === stayTab);
+  useEffect(() => {
+    const t = window.setInterval(() => setSlide((v) => (v + 1) % HERO_SLIDES.length), 5000);
+    return () => window.clearInterval(t);
+  }, []);
 
   return (
     <div ref={rootRef} className="jojo font-sans text-neutral-800 antialiased overflow-x-hidden">
@@ -475,13 +486,15 @@ function JojoPage() {
 
       {/* ---------------- Hero (ported from the classic version) ---------------- */}
       <section className="relative flex min-h-[62svh] items-center overflow-hidden grain sm:min-h-[72vh]">
-        <img
-          src={heroImg}
-          alt="Lunja Village at sunset, Imi Ouaddar"
-          width={1200}
-          height={900}
-          className="absolute inset-0 size-full object-cover"
-        />
+        {HERO_SLIDES.map((src, idx) => (
+          <div
+            key={src}
+            className="absolute inset-0 transition-opacity duration-[1400ms]"
+            style={{ opacity: slide === idx ? 1 : 0 }}
+          >
+            <img src={src} alt="" className="size-full object-cover animate-kenburns" />
+          </div>
+        ))}
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10" />
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-12 pt-24 text-linen sm:px-6 sm:pt-28">
           <div>
@@ -516,54 +529,55 @@ function JojoPage() {
                 Where to sleep
               </a>
             </div>
+
+            {/* Slide dots */}
+            <div className="mt-8 flex items-center gap-2.5">
+              {HERO_SLIDES.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  aria-label={`Slide ${idx + 1}`}
+                  onClick={() => setSlide(idx)}
+                  className={`h-2 border border-linen transition-all ${
+                    slide === idx ? "w-10 bg-sun" : "w-5 bg-transparent hover:bg-linen/40"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ---------------- Intro ---------------- */}
-      <section className="mx-auto max-w-[92rem] px-5 py-16 sm:px-10 sm:py-24 lg:px-16">
-        <div className="reveal grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-end md:gap-16">
-          <div>
-            <Kicker>The village</Kicker>
-            <SectionTitle className="mt-4">To each their own corner</SectionTitle>
-          </div>
-          <p className="text-[15px] leading-relaxed text-neutral-600 sm:text-base">
-            Family week, a trip with friends, a solo surf escape — every stay at Lunja Village sits
-            inside one gated village between the mountain and the sea. Everything below is the real
-            place: explore it before you unpack.
-          </p>
-        </div>
-
-        <div className="jojo-dots mt-12 grid gap-10 text-left sm:mt-16 md:grid-cols-3 md:gap-16">
-          {[
-            { Icon: MapPin, t: "Explore it pin by pin", d: "Every number on the map is a real spot on the Lunja site plan, from reception to the beach path." },
-            { Icon: BedDouble, t: "Five ways to sleep", d: "Two apartment types and three bungalow types, all 75 m² and two bedrooms, all inside the gates." },
-            { Icon: Waves, t: "Surf, sand & sunsets", d: "A private path to the Atlantic, the Taghazout points minutes north, and bars for when the sun drops." },
-          ].map(({ Icon, t, d }, k) => (
-            <div key={t} className="reveal" style={{ ["--reveal-delay" as string]: `${k * 0.09}s` }}>
-              <Icon className="size-8 text-neutral-900 sm:size-9" strokeWidth={1.5} />
-              <h3 className="mt-3 font-display text-xl tracking-tight text-neutral-900 sm:mt-4 sm:text-2xl">{t}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-neutral-600">{d}</p>
-            </div>
+      {/* ---------------- Marquee (ported from the classic version) ---------------- */}
+      <div className="overflow-hidden border-y-4 border-terra bg-ink py-3 text-sun">
+        <div className="flex w-max animate-marquee font-display text-2xl uppercase tracking-widest">
+          {Array.from({ length: 2 }).map((_, k) => (
+            <span key={k} className="flex">
+              {["3 pools", "sports ground", "kids club", "surf nearby", "quad trails", "beach access", "restaurant & bars", "38.5 ha of gardens"].map((t) => (
+                <span key={t} className="px-6">
+                  {t} <span className="text-terra">✦</span>
+                </span>
+              ))}
+            </span>
           ))}
         </div>
-      </section>
+      </div>
 
-      {/* ---------------- Map (classic version design) ---------------- */}
-      <section id="map" className="scroll-mt-20 px-4 py-14 sm:px-6 sm:py-24">
-        <div className="mx-auto max-w-6xl">
-          <div className="reveal mb-6 sm:mb-8">
+      {/* ---------------- Map ---------------- */}
+      <section id="map" className="scroll-mt-20 px-3 py-14 sm:px-6 sm:py-24">
+        <div className="mx-auto max-w-[110rem]">
+          <div className="reveal mx-auto mb-6 max-w-6xl px-1 sm:mb-8">
             <span className="font-script text-2xl text-terra sm:text-3xl">Discover</span>
-            <h2 className="font-display text-[clamp(2.25rem,8vw,5.5rem)] uppercase leading-[0.85] tracking-tight">
+            <h2 className="font-display text-[clamp(2.25rem,8vw,5.5rem)] uppercase leading-[0.85] tracking-tight text-neutral-900">
               The village, <span className="italic text-terra">pin by pin</span>
             </h2>
-            <p className="mt-3 max-w-xl text-sm text-ink/70 sm:text-base">
+            <p className="mt-3 max-w-xl text-sm text-neutral-500 sm:text-base">
               Zoom, drag and tap the numbers. Every pin is a real spot on the Lunja site plan,
               from reception to the beach path.
             </p>
           </div>
           <div className="reveal">
-            <LunjaMap />
+            <LunjaMap light heightClass="!h-[52vh] sm:!h-[72vh]" />
           </div>
         </div>
       </section>
@@ -582,28 +596,8 @@ function JojoPage() {
             </p>
           </div>
 
-          <div className="reveal mt-8 flex flex-wrap gap-6 border-b border-black/10 pb-3 sm:mt-10">
-            {STAY_TABS.map((t) => {
-              const on = stayTab === t;
-              const count = t === "All" ? STAYS.length : STAYS.filter((s) => s.group === t).length;
-              return (
-                <button
-                  key={t}
-                  type="button"
-                  onClick={() => setStayTab(t)}
-                  className={`relative pb-3 font-display text-lg tracking-wide transition-colors ${
-                    on ? "text-neutral-900" : "text-neutral-400 hover:text-neutral-700"
-                  }`}
-                >
-                  {t === "All" ? "All" : t} <span className="text-sm text-neutral-400">{count}</span>
-                  {on && <span className="absolute inset-x-0 -bottom-[13px] h-1 rounded-full bg-[#FFE600]" />}
-                </button>
-              );
-            })}
-          </div>
-
           <div className="mt-12 space-y-16 sm:mt-16 sm:space-y-24">
-            {stays.map((s, i) => (
+            {SLEEP_CARDS.map((s, i) => (
               <RoomBlock
                 key={s.id}
                 s={s}

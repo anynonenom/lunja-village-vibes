@@ -1,6 +1,18 @@
-import { useState } from "react";
+import { useState, type ComponentType } from "react";
 import { TransformWrapper, TransformComponent, useControls } from "react-zoom-pan-pinch";
-import { Minus, Plus, RotateCcw, X } from "lucide-react";
+import {
+  Minus,
+  Plus,
+  RotateCcw,
+  X,
+  LayoutGrid,
+  Martini,
+  Waves,
+  Baby,
+  BedDouble,
+  Dumbbell,
+  Car,
+} from "lucide-react";
 import mapImg from "@/assets/lunja-map.png";
 import { KIND_LABEL, POIS, type Poi } from "@/data/lunja";
 
@@ -11,6 +23,28 @@ const KIND_COLOR: Record<Poi["kind"], string> = {
   kids: "bg-[oklch(0.78_0.16_145)] text-ink",
   sport: "bg-[oklch(0.7_0.17_300)] text-linen",
   access: "bg-sun text-ink",
+};
+
+type IconType = ComponentType<{ className?: string; strokeWidth?: number }>;
+
+const KIND_ICON: Record<Poi["kind"], IconType> = {
+  hub: Martini,
+  stay: BedDouble,
+  water: Waves,
+  kids: Baby,
+  sport: Dumbbell,
+  access: Car,
+};
+
+/** Legend-style square swatch matching the map's icon language. */
+const KIND_SWATCH: Record<Poi["kind"] | "all", string> = {
+  all: "bg-neutral-900 text-white",
+  hub: "bg-[#1e9e5a] text-white",
+  stay: "bg-neutral-900 text-white",
+  water: "bg-[#1f9fe0] text-white",
+  kids: "bg-[#7b3ff2] text-white",
+  sport: "bg-[#7b3ff2] text-white",
+  access: "bg-[#2f4bd6] text-white",
 };
 
 function Controls({ light }: { light?: boolean }) {
@@ -42,40 +76,54 @@ export function LunjaMap({
 }) {
   const [active, setActive] = useState<Poi | null>(null);
   const [filter, setFilter] = useState<Poi["kind"] | "all">("all");
-  const [showList, setShowList] = useState(false);
 
   const kinds = Array.from(new Set(POIS.map((p) => p.kind)));
   const visible = POIS.filter((p) => filter === "all" || p.kind === filter);
 
   const chip = (on: boolean) =>
     light
-      ? `shrink-0 rounded-full px-4 py-1.5 font-display text-sm tracking-wide border transition-colors ${
-          on ? "bg-[#FFE600] text-neutral-900 border-transparent" : "bg-white text-neutral-500 border-black/15 hover:border-black/40"
+      ? `shrink-0 inline-flex items-center gap-2 rounded-xl border px-2.5 py-1.5 transition-colors ${
+          on ? "border-neutral-900 bg-neutral-900/[0.04] ring-2 ring-[#FFE600]" : "border-black/10 bg-white hover:border-black/30"
         }`
-      : `shrink-0 px-3 py-1.5 font-display uppercase text-sm tracking-widest ring-2 ring-ink transition-colors ${
+      : `shrink-0 inline-flex items-center gap-2 px-2.5 py-1.5 ring-2 ring-ink transition-colors ${
           on ? "bg-ink text-sun" : "bg-linen text-ink hover:bg-sun"
         }`;
 
   return (
     <div className="relative">
       {/* Filters */}
-      <div className={`flex gap-2 overflow-x-auto no-scrollbar pb-3 ${light ? "justify-start sm:justify-center" : ""}`}>
-        {(["all", ...kinds] as const).map((k) => (
-          <button
-            key={k}
-            type="button"
-            onClick={() => setFilter(k as Poi["kind"] | "all")}
-            className={chip(filter === k)}
-          >
-            {k === "all" ? "Everything" : KIND_LABEL[k as Poi["kind"]]}
-          </button>
-        ))}
+      <div className={`flex gap-2 overflow-x-auto no-scrollbar pb-3 ${light ? "justify-start lg:justify-center" : ""}`}>
+        {(["all", ...kinds] as const).map((k) => {
+          const on = filter === k;
+          const Icon: IconType = k === "all" ? LayoutGrid : KIND_ICON[k as Poi["kind"]];
+          return (
+            <button
+              key={k}
+              type="button"
+              onClick={() => setFilter(k as Poi["kind"] | "all")}
+              className={chip(on)}
+            >
+              <span
+                className={`grid size-6 shrink-0 place-items-center rounded-md ${KIND_SWATCH[k]}`}
+              >
+                <Icon className="size-3.5" strokeWidth={2.25} />
+              </span>
+              <span
+                className={`font-display text-xs uppercase tracking-widest ${
+                  light ? "text-neutral-800" : ""
+                }`}
+              >
+                {k === "all" ? "Everything" : KIND_LABEL[k as Poi["kind"]]}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       <div
         className={
           light
-            ? "relative overflow-hidden rounded-3xl border border-black/10 bg-neutral-100 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.25)]"
+            ? "relative overflow-hidden rounded-3xl border border-black/10 bg-[#e9e0cd] shadow-[0_24px_70px_-24px_rgba(0,0,0,0.3)]"
             : "relative overflow-hidden bg-ink ring-2 ring-ink shadow-[6px_6px_0_0_var(--terra)] sm:shadow-[10px_10px_0_0_var(--terra)]"
         }
       >
@@ -181,57 +229,6 @@ export function LunjaMap({
           </h3>
           <p className={`mt-1.5 text-sm ${light ? "text-neutral-600" : "text-linen/75"}`}>{active.detail}</p>
         </div>
-      )}
-
-      {/* Legend list — collapsed by default so the section stays short on mobile */}
-      <button
-        type="button"
-        onClick={() => setShowList((v) => !v)}
-        aria-expanded={showList}
-        className={
-          light
-            ? "mt-4 w-full flex items-center justify-center gap-2 rounded-full border border-black/15 bg-white text-neutral-700 px-4 py-2.5 font-display text-sm tracking-wide hover:border-black/40 transition-colors"
-            : "mt-4 w-full flex items-center justify-between bg-ink text-sun ring-2 ring-ink px-3 py-2 font-display uppercase text-sm tracking-widest hover:bg-terra hover:text-linen transition-colors"
-        }
-      >
-        {showList ? "Hide the list" : `Browse all ${visible.length} spots as a list`}
-        <span className={`transition-transform ${showList ? "rotate-180" : ""}`}>▾</span>
-      </button>
-
-      {showList && (
-        <ul className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {visible.map((p) => (
-            <li key={p.id}>
-              <button
-                type="button"
-                onClick={() => setActive(p)}
-                className={
-                  light
-                    ? "w-full text-left flex items-center gap-3 rounded-2xl border border-black/10 bg-white px-3 py-2.5 hover:border-black/30 transition-colors"
-                    : "w-full text-left flex items-center gap-3 bg-linen ring-2 ring-ink px-3 py-2 hover:bg-sun transition-colors"
-                }
-              >
-                <span
-                  className={`shrink-0 grid place-items-center size-7 rounded-full font-display text-sm ${
-                    light ? "ring-2 ring-white" : "ring-2 ring-ink"
-                  } ${KIND_COLOR[p.kind]}`}
-                >
-                  {p.n}
-                </span>
-                <span className="min-w-0">
-                  <span
-                    className={`block font-display tracking-wide leading-none ${
-                      light ? "text-neutral-900" : "uppercase"
-                    }`}
-                  >
-                    {p.name}
-                  </span>
-                  <span className={`block text-xs truncate ${light ? "text-neutral-500" : "text-ink/60"}`}>{p.blurb}</span>
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
       )}
     </div>
   );

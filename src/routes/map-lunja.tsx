@@ -4,7 +4,7 @@ import { Instagram, MapPin, QrCode, ArrowRight, ChevronLeft, ChevronRight } from
 import { LunjaMap } from "@/components/LunjaMap";
 import { PageShell } from "@/components/chrome";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ACCOR_URL, EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay, type StayGroup } from "@/data/lunja";
+import { ACCOR_URL, EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay } from "@/data/lunja";
 import { SITE_LOCKED } from "@/lib/site-lock";
 import heroImg from "@/assets/real-lunja-aerial.jpg";
 
@@ -258,42 +258,18 @@ function StayCard({ s, index }: { s: Stay; index: number }) {
   );
 }
 
-const STAY_COUNT: Record<StayGroup, number> = {
-  Apartments: STAYS.filter((s) => s.group === "Apartments").length,
-  Bungalows: STAYS.filter((s) => s.group === "Bungalows").length,
-};
+/** One representative card per type. */
+const SLEEP_CARDS = ["apartment", "bungalow"]
+  .map((id) => STAYS.find((s) => s.id === id))
+  .filter((s): s is (typeof STAYS)[number] => Boolean(s));
 
 function StaysSection() {
-  const [g, setG] = useState<"All" | StayGroup>("All");
-  const tabs: Array<"All" | StayGroup> = ["All", "Apartments", "Bungalows"];
-  const list = STAYS.filter((s) => g === "All" || s.group === g);
-
   return (
-    <>
-      <div className="reveal mb-5 flex gap-2 overflow-x-auto no-scrollbar -mx-1 px-1">
-        {tabs.map((k) => (
-          <button
-            key={k}
-            type="button"
-            onClick={() => setG(k)}
-            className={`shrink-0 px-4 py-2 font-display uppercase text-sm tracking-widest ring-2 transition-colors ${
-              g === k ? "bg-sun text-ink ring-sun" : "text-linen/80 ring-sun/30 hover:bg-sun/10"
-            }`}
-          >
-            {k === "All" ? "All stays" : k}
-            <span className="ml-1.5 opacity-60">
-              {k === "All" ? STAYS.length : STAY_COUNT[k]}
-            </span>
-          </button>
-        ))}
-      </div>
-
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 items-stretch">
-        {list.map((s, i) => (
-          <StayCard key={s.id} s={s} index={i} />
-        ))}
-      </div>
-    </>
+    <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 items-stretch">
+      {SLEEP_CARDS.map((s, i) => (
+        <StayCard key={s.id} s={s} index={i} />
+      ))}
+    </div>
   );
 }
 
@@ -387,9 +363,9 @@ function LunjaPage() {
               Bungalows &amp; <span className="text-sun">apartments</span>
             </h2>
             <p className="mt-3 max-w-xl text-sm sm:text-base text-linen/70">
-              Five ways to stay, all inside the gates. Every unit is a 75 m², two-bedroom
-              apartment or bungalow for up to four. Live rates and availability are on the
-              official ALL.com booking page.
+              Two ways to stay, both inside the gates: an apartment or a bungalow, each 75 m² for
+              up to four. Garden, pool and sea-view variants, plus live rates, are on the official
+              ALL.com booking page.
             </p>
           </div>
 
