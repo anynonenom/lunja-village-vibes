@@ -97,8 +97,8 @@ export const STAYS: Stay[] = [
     images: APARTMENT_GALLERY,
     sleeps: "Max. 4 guests",
     size: "From 75 m² · 807 sq ft",
-    from: "1 350 MAD",
-    perks: ["1 double + 2 single beds", "Equipped kitchen", "Lounge + balcony"],
+    from: "560 MAD",
+    perks: ["Quadruple occupancy", "Equipped kitchen", "Late checkout to 2pm"],
     description:
       "Spacious apartment with a lounge, two bedrooms and a bathroom with tub. The kitchen is equipped with a hob, fridge, oven, utensils and a kettle tray. Flat-screen satellite TV. Garden and sea-view balconies available.",
     bedding: ["1 double bed", "2 twin beds", "Baby crib on request"],
@@ -119,8 +119,8 @@ export const STAYS: Stay[] = [
     images: BUNGALOW_GALLERY,
     sleeps: "Max. 4 guests",
     size: "From 75 m² · 807 sq ft",
-    from: "1 450 MAD",
-    perks: ["1 double + 2 single beds", "Lounge + terrace", "Equipped kitchen"],
+    from: "680 MAD",
+    perks: ["Quadruple occupancy", "Lounge + terrace", "Late checkout to 2pm"],
     description:
       "Spacious chalet with two bedrooms, a bathroom with tub, a lounge area and a private terrace. Kitchen with a hob, fridge, oven, utensils, kettle tray and a dining area, plus a wardrobe and flat-screen satellite TV. Garden, pool-side and sea-view terraces available.",
     bedding: ["1 double bed", "2 twin beds"],

@@ -318,6 +318,7 @@ function RoomDetailsPanel({
           <div>
             <span className="font-display text-2xl leading-none tracking-tight text-neutral-900">{s.from}</span>
             <span className="ml-1 font-display text-xs uppercase tracking-widest text-neutral-400">/ night</span>
+            <p className="mt-1 text-[11px] text-neutral-400">Room only · taxes incl. · up to 4</p>
           </div>
           <a
             href={WA_LINK}
@@ -434,6 +435,7 @@ function RoomBlock({
               {s.from}
             </span>
             <span className="ml-1.5 font-display text-sm uppercase tracking-widest text-neutral-400">/ night</span>
+            <p className="mt-1 text-xs text-neutral-400">Room only · taxes included · up to 4 guests</p>
           </div>
 
           {s.specs && (
