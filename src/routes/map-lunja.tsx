@@ -318,7 +318,7 @@ function LunjaPage() {
             <span className="inline-flex items-center gap-2 bg-sun text-ink px-3 py-1 font-display uppercase text-xs sm:text-sm tracking-widest -rotate-2 ring-2 ring-ink">
               <QrCode className="size-4 shrink-0" /> You scanned it · welcome
             </span>
-            <h1 className="mt-4 sm:mt-5 font-display uppercase leading-[0.82] tracking-tighter text-[clamp(2.75rem,9vw,6.5rem)]">
+            <h1 className="mt-4 sm:mt-5 font-display uppercase leading-[0.82] tracking-tight text-[clamp(2.75rem,9vw,6.5rem)]">
               LUNJA
               <br />
               <span className="text-sun">VILLAGE</span>
@@ -364,7 +364,7 @@ function LunjaPage() {
         <div className="max-w-6xl mx-auto">
           <div className="reveal mb-6 sm:mb-8">
             <span className="font-script text-2xl sm:text-3xl text-terra">Discover</span>
-            <h2 className="font-display uppercase text-[clamp(2.25rem,8vw,5.5rem)] leading-[0.85] tracking-tighter">
+            <h2 className="font-display uppercase text-[clamp(2.25rem,8vw,5.5rem)] leading-[0.85] tracking-tight">
               The village, <span className="text-terra italic">pin by pin</span>
             </h2>
             <p className="mt-3 max-w-xl text-sm sm:text-base text-ink/70">
@@ -383,7 +383,7 @@ function LunjaPage() {
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="reveal mb-8 sm:mb-10">
             <span className="font-script text-2xl sm:text-3xl text-sun">Sleep here</span>
-            <h2 className="font-display uppercase text-[clamp(2.25rem,8vw,5.5rem)] leading-[0.85] tracking-tighter">
+            <h2 className="font-display uppercase text-[clamp(2.25rem,8vw,5.5rem)] leading-[0.85] tracking-tight">
               Bungalows &amp; <span className="text-sun">apartments</span>
             </h2>
             <p className="mt-3 max-w-xl text-sm sm:text-base text-linen/70">
@@ -402,7 +402,7 @@ function LunjaPage() {
         <div className="max-w-6xl mx-auto">
           <div className="reveal mb-8 sm:mb-10">
             <span className="font-script text-2xl sm:text-3xl text-terra">Days here</span>
-            <h2 className="font-display uppercase text-[clamp(2.25rem,8vw,5.5rem)] leading-[0.85] tracking-tighter">
+            <h2 className="font-display uppercase text-[clamp(2.25rem,8vw,5.5rem)] leading-[0.85] tracking-tight">
               Do everything, <span className="text-terra italic">or nothing</span>
             </h2>
           </div>
@@ -436,7 +436,7 @@ function LunjaPage() {
       <section className="bg-sun text-ink py-16 sm:py-24 px-4 sm:px-6 grain">
         <div className="max-w-4xl mx-auto text-center relative z-10 reveal">
           <span className="font-script text-2xl sm:text-3xl text-terra">Ready when you are</span>
-          <h2 className="font-display uppercase text-[clamp(2.5rem,10vw,6rem)] leading-[0.82] tracking-tighter">
+          <h2 className="font-display uppercase text-[clamp(2.5rem,10vw,6rem)] leading-[0.82] tracking-tight">
             Book your <span className="text-terra italic">Atlantic stay</span>
           </h2>
           <div className="mt-8 flex flex-wrap justify-center gap-3">

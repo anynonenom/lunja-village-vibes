@@ -16,8 +16,8 @@ const KIND_COLOR: Record<Poi["kind"], string> = {
 function Controls({ light }: { light?: boolean }) {
   const { zoomIn, zoomOut, resetTransform } = useControls();
   const btn = light
-    ? "size-11 grid place-items-center rounded-full bg-white text-neutral-800 border border-black/10 shadow-md active:scale-95 transition-transform"
-    : "size-11 grid place-items-center bg-ink text-sun ring-2 ring-sun/40 active:scale-95 transition-transform";
+    ? "size-9 sm:size-11 grid place-items-center rounded-full bg-white text-neutral-800 border border-black/10 shadow-md active:scale-95 transition-transform"
+    : "size-9 sm:size-11 grid place-items-center bg-ink text-sun ring-2 ring-sun/40 active:scale-95 transition-transform";
   return (
     <div className="absolute right-3 bottom-3 z-20 flex flex-col gap-2">
       <button type="button" aria-label="Zoom in" onClick={() => zoomIn()} className={btn}>
@@ -92,25 +92,28 @@ export function LunjaMap({ light = false }: { light?: boolean }) {
                   className="w-full select-none"
                   draggable={false}
                 />
-                {visible.map((p) => (
-                  <button
-                    key={p.id}
-                    type="button"
-                    onClick={() => setActive(p)}
-                    aria-label={p.name}
-                    style={{ left: `${p.x}%`, top: `${p.y}%` }}
-                    className="absolute -translate-x-1/2 -translate-y-1/2 group"
-                  >
-                    <span
-                      className={`relative grid place-items-center size-7 rounded-full font-display text-sm shadow-lg transition-transform group-hover:scale-125 ${
-                        light ? "ring-2 ring-white" : "ring-2 ring-ink"
-                      } ${KIND_COLOR[p.kind]} ${active?.id === p.id ? "scale-125" : ""}`}
+                {visible.map((p) => {
+                  const on = active?.id === p.id;
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClick={() => setActive(p)}
+                      aria-label={p.name}
+                      style={{ left: `${p.x}%`, top: `${p.y}%` }}
+                      className="absolute -translate-x-1/2 -translate-y-1/2 group z-10"
                     >
-                      {p.n}
-                      <span className="absolute inset-0 rounded-full animate-pulse-ring" />
-                    </span>
-                  </button>
-                ))}
+                      <span
+                        className={`relative grid place-items-center size-5 rounded-full font-display text-[11px] leading-none shadow-md transition-transform group-hover:scale-125 sm:size-7 sm:text-sm ${
+                          light ? "ring-[1.5px] ring-white sm:ring-2" : "ring-[1.5px] ring-ink sm:ring-2"
+                        } ${KIND_COLOR[p.kind]} ${on ? "scale-[1.35] z-20" : ""}`}
+                      >
+                        {p.n}
+                        {on && <span className="absolute inset-0 rounded-full animate-pulse-ring" />}
+                      </span>
+                    </button>
+                  );
+                })}
               </div>
             </TransformComponent>
             <Controls light={light} />
@@ -126,48 +129,53 @@ export function LunjaMap({ light = false }: { light?: boolean }) {
         >
           Pinch · drag · tap a number
         </p>
-
-        {/* Detail sheet */}
-        <div
-          className={`absolute inset-x-0 bottom-0 z-30 transition-transform duration-500 ${
-            active ? "translate-y-0" : "translate-y-full"
-          }`}
-        >
-          {active && (
-            <div
-              className={
-                light
-                  ? "bg-white text-neutral-800 border-t border-black/10 p-5 pr-14 relative rounded-t-3xl shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.25)]"
-                  : "bg-ink text-linen border-t-4 border-sun p-5 pr-14 relative"
-              }
-            >
-              <button
-                type="button"
-                aria-label="Close"
-                onClick={() => setActive(null)}
-                className={`absolute top-4 right-4 size-9 grid place-items-center ${
-                  light ? "rounded-full bg-[#FFE600] text-neutral-900" : "bg-sun text-ink"
-                }`}
-              >
-                <X className="size-5" />
-              </button>
-              <span className={light ? "font-display text-xs tracking-widest uppercase text-neutral-400" : "font-script text-xl text-sun"}>
-                {KIND_LABEL[active.kind]} · 0{active.n}
-              </span>
-              <h3
-                className={
-                  light
-                    ? "font-display text-2xl leading-tight tracking-tight mt-1"
-                    : "font-display uppercase text-3xl leading-none tracking-tight"
-                }
-              >
-                {active.name}
-              </h3>
-              <p className={`mt-2 text-sm ${light ? "text-neutral-600" : "text-linen/75"}`}>{active.detail}</p>
-            </div>
-          )}
-        </div>
       </div>
+
+      {/* Detail card — sits under the map so nothing on the map gets hidden */}
+      {active && (
+        <div
+          className={
+            light
+              ? "relative mt-3 rounded-2xl border border-black/10 bg-white p-4 pr-12 text-neutral-800 shadow-sm"
+              : "relative mt-3 border-2 border-ink bg-ink p-4 pr-12 text-linen"
+          }
+        >
+          <button
+            type="button"
+            aria-label="Close"
+            onClick={() => setActive(null)}
+            className={`absolute right-3 top-3 grid size-8 place-items-center ${
+              light ? "rounded-full bg-[#FFE600] text-neutral-900" : "bg-sun text-ink"
+            }`}
+          >
+            <X className="size-4" />
+          </button>
+          <span
+            className={
+              light
+                ? "inline-flex items-center gap-2 font-display text-xs uppercase tracking-widest text-neutral-400"
+                : "font-script text-xl text-sun"
+            }
+          >
+            {light && (
+              <span className={`inline-grid size-6 place-items-center rounded-full text-[11px] ring-2 ring-white ${KIND_COLOR[active.kind]}`}>
+                {active.n}
+              </span>
+            )}
+            {KIND_LABEL[active.kind]} · 0{active.n}
+          </span>
+          <h3
+            className={
+              light
+                ? "mt-1 font-display text-xl leading-tight tracking-tight sm:text-2xl"
+                : "font-display uppercase text-2xl leading-none tracking-tight sm:text-3xl"
+            }
+          >
+            {active.name}
+          </h3>
+          <p className={`mt-1.5 text-sm ${light ? "text-neutral-600" : "text-linen/75"}`}>{active.detail}</p>
+        </div>
+      )}
 
       {/* Legend list — collapsed by default so the section stays short on mobile */}
       <button

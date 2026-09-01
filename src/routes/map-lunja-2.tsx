@@ -27,7 +27,9 @@ import lunjaLogo from "@/assets/lunja-logo.png";
 
 function LogoMark({ className = "size-10" }: { className?: string }) {
   return (
-    <span className={`grid place-items-center overflow-hidden rounded-full bg-[#FFE600] ${className}`}>
+    <span
+      className={`grid shrink-0 place-items-center overflow-hidden rounded-full border-2 border-neutral-900 bg-[#FFE600] ${className}`}
+    >
       <img src={lunjaLogo} alt="Lunja Village" className="h-full w-full object-contain" />
     </span>
   );
@@ -123,7 +125,7 @@ function SectionTitle({ children, className = "" }: { children: React.ReactNode;
   return (
     <h2
       className={
-        "font-display text-[clamp(2.4rem,6vw,4.5rem)] leading-[0.95] tracking-tight text-neutral-900 " +
+        "font-display text-[clamp(2rem,7vw,4.5rem)] leading-[1.02] tracking-tight text-neutral-900 " +
         className
       }
     >
@@ -163,24 +165,24 @@ function Lightbox({
   }, [go, onClose]);
 
   return (
-    <div className="fixed inset-0 z-[100] grid place-items-center bg-neutral-900/90 p-4" onClick={onClose}>
+    <div className="jojo-lb fixed inset-0 z-[100] grid place-items-center bg-neutral-900/90 p-4 sm:p-6" onClick={onClose}>
       <button
         type="button"
         aria-label="Close"
         onClick={onClose}
-        className="absolute right-4 top-4 grid size-11 place-items-center rounded-full bg-[#FFE600] text-neutral-900"
+        className="absolute right-3 top-3 z-10 grid size-11 place-items-center rounded-full bg-[#FFE600] text-neutral-900 sm:right-4 sm:top-4"
       >
         <X className="size-5" />
       </button>
-      <figure className="relative max-h-[86vh] max-w-5xl" onClick={(e) => e.stopPropagation()}>
-        <img src={images[i]} alt="" className="max-h-[86vh] w-auto rounded-2xl object-contain" />
+      <figure className="jojo-lb-fig relative mx-auto grid max-h-[82vh] w-full max-w-5xl place-items-center" onClick={(e) => e.stopPropagation()}>
+        <img src={images[i]} alt="" className="max-h-[82vh] w-auto rounded-2xl object-contain" />
         {n > 1 && (
           <>
             <button
               type="button"
               aria-label="Previous"
               onClick={() => go(-1)}
-              className="absolute left-2 top-1/2 -translate-y-1/2 grid size-11 place-items-center rounded-full bg-white/90 text-neutral-900 shadow-lg"
+              className="absolute left-1 top-1/2 -translate-y-1/2 grid size-10 place-items-center rounded-full bg-white/90 text-neutral-900 shadow-lg sm:left-2 sm:size-11"
             >
               <ArrowLeft className="size-5" />
             </button>
@@ -188,11 +190,11 @@ function Lightbox({
               type="button"
               aria-label="Next"
               onClick={() => go(1)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 grid size-11 place-items-center rounded-full bg-white/90 text-neutral-900 shadow-lg"
+              className="absolute right-1 top-1/2 -translate-y-1/2 grid size-10 place-items-center rounded-full bg-white/90 text-neutral-900 shadow-lg sm:right-2 sm:size-11"
             >
               <ArrowRight className="size-5" />
             </button>
-            <figcaption className="absolute inset-x-0 -bottom-9 text-center font-display text-sm tracking-widest text-white/80">
+            <figcaption className="absolute inset-x-0 -bottom-8 text-center font-display text-sm tracking-widest text-white/80">
               {i + 1} / {n}
             </figcaption>
           </>
@@ -231,9 +233,9 @@ function RoomBlock({
   const tilt = flip ? "sm:rotate-[1.2deg]" : "sm:-rotate-[1.2deg]";
 
   return (
-    <div className="reveal grid items-center gap-8 sm:gap-14 lg:grid-cols-2">
+    <div className="grid items-center gap-8 sm:gap-14 lg:grid-cols-2">
       {/* photo */}
-      <div className={`relative ${flip ? "lg:order-2" : ""}`}>
+      <div className={`reveal relative ${flip ? "lg:order-2" : ""}`}>
         <div className={`relative rounded-3xl border-4 border-white bg-white shadow-[0_30px_70px_-30px_rgba(0,0,0,0.35)] ${tilt} transition-transform hover:rotate-0`}>
           <button
             type="button"
@@ -289,8 +291,11 @@ function RoomBlock({
       </div>
 
       {/* text */}
-      <div className={flip ? "lg:order-1" : ""}>
-        <h3 className="font-display text-[clamp(2rem,4.5vw,3.25rem)] leading-[0.95] tracking-tight text-neutral-900">
+      <div
+        className={`reveal ${flip ? "lg:order-1" : ""}`}
+        style={{ ["--reveal-delay" as string]: "0.12s" }}
+      >
+        <h3 className="font-display text-[clamp(1.9rem,6vw,3.25rem)] leading-[1] tracking-tight text-neutral-900">
           {s.name}
         </h3>
         <p className="mt-4 max-w-md text-[15px] leading-relaxed text-neutral-600">{s.description}</p>
@@ -391,31 +396,38 @@ function JojoPage() {
 
       {/* ---------------- Hero ---------------- */}
       <section className="relative">
-        <img src={heroImg} alt="Lunja Village at sunset, Imi Ouaddar" className="h-[62vh] min-h-[420px] w-full object-cover sm:h-[74vh]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
+        <img
+          src={heroImg}
+          alt="Lunja Village at sunset, Imi Ouaddar"
+          className="h-[68svh] min-h-[440px] w-full object-cover sm:h-[74vh]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-black/20" />
         <div className="absolute inset-x-0 bottom-0">
-          <div className="mx-auto max-w-6xl px-4 pb-10 sm:px-6 sm:pb-14">
-            <h1 className="font-display text-[clamp(2.5rem,8vw,6rem)] leading-[1.5] tracking-tight text-white">
+          <div className="mx-auto max-w-6xl px-4 pb-9 sm:px-6 sm:pb-14">
+            <h1 className="font-display text-[clamp(2.1rem,8vw,6rem)] leading-[1.5] tracking-tight text-white">
               <span className="jojo-highlight box-decoration-clone">Come and stay</span>
               <br />
               <span className="jojo-highlight box-decoration-clone">in the village.</span>
             </h1>
-            <p className="mt-5 max-w-lg text-[15px] text-white/90 sm:text-base">
+            <p className="mt-4 max-w-lg text-sm text-white/90 sm:mt-5 sm:text-base">
               Scanned the code? Here is the whole of Lunja Village, Imi Ouaddar — the interactive
               map, five ways to sleep, and the surf, bars and beach on the doorstep.
             </p>
-            <div className="mt-7 flex flex-wrap items-center gap-3">
-              <Pill href="#map" className="bg-[#FFE600] text-neutral-900 shadow-lg">
+            <div className="mt-6 flex flex-col gap-3 sm:mt-7 sm:flex-row sm:flex-wrap sm:items-center">
+              <Pill href="#map" className="justify-center bg-[#FFE600] text-neutral-900 shadow-lg">
                 <MapPin className="size-5" /> Explore the map
               </Pill>
-              <Pill href="#rooms" className="border-2 border-white text-white hover:bg-white hover:text-neutral-900">
+              <Pill
+                href="#rooms"
+                className="justify-center border-2 border-white text-white hover:bg-white hover:text-neutral-900"
+              >
                 Where to sleep
               </Pill>
             </div>
           </div>
         </div>
-        <span className="absolute right-5 top-1/2 z-10 -translate-y-1/2 sm:right-10">
-          <LogoMark className="jojo-bob size-16 ring-4 ring-white/80 shadow-[0_18px_40px_-12px_rgba(0,0,0,0.55)] sm:size-28" />
+        <span className="absolute right-4 top-4 z-10 sm:right-10 sm:top-1/2 sm:-translate-y-1/2">
+          <LogoMark className="jojo-bob size-14 border-2 shadow-[0_14px_34px_-12px_rgba(0,0,0,0.55)] sm:size-28 sm:border-[3px]" />
         </span>
       </section>
 
@@ -428,9 +440,13 @@ function JojoPage() {
             ["3", "swimming pools"],
             ["5 min", "to the Atlantic"],
           ].map(([n, l], k) => (
-            <div key={l} className={`reveal py-7 text-center ${k >= 2 ? "border-t border-black/5 sm:border-t-0" : ""}`}>
-              <div className="font-display text-4xl tracking-tight text-neutral-900 sm:text-5xl">{n}</div>
-              <div className="mt-1 text-xs uppercase tracking-widest text-neutral-500">{l}</div>
+            <div
+              key={l}
+              className={`reveal px-2 py-6 text-center sm:py-7 ${k >= 2 ? "border-t border-black/5 sm:border-t-0" : ""}`}
+              style={{ ["--reveal-delay" as string]: `${k * 0.07}s` }}
+            >
+              <div className="font-display text-3xl tracking-tight text-neutral-900 sm:text-5xl">{n}</div>
+              <div className="mt-1 text-[11px] uppercase tracking-wide text-neutral-500 sm:text-xs sm:tracking-widest">{l}</div>
             </div>
           ))}
         </div>
@@ -448,23 +464,23 @@ function JojoPage() {
           </p>
         </div>
 
-        <div className="jojo-dots mt-14 grid gap-12 text-left md:grid-cols-3 md:gap-10">
+        <div className="jojo-dots mt-12 grid gap-10 text-left sm:mt-14 md:grid-cols-3 md:gap-10">
           {[
             { Icon: MapPin, t: "Explore it pin by pin", d: "Every number on the map is a real spot on the Lunja site plan, from reception to the beach path." },
             { Icon: BedDouble, t: "Five ways to sleep", d: "Two apartment types and three bungalow types, all 75 m² and two bedrooms, all inside the gates." },
             { Icon: Waves, t: "Surf, sand & sunsets", d: "A private path to the Atlantic, the Taghazout points minutes north, and bars for when the sun drops." },
-          ].map(({ Icon, t, d }) => (
-            <div key={t} className="reveal">
-              <Icon className="size-9 text-neutral-900" strokeWidth={1.5} />
-              <h3 className="mt-4 font-display text-2xl tracking-tight text-neutral-900">{t}</h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-neutral-600">{d}</p>
+          ].map(({ Icon, t, d }, k) => (
+            <div key={t} className="reveal" style={{ ["--reveal-delay" as string]: `${k * 0.09}s` }}>
+              <Icon className="size-8 text-neutral-900 sm:size-9" strokeWidth={1.5} />
+              <h3 className="mt-3 font-display text-xl tracking-tight text-neutral-900 sm:mt-4 sm:text-2xl">{t}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-neutral-600">{d}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* ---------------- Map ---------------- */}
-      <section id="map" className="scroll-mt-20 bg-neutral-50 py-20 sm:py-28">
+      <section id="map" className="scroll-mt-20 bg-neutral-50 py-16 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="reveal mb-8 text-center">
             <Kicker>Discover</Kicker>
@@ -482,7 +498,7 @@ function JojoPage() {
       </section>
 
       {/* ---------------- Rooms ---------------- */}
-      <section id="rooms" className="scroll-mt-20 py-20 sm:py-28">
+      <section id="rooms" className="scroll-mt-20 py-16 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="reveal text-center">
             <Kicker>Sleep here</Kicker>
@@ -526,19 +542,20 @@ function JojoPage() {
       </section>
 
       {/* ---------------- Doorstep ---------------- */}
-      <section id="doorstep" className="scroll-mt-20 bg-neutral-50 py-20 sm:py-28">
+      <section id="doorstep" className="scroll-mt-20 bg-neutral-50 py-16 sm:py-28">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="reveal text-center">
             <Kicker>Days here</Kicker>
             <SectionTitle className="mt-4">On the doorstep</SectionTitle>
           </div>
-          <div className="mt-12 grid gap-6 md:grid-cols-3">
-            {EXPERIENCES.map((e) => {
+          <div className="mt-10 grid gap-6 sm:mt-12 sm:grid-cols-2 md:grid-cols-3">
+            {EXPERIENCES.map((e, k) => {
               const Icon = DOORSTEP_ICON[e.id] ?? Waves;
               return (
                 <article
                   key={e.id}
                   className="reveal overflow-hidden rounded-3xl border border-black/5 bg-white shadow-[0_20px_50px_-30px_rgba(0,0,0,0.3)]"
+                  style={{ ["--reveal-delay" as string]: `${k * 0.08}s` }}
                 >
                   <img src={e.img} alt={e.title} loading="lazy" className="aspect-[16/11] w-full object-cover" />
                   <div className="p-6">
@@ -554,21 +571,20 @@ function JojoPage() {
           </div>
 
           {/* For every stay — circular badges */}
-          <div className="reveal mt-16 grid items-center gap-8 md:grid-cols-[auto_1fr]">
-            <h3 className="font-display text-[clamp(2rem,5vw,3.25rem)] leading-[0.95] tracking-tight text-neutral-900">
-              For every
-              <br />
-              stay…
+          <div className="mt-14 grid items-center gap-6 sm:mt-16 sm:gap-8 md:grid-cols-[auto_1fr]">
+            <h3 className="reveal font-display text-[clamp(1.9rem,7vw,3.25rem)] leading-[1] tracking-tight text-neutral-900">
+              For every stay…
             </h3>
-            <div className="flex flex-wrap gap-4 sm:gap-6">
-              {FACILITIES.map(({ Icon, label }) => (
+            <div className="flex flex-wrap justify-center gap-3 sm:justify-start sm:gap-6">
+              {FACILITIES.map(({ Icon, label }, k) => (
                 <div
                   key={label}
-                  className="grid size-28 place-items-center rounded-full bg-white text-center shadow-[0_15px_40px_-25px_rgba(0,0,0,0.4)] sm:size-32"
+                  className="reveal grid size-24 place-items-center rounded-full bg-white text-center shadow-[0_15px_40px_-25px_rgba(0,0,0,0.4)] sm:size-32"
+                  style={{ ["--reveal-delay" as string]: `${k * 0.06}s` }}
                 >
                   <div>
-                    <Icon className="mx-auto size-6 text-neutral-500" strokeWidth={1.5} />
-                    <div className="mt-1 px-2 text-[11px] font-semibold uppercase leading-tight tracking-wide text-neutral-600">
+                    <Icon className="mx-auto size-5 text-neutral-500 sm:size-6" strokeWidth={1.5} />
+                    <div className="mt-1 px-1.5 text-[10px] font-semibold uppercase leading-tight tracking-wide text-neutral-600 sm:px-2 sm:text-[11px]">
                       {label}
                     </div>
                   </div>
@@ -580,9 +596,9 @@ function JojoPage() {
       </section>
 
       {/* ---------------- CTA ---------------- */}
-      <section className="py-20 sm:py-28">
+      <section className="py-16 sm:py-28">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <LogoMark className="jojo-bob mx-auto size-16 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.35)]" />
+          <LogoMark className="jojo-bob mx-auto size-16 border-[3px] shadow-[0_12px_30px_-10px_rgba(0,0,0,0.35)]" />
           <SectionTitle className="mt-4">Ready when you are</SectionTitle>
           <p className="mx-auto mt-3 max-w-md text-[15px] text-neutral-600">
             Rooms, dates and prices live on ALL.com. Everything else, we will sort when you arrive.
