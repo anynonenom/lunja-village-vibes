@@ -614,8 +614,9 @@ function JojoPage() {
       {/* ---------------- Où réserver ---------------- */}
       <section id="reserver" className="scroll-mt-20 px-3 pb-14 sm:px-6 sm:pb-20">
         <div className="mx-auto max-w-6xl">
-          <div className="reveal overflow-hidden rounded-3xl border-2 border-neutral-900 bg-[#FFF7D6] shadow-[0_30px_70px_-40px_rgba(0,0,0,0.4)]">
-            <div className="p-7 sm:p-12">
+          <div className="reveal relative overflow-hidden rounded-3xl border-2 border-neutral-900 bg-[#FFF7D6] shadow-[0_30px_70px_-40px_rgba(0,0,0,0.4)]">
+            <LogoMark className="jojo-bob pointer-events-none absolute -right-6 -top-6 size-28 rotate-[8deg] opacity-90 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.35)] sm:-right-8 sm:-top-8 sm:size-44" />
+            <div className="relative p-7 sm:p-12">
               <div className="flex items-center gap-4">
                 <span className="grid size-14 shrink-0 place-items-center rounded-full bg-neutral-900 font-display text-2xl text-[#FFE600] ring-4 ring-white sm:size-16">
                   1
