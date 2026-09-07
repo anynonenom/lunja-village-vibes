@@ -557,7 +557,7 @@ function JojoPage() {
               284 bungalows et appartements posés sur 38,5 hectares de jardins, entre mer et
               montagne : trois piscines, un terrain de sport, un kids club, un restaurant et
               des lounge bars, plus un chemin privé vers la plage. Tout ce qui suit, c'est le
-              vrai village — explorez-le avant même de défaire les valises.
+              vrai village, alors explorez-le avant même de défaire les valises.
             </p>
             <div className="mt-6 flex flex-col flex-wrap gap-3 sm:mt-7 sm:flex-row">
               <a
@@ -633,7 +633,7 @@ function JojoPage() {
               <p className="mt-6 w-full text-[15px] leading-relaxed text-neutral-800 sm:text-lg">
                 Pendant que vous explorez : si un bungalow ou un appartement vous fait de l'œil,
                 direction le point <strong>1 · Accueil / Réservation</strong>, juste après le
-                portail. C'est là qu'on cale les dates, les tarifs et l'occupation — en personne,
+                portail. C'est là qu'on cale les dates, les tarifs et l'occupation, en personne,
                 sans détour. La réception est ouverte 24h/24.
               </p>
               <p className="mt-3 w-full text-[15px] leading-relaxed text-neutral-700 sm:text-lg">
@@ -665,7 +665,7 @@ function JojoPage() {
             </div>
             <p className="text-[15px] leading-relaxed text-neutral-600 sm:text-base">
               Vraies photos et vrais détails ALL / Accor. Pour réserver : rendez-vous à
-              l'Accueil (point 1) — tarifs et disponibilités calés sur place.
+              l'Accueil (point 1), où l'on cale tarifs et disponibilités sur place.
             </p>
           </div>
 
@@ -718,7 +718,7 @@ function JojoPage() {
             })}
           </div>
 
-          {/* For every stay — circular badges */}
+          {/* For every stay - circular badges */}
           <div className="mt-16 grid items-center gap-6 sm:mt-20 sm:gap-10 md:grid-cols-[auto_1fr]">
             <h3 className="reveal font-display text-[clamp(1.9rem,7vw,3.25rem)] leading-[1] tracking-tight text-neutral-900">
               Pour chaque séjour…
@@ -754,7 +754,7 @@ function JojoPage() {
             </h2>
           </div>
           <p className="mx-auto mt-4 max-w-md text-[15px] text-neutral-500 sm:text-base">
-            Tout le village est là-haut. Pour le reste — et pour réserver — on s'occupe de vous
+            Tout le village est là-haut. Pour le reste, et pour réserver, on s'occupe de vous
             à l'Accueil, à l'arrivée.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
