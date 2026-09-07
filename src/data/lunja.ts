@@ -36,8 +36,8 @@ export type Poi = {
 
 /** Coordonnées relevées sur le plan officiel de Lunja Village. */
 export const POIS: Poi[] = [
-  { id: "accueil", n: 1, name: "Accueil / Réservation", kind: "hub", x: 13.3, y: 33.5, blurb: "Check-in, bracelets, clés", detail: "« Vous êtes ici. » Premier arrêt après le portail : check-in, dépôt des bagages, et toutes vos questions qui trouvent une réponse. C'est aussi ici que se réserve chaque séjour au village." },
-  { id: "social", n: 2, name: "Social Hub", kind: "hub", x: 45.8, y: 58.9, blurb: "Hall d'accueil, bar, terrasse", detail: "Le cœur qui bat : hall de réception, bar, grande terrasse et QG de la bonne humeur, du matin au soir." },
+  { id: "accueil", n: 1, name: "Vous êtes ici", kind: "hub", x: 13.3, y: 33.5, blurb: " ", detail: " " },
+  { id: "social", n: 2, name: "Accueil / Réservation", kind: "hub", x: 45.8, y: 58.9, blurb: "Check-in, bracelets, clés", detail: "Premier arrêt après le portail : check-in, dépôt des bagages, et toutes vos questions qui trouvent une réponse. C'est aussi ici que se réserve chaque séjour au village." },
   { id: "resto", n: 3, name: "Restaurant Le Sahariat & Bar Le Consul", kind: "hub", x: 49.2, y: 47.5, blurb: "Le Sahariat · Mimosa · Le Consul", detail: "Du petit-déj au dîner tardif, entre Le Sahariat et Mimosa. Le Consul pour l'apéro face au coucher de soleil." },
   { id: "piscine-main", n: 4, name: "Piscine centrale", kind: "water", x: 64.4, y: 57.3, blurb: "Grand bassin + solarium", detail: "La piscine principale, transats et coins d'ombre, dans les jardins est." },
   { id: "piscine-kids", n: 5, name: "Piscine & Snack Tmada", kind: "water", x: 24.4, y: 65.7, blurb: "Bassin + petite restauration", detail: "Piscine ouest avec le snack Tmada pour déjeuner sans quitter l'eau." },

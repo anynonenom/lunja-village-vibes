@@ -632,7 +632,7 @@ function JojoPage() {
 
               <p className="mt-6 w-full text-[15px] leading-relaxed text-neutral-800 sm:text-lg">
                 Pendant que vous explorez : si un bungalow ou un appartement vous fait de l'œil,
-                direction le point <strong>1 · Accueil / Réservation</strong>, juste après le
+                direction le point <strong>2 · Accueil / Réservation</strong>, juste après le
                 portail. C'est là qu'on cale les dates, les tarifs et l'occupation, en personne,
                 sans détour. La réception est ouverte 24h/24.
               </p>
@@ -664,7 +664,7 @@ function JojoPage() {
             </div>
             <p className="text-[15px] leading-relaxed text-neutral-600 sm:text-base">
               Vraies photos et vrais détails ALL / Accor. Pour réserver : rendez-vous à
-              l'Accueil (point 1), où l'on cale tarifs et disponibilités sur place.
+              l'Accueil (point 2), où l'on cale tarifs et disponibilités sur place.
             </p>
           </div>
 
