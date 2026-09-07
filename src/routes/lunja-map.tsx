@@ -637,8 +637,7 @@ function JojoPage() {
                 sans détour. La réception est ouverte 24h/24.
               </p>
               <p className="mt-3 w-full text-[15px] leading-relaxed text-neutral-700 sm:text-lg">
-                Plutôt l'ambiance chill&nbsp;? Le <strong>CHILLOUT</strong> 
-                (point 7), mixé par le collectif <strong>Lineup</strong>, vous oriente aussi
+                Plutôt l'ambiance chill&nbsp;? Le <strong>CHILLOUT</strong>  (point 7), mixé par le collectif <strong>Lineup</strong>, vous oriente aussi
                 vers l'Accueil pour transformer la nuit en séjour.
               </p>
 
