@@ -114,7 +114,7 @@ export function LunjaMap({
                   light ? "text-neutral-800" : ""
                 }`}
               >
-                {k === "all" ? "Everything" : KIND_LABEL[k as Poi["kind"]]}
+                {k === "all" ? "Tout" : KIND_LABEL[k as Poi["kind"]]}
               </span>
             </button>
           );
@@ -182,7 +182,7 @@ export function LunjaMap({
               : "absolute left-3 top-3 z-10 bg-sun text-ink px-2 py-1 font-display uppercase text-xs tracking-widest ring-2 ring-ink"
           }
         >
-          Pinch · drag · tap a number
+          Pincez · glissez · touchez un numéro
         </p>
       </div>
 

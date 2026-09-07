@@ -58,13 +58,13 @@ function Wordmark({ dark = false }: { dark?: boolean }) {
 export const Route = createFileRoute("/lunja-map")({
   head: () => ({
     meta: [
-      { title: "Lunja Village Imi Ouaddar · Village map, apartments & bungalows" },
+      { title: "Lunja Village Imi Ouaddar · Plan du village, appartements & bungalows" },
       {
         name: "description",
         content:
-          "The whole of Lunja Village, Imi Ouaddar: an interactive site map, five apartment and bungalow types with real photos and specs, plus the surf, bars and beach on the doorstep.",
+          "Tout Lunja Village, Imi Ouaddar : un plan interactif du site, les appartements et bungalows avec vraies photos et détails, plus le surf, les bars et la plage juste devant la porte.",
       },
-      { property: "og:title", content: "Lunja Village · Explore the whole village" },
+      { property: "og:title", content: "Lunja Village · Explorez tout le village" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -228,13 +228,13 @@ function Lightbox({
 /*  Room block (alternating image / text)                              */
 /* ------------------------------------------------------------------ */
 function metaFor(s: Stay) {
-  const view = s.specs?.find((g) => g.group.startsWith("View"))?.items[0];
+  const view = s.specs?.find((g) => g.group.startsWith("Vue"))?.items[0];
   return [
     { Icon: Users, label: s.sleeps },
     view
       ? { Icon: Waves, label: view }
       : { Icon: BedDouble, label: s.bedding?.[0] ?? s.size },
-    { Icon: UtensilsCrossed, label: "Equipped kitchen" },
+    { Icon: UtensilsCrossed, label: "Cuisine équipée" },
   ];
 }
 
@@ -294,7 +294,7 @@ function RoomDetailsPanel({
         <div className="mt-5 space-y-4">
           {s.bedding && (
             <div>
-              <p className="font-display text-xs uppercase tracking-widest text-neutral-500">Bedding</p>
+              <p className="font-display text-xs uppercase tracking-widest text-neutral-500">Literie</p>
               <ul className="mt-1.5 flex flex-wrap gap-2">
                 {s.bedding.map((b) => (
                   <li key={b} className="rounded-full border border-black/10 px-2.5 py-0.5 text-xs text-neutral-600">
@@ -318,8 +318,8 @@ function RoomDetailsPanel({
 
         <div className="mt-6 border-t border-black/10 pt-4">
           <span className="font-display text-2xl leading-none tracking-tight text-neutral-900">{s.from}</span>
-          <span className="ml-1 font-display text-xs uppercase tracking-widest text-neutral-400">/ night</span>
-          <p className="mt-1 text-[11px] text-neutral-400">Room only · taxes incl. · up to 4 guests · late checkout to 2pm</p>
+          <span className="ml-1 font-display text-xs uppercase tracking-widest text-neutral-400">/ nuit</span>
+          <p className="mt-1 text-[11px] text-neutral-400">Logement seul · taxes incl. · jusqu'à 4 personnes · départ tardif jusqu'à 14h</p>
         </div>
       </div>
     </SheetContent>
@@ -426,14 +426,14 @@ function RoomBlock({
             <span className="font-display text-[clamp(1.9rem,4vw,2.75rem)] leading-none tracking-tight text-neutral-900">
               {s.from}
             </span>
-            <span className="ml-1.5 font-display text-sm uppercase tracking-widest text-neutral-400">/ night</span>
-            <p className="mt-1 text-xs text-neutral-400">Room only · taxes included · up to 4 guests</p>
+            <span className="ml-1.5 font-display text-sm uppercase tracking-widest text-neutral-400">/ nuit</span>
+            <p className="mt-1 text-xs text-neutral-400">Logement seul · taxes incluses · jusqu'à 4 personnes</p>
           </div>
 
           {s.specs && (
             <Sheet>
               <SheetTrigger className="inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3.5 font-display text-sm uppercase tracking-widest text-white shadow-[0_14px_36px_-14px_rgba(0,0,0,0.5)] transition-transform hover:-translate-y-0.5">
-                Full room details <ArrowRight className="size-4" />
+                Voir la fiche complète <ArrowRight className="size-4" />
               </SheetTrigger>
               <RoomDetailsPanel s={s} onZoom={onZoom} />
             </Sheet>
@@ -459,11 +459,11 @@ const DOORSTEP_ICON: Record<string, typeof Waves> = {
 };
 
 const FACILITIES = [
-  { Icon: Waves, label: "3 pools" },
+  { Icon: Waves, label: "3 piscines" },
   { Icon: Baby, label: "Kids club" },
-  { Icon: Dumbbell, label: "Sports ground" },
-  { Icon: Wifi, label: "Free Wi-Fi" },
-  { Icon: MapPin, label: "Free parking" },
+  { Icon: Dumbbell, label: "Terrain de sport" },
+  { Icon: Wifi, label: "Wi-Fi gratuit" },
+  { Icon: MapPin, label: "Parking gratuit" },
 ];
 
 function JojoPage() {
@@ -505,7 +505,7 @@ function JojoPage() {
                   dark ? "text-white/70" : "text-neutral-400"
                 }`}
               >
-                Imi Ouaddar · Atlantic
+                Imi Ouaddar · Atlantique
               </span>
             </span>
           </Link>
@@ -515,16 +515,16 @@ function JojoPage() {
               dark ? "text-white/85" : "text-neutral-500"
             }`}
           >
-            <a href="#map" className="transition-colors hover:text-[#c9971a]">The map</a>
-            <a href="#rooms" className="transition-colors hover:text-[#c9971a]">Sleep</a>
-            <a href="#doorstep" className="transition-colors hover:text-[#c9971a]">Doorstep</a>
+            <a href="#map" className="transition-colors hover:text-[#c9971a]">Le plan</a>
+            <a href="#rooms" className="transition-colors hover:text-[#c9971a]">Dormir</a>
+            <a href="#doorstep" className="transition-colors hover:text-[#c9971a]">Aux alentours</a>
           </nav>
 
           <a
-            href="#rooms"
+            href="#reserver"
             className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE600] px-4 py-2.5 font-display text-xs uppercase tracking-widest text-neutral-900 shadow-md transition-transform hover:-translate-y-0.5 sm:px-5 sm:text-sm"
           >
-            Book your stay <ArrowUpRight className="size-4" />
+            Réserver son séjour <ArrowUpRight className="size-4" />
           </a>
         </div>
       </header>
@@ -534,7 +534,7 @@ function JojoPage() {
       <section className="relative flex min-h-[62svh] items-center overflow-hidden grain sm:min-h-[72vh]">
         <img
           src={heroImg}
-          alt="Lunja Village at sunset, Imi Ouaddar"
+          alt="Lunja Village au coucher de soleil, Imi Ouaddar"
           width={1400}
           height={784}
           className="absolute inset-0 size-full object-cover"
@@ -543,7 +543,7 @@ function JojoPage() {
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-12 pt-24 text-linen sm:px-6 sm:pt-28">
           <div>
             <span className="inline-flex items-center gap-2 -rotate-2 bg-sun px-3 py-1 font-display text-xs uppercase tracking-widest text-ink ring-2 ring-ink sm:text-sm">
-              <QrCode className="size-4 shrink-0" /> You scanned it · welcome
+              <QrCode className="size-4 shrink-0" /> Vous avez scanné · bienvenue
             </span>
             <h1 className="mt-4 font-display text-[clamp(2.75rem,9vw,6.5rem)] uppercase leading-[0.82] tracking-tight sm:mt-5">
               LUNJA
@@ -551,26 +551,26 @@ function JojoPage() {
               <span className="text-sun">VILLAGE</span>
             </h1>
             <p className="ml-1 mt-1 rotate-[-2deg] font-script text-2xl text-terra sm:text-4xl">
-              Imi Ouaddar · Atlantic side
+              Imi Ouaddar · côté Atlantique
             </p>
             <p className="mt-5 max-w-xl text-sm text-linen/80 sm:mt-6 sm:text-base">
-              284 bungalows and apartments scattered through 38.5 hectares of gardens between
-              sea and mountain: three pools, a sports ground, a kids club, a restaurant and
-              lounge bars, plus a private path to the beach. Everything below is the real
-              village, so explore it before you even unpack.
+              284 bungalows et appartements posés sur 38,5 hectares de jardins, entre mer et
+              montagne : trois piscines, un terrain de sport, un kids club, un restaurant et
+              des lounge bars, plus un chemin privé vers la plage. Tout ce qui suit, c'est le
+              vrai village — explorez-le avant même de défaire les valises.
             </p>
             <div className="mt-6 flex flex-col flex-wrap gap-3 sm:mt-7 sm:flex-row">
               <a
                 href="#map"
                 className="inline-flex items-center justify-center gap-2 bg-sun px-5 py-3 font-display text-sm uppercase tracking-wider text-ink ring-2 ring-ink transition-colors hover:bg-terra hover:text-linen sm:text-base"
               >
-                <MapPin className="size-5 shrink-0" /> Explore the map
+                <MapPin className="size-5 shrink-0" /> Explorer le plan
               </a>
               <a
                 href="#rooms"
                 className="inline-flex items-center justify-center gap-2 border-2 border-linen px-5 py-3 font-display text-sm uppercase tracking-wider transition-colors hover:bg-linen hover:text-ink sm:text-base"
               >
-                Where to sleep
+                Où dormir
               </a>
             </div>
           </div>
@@ -582,7 +582,7 @@ function JojoPage() {
         <div className="flex w-max animate-marquee font-display text-2xl uppercase tracking-widest">
           {Array.from({ length: 2 }).map((_, k) => (
             <span key={k} className="flex">
-              {["3 pools", "sports ground", "kids club", "surf nearby", "quad trails", "beach access", "restaurant & bars", "38.5 ha of gardens"].map((t) => (
+              {["3 piscines", "terrain de sport", "kids club", "surf à côté", "pistes quad", "accès plage", "restaurant & bars", "38,5 ha de jardins"].map((t) => (
                 <span key={t} className="px-6">
                   {t} <span className="text-terra">✦</span>
                 </span>
@@ -596,17 +596,65 @@ function JojoPage() {
       <section id="map" className="scroll-mt-20 px-3 py-14 sm:px-6 sm:py-24">
         <div className="mx-auto max-w-[110rem]">
           <div className="reveal mx-auto mb-6 max-w-6xl px-1 sm:mb-8">
-            <span className="font-script text-2xl text-terra sm:text-3xl">Discover</span>
+            <span className="font-script text-2xl text-terra sm:text-3xl">À découvrir</span>
             <h2 className="font-display text-[clamp(2.25rem,8vw,5.5rem)] uppercase leading-[0.85] tracking-tight text-neutral-900">
-              The village, <span className="italic text-terra">pin by pin</span>
+              Le village, <span className="italic text-terra">point par point</span>
             </h2>
             <p className="mt-3 max-w-xl text-sm text-neutral-500 sm:text-base">
-              Zoom, drag and tap the numbers. Every pin is a real spot on the Lunja site plan,
-              from reception to the beach path.
+              Zoomez, glissez, touchez les numéros. Chaque point est un vrai lieu du plan de
+              Lunja, de l'accueil au chemin de la plage.
             </p>
           </div>
           <div className="reveal">
             <LunjaMap light heightClass="!h-[52vh] sm:!h-[72vh]" />
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------- Où réserver ---------------- */}
+      <section id="reserver" className="scroll-mt-20 px-3 pb-14 sm:px-6 sm:pb-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="reveal overflow-hidden rounded-3xl border-2 border-neutral-900 bg-[#FFE600]">
+            <div className="grid gap-6 p-6 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8 sm:p-8">
+              <span className="grid size-14 shrink-0 place-items-center rounded-full bg-neutral-900 font-display text-2xl text-[#FFE600] ring-4 ring-white sm:size-16">
+                1
+              </span>
+              <div>
+                <span className="font-display text-xs uppercase tracking-[0.2em] text-neutral-700">
+                  Envie de rester ?
+                </span>
+                <h3 className="mt-1 font-display text-[clamp(1.5rem,5vw,2.5rem)] leading-tight tracking-tight text-neutral-900">
+                  On réserve à l'Accueil
+                </h3>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-neutral-800 sm:text-base">
+                  Pendant que vous explorez : si un bungalow ou un appartement vous fait de
+                  l'œil, direction le point <strong>1 · Accueil / Réservation</strong>, juste
+                  après le portail. C'est là qu'on cale les dates, les tarifs et l'occupation —
+                  en personne, sans détour. La réception est ouverte 24h/24.
+                </p>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-neutral-700">
+                  Plutôt l'ambiance chill&nbsp;? Le <strong>CHILLOUT</strong> au bord de la
+                  plage (point 13), mixé par le collectif <strong>Lineup</strong>, vous oriente
+                  aussi vers l'Accueil pour transformer la journée en séjour.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <a
+                    href="#map"
+                    className="inline-flex items-center gap-2 rounded-full bg-neutral-900 px-5 py-2.5 font-display text-sm uppercase tracking-widest text-white transition-transform hover:-translate-y-0.5"
+                  >
+                    <MapPin className="size-4" /> Voir l'Accueil sur le plan
+                  </a>
+                  <a
+                    href={`https://wa.me/${WHATSAPP.replace(/[^0-9]/g, "")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-full border-2 border-neutral-900 px-5 py-2.5 font-display text-sm uppercase tracking-widest text-neutral-900 transition-colors hover:bg-neutral-900 hover:text-white"
+                  >
+                    <Phone className="size-4" /> Écrire à la réception
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -616,12 +664,12 @@ function JojoPage() {
         <div className="mx-auto max-w-[92rem] px-5 sm:px-10 lg:px-16">
           <div className="reveal grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-end md:gap-16">
             <div>
-              <Kicker>Sleep here</Kicker>
-              <SectionTitle className="mt-4">Where to sleep</SectionTitle>
+              <Kicker>Dormir ici</Kicker>
+              <SectionTitle className="mt-4">Où dormir</SectionTitle>
             </div>
             <p className="text-[15px] leading-relaxed text-neutral-600 sm:text-base">
-              Real ALL / Accor photos and specs. Live rates and availability are on the official
-              booking page.
+              Vraies photos et vrais détails ALL / Accor. Pour réserver : rendez-vous à
+              l'Accueil (point 1) — tarifs et disponibilités calés sur place.
             </p>
           </div>
 
@@ -642,8 +690,8 @@ function JojoPage() {
       <section id="doorstep" className="scroll-mt-20 bg-neutral-50 py-16 sm:py-24">
         <div className="mx-auto max-w-[92rem] px-5 sm:px-10 lg:px-16">
           <div className="reveal">
-            <Kicker>Days here</Kicker>
-            <SectionTitle className="mt-4">On the doorstep</SectionTitle>
+            <Kicker>Les journées ici</Kicker>
+            <SectionTitle className="mt-4">Juste devant la porte</SectionTitle>
           </div>
           <div className="mt-10 grid gap-5 sm:mt-14 sm:grid-cols-2 sm:gap-6 md:grid-cols-3">
             {EXPERIENCES.map((e, k) => {
@@ -677,7 +725,7 @@ function JojoPage() {
           {/* For every stay — circular badges */}
           <div className="mt-16 grid items-center gap-6 sm:mt-20 sm:gap-10 md:grid-cols-[auto_1fr]">
             <h3 className="reveal font-display text-[clamp(1.9rem,7vw,3.25rem)] leading-[1] tracking-tight text-neutral-900">
-              For every stay…
+              Pour chaque séjour…
             </h3>
             <div className="flex flex-wrap justify-center gap-3 sm:justify-between sm:gap-4">
               {FACILITIES.map(({ Icon, label }, k) => (
@@ -705,16 +753,17 @@ function JojoPage() {
           <div className="flex items-center justify-center gap-4 sm:gap-6">
             <LogoMark className="jojo-bob size-14 shrink-0 border-[3px] shadow-[0_16px_40px_-14px_rgba(0,0,0,0.35)] sm:size-24" />
             <h2 className="text-left font-display text-[clamp(2.2rem,8vw,5rem)] leading-[0.95] tracking-tight text-neutral-900">
-              Ready when
-              <br className="hidden sm:block" /> you are
+              Prêts quand
+              <br className="hidden sm:block" /> vous l'êtes
             </h2>
           </div>
           <p className="mx-auto mt-4 max-w-md text-[15px] text-neutral-500 sm:text-base">
-            The whole village is above. Everything else, we sort when you arrive.
+            Tout le village est là-haut. Pour le reste — et pour réserver — on s'occupe de vous
+            à l'Accueil, à l'arrivée.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
-            <Pill href="#rooms" className="justify-center bg-[#FFE600] text-neutral-900 shadow-lg">
-              See the rooms <ArrowUpRight className="size-5" />
+            <Pill href="#reserver" className="justify-center bg-[#FFE600] text-neutral-900 shadow-lg">
+              Où réserver <ArrowUpRight className="size-5" />
             </Pill>
             <Pill
               href={INSTAGRAM_URL}
@@ -735,7 +784,7 @@ function JojoPage() {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FFE600] px-4 py-2 font-display text-xs uppercase tracking-widest text-neutral-900 shadow-lg"
         >
-          ↑ Top
+          ↑ Haut
         </button>
         <div className="mx-auto grid max-w-[92rem] gap-10 px-5 py-16 sm:grid-cols-2 sm:px-10 lg:grid-cols-4 lg:px-16">
           <div>
@@ -744,16 +793,16 @@ function JojoPage() {
               <span className="flex flex-col gap-1">
                 <Wordmark dark />
                 <span className="font-display text-[10px] uppercase tracking-[0.25em] text-white/60">
-                  Imi Ouaddar · Atlantic
+                  Imi Ouaddar · Atlantique
                 </span>
               </span>
             </div>
             <p className="mt-4 max-w-xs text-sm text-white/70">
-              Vibe village on the Atlantic coast, depuis Imi Ouaddar, avec amour.
+              Le village vibe de la côte atlantique, depuis Imi Ouaddar, avec amour.
             </p>
           </div>
           <div>
-            <h4 className="font-display text-lg tracking-tight">Find us</h4>
+            <h4 className="font-display text-lg tracking-tight">Nous trouver</h4>
             <p className="mt-3 text-sm text-white/70">
               Lunja Village, Imi Ouaddar,
               <br /> Agadir, Maroc
@@ -761,10 +810,10 @@ function JojoPage() {
             <p className="mt-2 flex items-center gap-1.5 text-sm text-white/70">
               <Phone size={14} /> {WHATSAPP}
             </p>
-            <p className="mt-2 text-sm text-white/70">Open 7/7 · 24h reception</p>
+            <p className="mt-2 text-sm text-white/70">Ouvert 7j/7 · réception 24h/24</p>
           </div>
           <div>
-            <h4 className="font-display text-lg tracking-tight">Follow</h4>
+            <h4 className="font-display text-lg tracking-tight">Suivre</h4>
             <div className="mt-3 flex flex-col gap-2 text-sm">
               <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-white/70 hover:text-white">
                 <Instagram size={15} /> @lunjavillage.officiel
@@ -776,14 +825,14 @@ function JojoPage() {
               Soft launch
             </span>
             <p className="text-sm text-white/60">
-              Full site coming soon. This page is the village map and stays.
+              Le site complet arrive bientôt. Cette page, c'est le plan du village et les hébergements.
             </p>
           </div>
         </div>
         <div className="border-t border-white/10">
           <div className="mx-auto flex max-w-[92rem] flex-wrap items-center justify-between gap-2 px-5 py-4 text-xs uppercase tracking-widest text-white/60 sm:px-10 lg:px-16">
-            <span>© {new Date().getFullYear()} Lunja Village · Imi Ouaddar · Developed by EIDEN GROUP</span>
-            <span>Member of ALL</span>
+            <span>© {new Date().getFullYear()} Lunja Village · Imi Ouaddar · Développé par EIDEN GROUP</span>
+            <span>Membre ALL</span>
           </div>
         </div>
       </footer>

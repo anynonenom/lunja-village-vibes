@@ -34,33 +34,33 @@ export type Poi = {
   detail: string;
 };
 
-/** Coordinates traced from the official Lunja Village site plan. */
+/** Coordonnées relevées sur le plan officiel de Lunja Village. */
 export const POIS: Poi[] = [
-  { id: "accueil", n: 1, name: "Accueil / Réservation", kind: "hub", x: 13.3, y: 33.5, blurb: "Check-in, bracelets, keys", detail: "\"Vous êtes ici\". Your first stop after the gate: check-in, luggage drop, and every question about the village answered here." },
-  { id: "social", n: 2, name: "Social Hub", kind: "hub", x: 45.8, y: 58.9, blurb: "Hall d'accueil, bar, terrace", detail: "The beating heart: reception hall, bar, big terrace and the daily good-vibe headquarters of the village." },
-  { id: "resto", n: 3, name: "Restaurant Le Sahariat & Le Consul Bar", kind: "hub", x: 49.2, y: 47.5, blurb: "Le Sahariat · Mimosa · Le Consul", detail: "Breakfast until late dinner across Le Sahariat and Mimosa, with Le Consul bar for sunset drinks." },
-  { id: "piscine-main", n: 4, name: "Piscine centrale", kind: "water", x: 64.4, y: 57.3, blurb: "Big pool + sun deck", detail: "The main pool with loungers and shade, in the eastern gardens." },
-  { id: "piscine-kids", n: 5, name: "Piscine & Snack Tmada", kind: "water", x: 24.4, y: 65.7, blurb: "Pool + light bites", detail: "Western pool with the Tmada snack for a quick lunch without leaving the water." },
-  { id: "kids-club", n: 6, name: "Kids Club", kind: "kids", x: 31.4, y: 68.3, blurb: "Games, crafts, mini disco", detail: "Supervised activities all day, ending with the mini disco the parents secretly love." },
-  { id: "riad", n: 7, name: "Riad des Saveurs", kind: "hub", x: 11.8, y: 44.3, blurb: "Chill-out lounge & bar", detail: "Chill-out lounge and bar by the western gardens, for slow afternoons and long drinks." },
-  { id: "bungalows-jardin", n: 8, name: "Garden Bungalows", kind: "stay", x: 34.0, y: 78.0, blurb: "Private terrace on the garden", detail: "Low white bungalows with their own terrace and total quiet at night." },
-  { id: "bungalows-piscine", n: 9, name: "Pool Bungalows", kind: "stay", x: 60.0, y: 63.0, blurb: "Steps from the water", detail: "Bungalows opening straight onto a pool deck. Towel, ten steps, splash." },
-  { id: "bungalows-mer", n: 10, name: "Sea View Bungalows", kind: "stay", x: 85.0, y: 63.0, blurb: "Atlantic on the horizon", detail: "The front row on the east side: terraces angled at the ocean for the whole sunset show." },
-  { id: "asayas", n: 11, name: "Asayas", kind: "sport", x: 41.4, y: 64.3, blurb: "Conference & events hall", detail: "Salle de conférence for meetings and events, next to the Social Hub." },
-  { id: "piscine-ayoub", n: 12, name: "Piscine & Snack Ayoub", kind: "water", x: 71.4, y: 78.7, blurb: "East pool + snack", detail: "The eastern pool closest to the beach path, with the Ayoub snack alongside." },
-  { id: "chillout", n: 13, name: "Accès Plage / CHILLOUT", kind: "hub", x: 91.5, y: 73.5, blurb: "Beach club & sunset sets", detail: "The path down to the sand and the surf-to-sunset social club: beer garden, café and the loudest sunsets in Imi Ouaddar." },
-  { id: "beach", n: 14, name: "Beach Access", kind: "access", x: 95.4, y: 64.3, blurb: "Direct path to the sand", detail: "A short walkway straight down to the Atlantic. Surf lessons meet here at sunrise." },
-  { id: "parking-n", n: 15, name: "Parking Nord", kind: "access", x: 23.9, y: 28.5, blurb: "Visitor parking", detail: "Parking by the north gate, closest to the western gardens and reception." },
-  { id: "parking-s", n: 16, name: "Parking central", kind: "access", x: 43.9, y: 42.5, blurb: "Main parking", detail: "Central parking by the Social Hub, with drop-off zone for shuttles and taxis." },
+  { id: "accueil", n: 1, name: "Accueil / Réservation", kind: "hub", x: 13.3, y: 33.5, blurb: "Check-in, bracelets, clés", detail: "« Vous êtes ici. » Premier arrêt après le portail : check-in, dépôt des bagages, et toutes vos questions qui trouvent une réponse. C'est aussi ici que se réserve chaque séjour au village." },
+  { id: "social", n: 2, name: "Social Hub", kind: "hub", x: 45.8, y: 58.9, blurb: "Hall d'accueil, bar, terrasse", detail: "Le cœur qui bat : hall de réception, bar, grande terrasse et QG de la bonne humeur, du matin au soir." },
+  { id: "resto", n: 3, name: "Restaurant Le Sahariat & Bar Le Consul", kind: "hub", x: 49.2, y: 47.5, blurb: "Le Sahariat · Mimosa · Le Consul", detail: "Du petit-déj au dîner tardif, entre Le Sahariat et Mimosa. Le Consul pour l'apéro face au coucher de soleil." },
+  { id: "piscine-main", n: 4, name: "Piscine centrale", kind: "water", x: 64.4, y: 57.3, blurb: "Grand bassin + solarium", detail: "La piscine principale, transats et coins d'ombre, dans les jardins est." },
+  { id: "piscine-kids", n: 5, name: "Piscine & Snack Tmada", kind: "water", x: 24.4, y: 65.7, blurb: "Bassin + petite restauration", detail: "Piscine ouest avec le snack Tmada pour déjeuner sans quitter l'eau." },
+  { id: "kids-club", n: 6, name: "Kids Club", kind: "kids", x: 31.4, y: 68.3, blurb: "Jeux, ateliers, mini-disco", detail: "Activités encadrées toute la journée, et la mini-disco que les parents adorent en secret." },
+  { id: "riad", n: 7, name: "Riad des Saveurs", kind: "hub", x: 11.8, y: 44.3, blurb: "Lounge chill-out & bar", detail: "Lounge chill-out et bar au bord des jardins ouest, pour les après-midis au ralenti et les verres qui s'étirent." },
+  { id: "bungalows-jardin", n: 8, name: "Bungalows Jardin", kind: "stay", x: 34.0, y: 78.0, blurb: "Terrasse privée sur le jardin", detail: "Petits bungalows blancs, une terrasse rien qu'à soi et le silence total la nuit." },
+  { id: "bungalows-piscine", n: 9, name: "Bungalows Piscine", kind: "stay", x: 60.0, y: 63.0, blurb: "À quelques pas de l'eau", detail: "Des bungalows qui donnent droit sur le deck de la piscine. Serviette, dix pas, plouf." },
+  { id: "bungalows-mer", n: 10, name: "Bungalows Vue Mer", kind: "stay", x: 85.0, y: 63.0, blurb: "L'Atlantique à l'horizon", detail: "Le premier rang côté est : des terrasses orientées océan pour ne rien rater du coucher de soleil." },
+  { id: "asayas", n: 11, name: "Asayas", kind: "sport", x: 41.4, y: 64.3, blurb: "Salle de conférence & événements", detail: "Salle de conférence pour réunions et événements, juste à côté du Social Hub." },
+  { id: "piscine-ayoub", n: 12, name: "Piscine & Snack Ayoub", kind: "water", x: 71.4, y: 78.7, blurb: "Piscine est + snack", detail: "La piscine est, la plus proche du chemin de la plage, avec le snack Ayoub à côté." },
+  { id: "chillout", n: 13, name: "Accès Plage / CHILLOUT", kind: "hub", x: 91.5, y: 73.5, blurb: "Beach club & sunsets", detail: "Le chemin vers le sable et le club où l'on passe du surf au coucher de soleil : beer garden, café et les sunsets les plus animés d'Imi Ouaddar, mixés par le collectif Lineup." },
+  { id: "beach", n: 14, name: "Accès Plage", kind: "access", x: 95.4, y: 64.3, blurb: "Chemin direct vers le sable", detail: "Une passerelle courte, droit vers l'Atlantique. Les cours de surf s'y retrouvent au lever du jour." },
+  { id: "parking-n", n: 15, name: "Parking Nord", kind: "access", x: 23.9, y: 28.5, blurb: "Parking visiteurs", detail: "Parking près du portail nord, au plus près des jardins ouest et de l'accueil." },
+  { id: "parking-s", n: 16, name: "Parking central", kind: "access", x: 43.9, y: 42.5, blurb: "Parking principal", detail: "Parking central près du Social Hub, avec zone de dépose pour navettes et taxis." },
 ];
 
 export const KIND_LABEL: Record<Poi["kind"], string> = {
-  hub: "Social",
-  stay: "Stay",
-  water: "Water",
-  kids: "Kids",
+  hub: "Vie",
+  stay: "Dormir",
+  water: "Piscines",
+  kids: "Enfants",
   sport: "Sport",
-  access: "Access",
+  access: "Accès",
 };
 
 export type StaySpec = { group: string; items: string[] };
@@ -71,7 +71,7 @@ export type Stay = {
   code: string;
   name: string;
   img: string;
-  /** Full photo gallery (Accor). When present the card shows a slider. */
+  /** Galerie photo complète (Accor). Présente = la carte affiche un slider. */
   images?: string[];
   sleeps: string;
   size: string;
@@ -85,29 +85,29 @@ export type Stay = {
 const APARTMENT_GALLERY = [appt1, appt2, appt3, appt4, appt5, appt6];
 const BUNGALOW_GALLERY = [bung1, bung2, bung3, bung4, bung5, bung6, bung7, bung8, bung9, bung10, bung11];
 
-// Accommodation details from the official ALL / Accor page (hotel C477).
-// Every unit is a 75 m² stay with two bedrooms for up to 4 guests.
+// Détails hébergement d'après la page officielle ALL / Accor (hôtel C477).
+// Chaque unité fait 75 m², deux chambres, jusqu'à 4 personnes.
 export const STAYS: Stay[] = [
   {
     id: "apartment",
     group: "Apartments",
-    code: "Apartment",
-    name: "Apartment",
+    code: "Appart",
+    name: "Appartement",
     img: appt1,
     images: APARTMENT_GALLERY,
-    sleeps: "Max. 4 guests",
-    size: "From 75 m² · 807 sq ft",
+    sleeps: "4 personnes max.",
+    size: "À partir de 75 m²",
     from: "560 MAD",
-    perks: ["Quadruple occupancy", "Equipped kitchen", "Late checkout to 2pm"],
+    perks: ["Occupation quadruple", "Cuisine équipée", "Départ tardif jusqu'à 14h"],
     description:
-      "Spacious apartment with a lounge, two bedrooms and a bathroom with tub. The kitchen is equipped with a hob, fridge, oven, utensils and a kettle tray. Flat-screen satellite TV. Garden and sea-view balconies available.",
-    bedding: ["1 double bed", "2 twin beds", "Baby crib on request"],
+      "Grand appartement avec salon, deux chambres et une salle de bain avec baignoire. Cuisine équipée : plaque, frigo, four, ustensiles et plateau bouilloire. TV satellite à écran plat. Balcons vue jardin ou vue mer selon l'unité.",
+    bedding: ["1 lit double", "2 lits simples", "Lit bébé sur demande"],
     specs: [
-      { group: "Views", items: ["Garden or ocean / sea view (by unit)"] },
-      { group: "Kitchen & dining", items: ["Hob, oven and fridge", "Mini-refrigerator", "Kitchen utensils and kettle tray", "Free in-room mineral water"] },
-      { group: "Bathroom", items: ["Bathtub", "Bathroom products", "Make-up / magnifying mirror", "Mirror", "Universal shaving plug"] },
-      { group: "Media & tech", items: ["Direct-dial telephone", "Satellite / cable colour TV", '32" / 81 cm flat screen'] },
-      { group: "Comfort & safety", items: ["Opening windows", "Vacuum cleaner", "220 / 240 V AC", "Keycard-operated door locks", "Emergency info in room"] },
+      { group: "Vues", items: ["Vue jardin ou vue océan / mer (selon l'unité)"] },
+      { group: "Cuisine & repas", items: ["Plaque, four et frigo", "Mini-réfrigérateur", "Ustensiles et plateau bouilloire", "Eau minérale offerte en chambre"] },
+      { group: "Salle de bain", items: ["Baignoire", "Produits de toilette", "Miroir grossissant / maquillage", "Miroir", "Prise rasoir universelle"] },
+      { group: "Multimédia", items: ["Téléphone ligne directe", "TV couleur satellite / câble", "Écran plat 81 cm / 32\""] },
+      { group: "Confort & sécurité", items: ["Fenêtres ouvrables", "Aspirateur", "220 / 240 V", "Serrures à carte", "Consignes de sécurité en chambre"] },
     ],
   },
   {
@@ -117,26 +117,26 @@ export const STAYS: Stay[] = [
     name: "Bungalow",
     img: bung1,
     images: BUNGALOW_GALLERY,
-    sleeps: "Max. 4 guests",
-    size: "From 75 m² · 807 sq ft",
+    sleeps: "4 personnes max.",
+    size: "À partir de 75 m²",
     from: "680 MAD",
-    perks: ["Quadruple occupancy", "Lounge + terrace", "Late checkout to 2pm"],
+    perks: ["Occupation quadruple", "Salon + terrasse", "Départ tardif jusqu'à 14h"],
     description:
-      "Spacious chalet with two bedrooms, a bathroom with tub, a lounge area and a private terrace. Kitchen with a hob, fridge, oven, utensils, kettle tray and a dining area, plus a wardrobe and flat-screen satellite TV. Garden, pool-side and sea-view terraces available.",
-    bedding: ["1 double bed", "2 twin beds"],
+      "Grand chalet avec deux chambres, une salle de bain avec baignoire, un coin salon et une terrasse privée. Cuisine avec plaque, frigo, four, ustensiles, plateau bouilloire et coin repas, plus un dressing et une TV satellite à écran plat. Terrasses vue jardin, côté piscine ou vue mer selon l'unité.",
+    bedding: ["1 lit double", "2 lits simples"],
     specs: [
-      { group: "Views", items: ["Garden, pool side or ocean / sea view (by unit)"] },
-      { group: "Kitchen & dining", items: ["Hob, oven and fridge", "Mini-refrigerator", "Utensils, kettle tray and dining area", "Wardrobe"] },
-      { group: "Bathroom", items: ["Bathtub", "Bathroom products", "Make-up / magnifying mirror", "Mirror", "Universal shaving plug"] },
-      { group: "Media & tech", items: ["Direct-dial telephone", "Satellite / cable colour TV"] },
-      { group: "Comfort & safety", items: ["Opening windows", "Vacuum cleaner", "220 / 240 V AC", "Keycard-operated door locks", "Emergency info in room"] },
+      { group: "Vues", items: ["Vue jardin, côté piscine ou vue océan / mer (selon l'unité)"] },
+      { group: "Cuisine & repas", items: ["Plaque, four et frigo", "Mini-réfrigérateur", "Ustensiles, plateau bouilloire et coin repas", "Dressing"] },
+      { group: "Salle de bain", items: ["Baignoire", "Produits de toilette", "Miroir grossissant / maquillage", "Miroir", "Prise rasoir universelle"] },
+      { group: "Multimédia", items: ["Téléphone ligne directe", "TV couleur satellite / câble"] },
+      { group: "Confort & sécurité", items: ["Fenêtres ouvrables", "Aspirateur", "220 / 240 V", "Serrures à carte", "Consignes de sécurité en chambre"] },
     ],
   },
 ];
 
-/** What the village actually offers on its doorstep (ALL / Accor). */
+/** Ce que le village offre vraiment, juste devant la porte (ALL / Accor). */
 export const EXPERIENCES = [
-  { id: "nights", title: "Bars & Live Nights", img: nights, line: "One restaurant, two snack bars and two lounge bars (Le Consul, Mimosa), with live shows after dark." },
-  { id: "surf", title: "Surf", img: surf, line: "Imi Ouaddar and the points just north sit on the classic Atlantic surf coast, minutes away." },
-  { id: "beach", title: "Beach Access", img: plage, line: "A private path from the east side straight down to the open Atlantic sand." },
+  { id: "nights", title: "Bars & soirées live", img: nights, line: "Un restaurant, deux snacks et deux lounge bars (Le Consul, Mimosa), avec des shows live à la nuit tombée." },
+  { id: "surf", title: "Surf", img: surf, line: "Imi Ouaddar et les spots juste au nord : la côte atlantique du surf, à quelques minutes." },
+  { id: "beach", title: "Accès plage", img: plage, line: "Un chemin privé depuis le côté est, droit vers le sable ouvert de l'Atlantique." },
 ];
