@@ -614,45 +614,40 @@ function JojoPage() {
       {/* ---------------- Où réserver ---------------- */}
       <section id="reserver" className="scroll-mt-20 px-3 pb-14 sm:px-6 sm:pb-20">
         <div className="mx-auto max-w-6xl">
-          <div className="reveal overflow-hidden rounded-3xl border-2 border-neutral-900 bg-[#FFE600]">
-            <div className="grid gap-6 p-6 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8 sm:p-8">
-              <span className="grid size-14 shrink-0 place-items-center rounded-full bg-neutral-900 font-display text-2xl text-[#FFE600] ring-4 ring-white sm:size-16">
-                1
-              </span>
-              <div>
-                <span className="font-display text-xs uppercase tracking-[0.2em] text-neutral-700">
+          <div className="reveal overflow-hidden rounded-3xl border-2 border-neutral-900 bg-[#FFF7D6] shadow-[0_30px_70px_-40px_rgba(0,0,0,0.4)]">
+            <div className="p-7 sm:p-12">
+              <div className="flex items-center gap-4">
+                <span className="grid size-14 shrink-0 place-items-center rounded-full bg-neutral-900 font-display text-2xl text-[#FFE600] ring-4 ring-white sm:size-16">
+                  1
+                </span>
+                <span className="font-display text-xs uppercase tracking-[0.22em] text-neutral-600 sm:text-sm">
                   Envie de rester ?
                 </span>
-                <h3 className="mt-1 font-display text-[clamp(1.5rem,5vw,2.5rem)] leading-tight tracking-tight text-neutral-900">
-                  On réserve à l'Accueil
-                </h3>
-                <p className="mt-2 max-w-xl text-sm leading-relaxed text-neutral-800 sm:text-base">
-                  Pendant que vous explorez : si un bungalow ou un appartement vous fait de
-                  l'œil, direction le point <strong>1 · Accueil / Réservation</strong>, juste
-                  après le portail. C'est là qu'on cale les dates, les tarifs et l'occupation —
-                  en personne, sans détour. La réception est ouverte 24h/24.
-                </p>
-                <p className="mt-2 max-w-xl text-sm leading-relaxed text-neutral-700">
-                  Plutôt l'ambiance chill&nbsp;? Le <strong>CHILLOUT</strong> au bord de la
-                  plage (point 13), mixé par le collectif <strong>Lineup</strong>, vous oriente
-                  aussi vers l'Accueil pour transformer la journée en séjour.
-                </p>
-                <div className="mt-4 flex flex-wrap gap-3">
-                  <a
-                    href="#map"
-                    className="inline-flex items-center gap-2 rounded-full bg-neutral-900 px-5 py-2.5 font-display text-sm uppercase tracking-widest text-white transition-transform hover:-translate-y-0.5"
-                  >
-                    <MapPin className="size-4" /> Voir l'Accueil sur le plan
-                  </a>
-                  <a
-                    href={`https://wa.me/${WHATSAPP.replace(/[^0-9]/g, "")}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border-2 border-neutral-900 px-5 py-2.5 font-display text-sm uppercase tracking-widest text-neutral-900 transition-colors hover:bg-neutral-900 hover:text-white"
-                  >
-                    <Phone className="size-4" /> Écrire à la réception
-                  </a>
-                </div>
+              </div>
+
+              <h3 className="mt-5 font-display text-[clamp(2.5rem,8vw,5rem)] uppercase leading-[0.9] tracking-tight text-neutral-900">
+                On réserve à l'Accueil
+              </h3>
+
+              <p className="mt-6 w-full text-[15px] leading-relaxed text-neutral-800 sm:text-lg">
+                Pendant que vous explorez : si un bungalow ou un appartement vous fait de l'œil,
+                direction le point <strong>1 · Accueil / Réservation</strong>, juste après le
+                portail. C'est là qu'on cale les dates, les tarifs et l'occupation — en personne,
+                sans détour. La réception est ouverte 24h/24.
+              </p>
+              <p className="mt-3 w-full text-[15px] leading-relaxed text-neutral-700 sm:text-lg">
+                Plutôt l'ambiance chill&nbsp;? Le <strong>CHILLOUT</strong> au bord de la plage
+                (point 13), mixé par le collectif <strong>Lineup</strong>, vous oriente aussi
+                vers l'Accueil pour transformer la journée en séjour.
+              </p>
+
+              <div className="mt-7">
+                <a
+                  href="#map"
+                  className="inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3 font-display text-sm uppercase tracking-widest text-white transition-transform hover:-translate-y-0.5"
+                >
+                  <MapPin className="size-4" /> Voir l'Accueil sur le plan
+                </a>
               </div>
             </div>
           </div>
