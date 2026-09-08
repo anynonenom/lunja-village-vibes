@@ -492,7 +492,7 @@ function JojoPage() {
         }`}
       >
         {/* brand hairline */}
-        <div className="h-1 w-full bg-gradient-to-r from-terra via-[#FFE600] to-terra" />
+        <div className="h-1 w-full bg-[#FFE600]" />
         <div className="mx-auto flex h-16 max-w-[92rem] items-center justify-between px-5 sm:h-20 sm:px-10 lg:px-16">
           <Link to="/lunja-map" className="group flex items-center gap-3">
             <LogoMark
@@ -568,7 +568,7 @@ function JojoPage() {
               <br />
               <span className="text-sun">VILLAGE</span>
             </h1>
-            <p className="ml-1 mt-1 rotate-[-2deg] font-script text-2xl text-terra sm:text-4xl">
+            <p className="ml-1 mt-1 rotate-[-2deg] font-script text-2xl text-sun sm:text-4xl">
               Imi Ouaddar · côté Atlantique
             </p>
             <p className="mt-5 max-w-xl text-sm text-linen/80 sm:mt-6 sm:text-base">
@@ -580,7 +580,7 @@ function JojoPage() {
             <div className="mt-6 flex flex-col flex-wrap gap-3 sm:mt-7 sm:flex-row">
               <a
                 href="#map"
-                className="inline-flex items-center justify-center gap-2 bg-sun px-5 py-3 font-display text-sm uppercase tracking-wider text-ink ring-2 ring-ink transition-colors hover:bg-terra hover:text-linen sm:text-base"
+                className="inline-flex items-center justify-center gap-2 bg-sun px-5 py-3 font-display text-sm uppercase tracking-wider text-ink ring-2 ring-ink transition-colors hover:bg-ink hover:text-sun sm:text-base"
               >
                 <MapPin className="size-5 shrink-0" /> Explorer le plan
               </a>
@@ -596,13 +596,13 @@ function JojoPage() {
       </section>
 
       {/* ---------------- Marquee (ported from the classic version) ---------------- */}
-      <div className="overflow-hidden border-y-4 border-terra bg-ink py-3 text-sun">
+      <div className="overflow-hidden border-y-4 border-sun bg-ink py-3 text-sun">
         <div className="flex w-max animate-marquee font-display text-2xl uppercase tracking-widest">
           {Array.from({ length: 2 }).map((_, k) => (
             <span key={k} className="flex">
               {["3 piscines", "terrain de sport", "kids club", "surf à côté", "pistes quad", "accès plage", "restaurant & bars", "38,5 ha de jardins"].map((t) => (
                 <span key={t} className="px-6">
-                  {t} <span className="text-terra">✦</span>
+                  {t} <span className="text-linen/40">✦</span>
                 </span>
               ))}
             </span>
@@ -614,9 +614,14 @@ function JojoPage() {
       <section id="map" className="scroll-mt-20 px-3 py-14 sm:px-6 sm:py-24">
         <div className="mx-auto max-w-[110rem]">
           <div className="reveal mx-auto mb-6 max-w-6xl px-1 sm:mb-8">
-            <span className="font-script text-2xl text-terra sm:text-3xl">À découvrir</span>
+            <span className="inline-block -rotate-2 bg-[#FFE600] px-2 py-0.5 font-script text-2xl text-neutral-900 sm:text-3xl">
+              À découvrir
+            </span>
             <h2 className="font-display text-[clamp(2.25rem,8vw,5.5rem)] uppercase leading-[0.85] tracking-tight text-neutral-900">
-              Le village, <span className="italic text-terra">point par point</span>
+              Le village,{" "}
+              <span className="box-decoration-clone bg-[#FFE600] px-1.5 italic text-neutral-900">
+                point par point
+              </span>
             </h2>
             <p className="mt-3 max-w-xl text-sm text-neutral-500 sm:text-base">
               Zoomez, glissez, touchez les numéros. Chaque point est un vrai lieu du plan de
