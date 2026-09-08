@@ -633,20 +633,31 @@ function JojoPage() {
       <section id="reserver" className="scroll-mt-20 px-3 pb-14 sm:px-6 sm:pb-20">
         <div className="mx-auto max-w-6xl">
           <div className="reveal relative overflow-hidden rounded-3xl border-2 border-neutral-900 bg-[#FFF7D6] shadow-[0_30px_70px_-40px_rgba(0,0,0,0.4)]">
-            {/* Brand cluster: Lunja Village + LineUp Vibes Events */}
-            <div className="jojo-bob absolute -right-5 -top-5 sm:-right-7 sm:-top-7">
-              <LogoMark className="size-24 rotate-[8deg] opacity-95 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.35)] sm:size-40" />
-              <a
-                href="https://www.instagram.com/lineupvibesevents"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LineUp Vibes Events sur Instagram"
-                className="group absolute -bottom-2 -left-6 grid size-14 -rotate-6 place-items-center rounded-full bg-[#C8E420] ring-[3px] ring-white shadow-[0_14px_34px_-14px_rgba(0,0,0,0.5)] transition-transform hover:scale-105 sm:-bottom-3 sm:-left-9 sm:size-24"
-              >
-                <img src={lunjaMark} alt="LineUp Vibes Events" className="w-[56%]" />
-              </a>
-            </div>
             <div className="relative p-7 sm:p-12">
+              {/* Brand cluster: Lunja Village + LineUp Vibes Events */}
+              <div className="jojo-bob mb-7 flex items-start justify-end gap-5 sm:absolute sm:right-9 sm:top-9 sm:mb-0 sm:gap-6">
+                <figure className="flex flex-col items-center gap-1.5">
+                  <LogoMark className="size-16 shadow-[0_16px_40px_-16px_rgba(0,0,0,0.4)] sm:size-24" />
+                  <figcaption className="font-display text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500 sm:text-[0.65rem]">
+                    Lunja Village
+                  </figcaption>
+                </figure>
+                <a
+                  href="https://www.instagram.com/lineupvibesevents"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LineUp Vibes Events sur Instagram"
+                  className="group flex flex-col items-center gap-1.5"
+                >
+                  <span className="grid size-16 place-items-center rounded-full bg-[#C8E420] ring-2 ring-neutral-900 shadow-[0_16px_40px_-16px_rgba(0,0,0,0.4)] transition-transform group-hover:scale-105 sm:size-24">
+                    <img src={lunjaMark} alt="LineUp Vibes Events" className="w-[56%]" />
+                  </span>
+                  <figcaption className="inline-flex items-center gap-1 font-display text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500 transition-colors group-hover:text-neutral-900 sm:text-[0.65rem]">
+                    <Instagram className="size-3" /> LineUp Vibes
+                  </figcaption>
+                </a>
+              </div>
+
               <div className="flex items-center gap-4">
                 <span className="grid size-14 shrink-0 place-items-center rounded-full bg-neutral-900 font-display text-2xl text-[#FFE600] ring-4 ring-white sm:size-16">
                   1
