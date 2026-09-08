@@ -213,7 +213,7 @@ export function LunjaMap({
             }
           >
             {light && (
-              <span className={`inline-grid size-6 place-items-center rounded-full text-[11px] ring-2 ring-white ${KIND_COLOR[active.kind]}`}>
+              <span className={`inline-grid size-6 place-items-center rounded-full text-[11px] ring-2 ring-white ${active.n === 2 ? "bg-[#e0231c] text-white" : KIND_COLOR[active.kind]}`}>
                 {active.n}
               </span>
             )}
