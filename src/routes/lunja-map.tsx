@@ -659,6 +659,22 @@ function JojoPage() {
                 vers l'Accueil pour transformer la nuit en séjour.
               </p>
 
+              <a
+                href="https://www.instagram.com/lineupvibesevents"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LineUp Vibes Events sur Instagram"
+                className="group mt-5 inline-flex items-center gap-3 rounded-full border-2 border-neutral-900 bg-white py-1.5 pl-1.5 pr-4 transition-transform hover:-translate-y-0.5"
+              >
+                <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#C8E420] ring-2 ring-neutral-900">
+                  <img src={lunjaMark} alt="LineUp Vibes Events" className="w-[58%]" />
+                </span>
+                <span className="font-display text-xs uppercase tracking-[0.18em] text-neutral-800">
+                  Mixé par LineUp Vibes Events
+                </span>
+                <Instagram className="size-4 text-neutral-500 transition-colors group-hover:text-neutral-900" />
+              </a>
+
               <div className="mt-7">
                 <a
                   href="#map"
