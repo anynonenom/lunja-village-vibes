@@ -49,7 +49,7 @@ export const POIS: Poi[] = [
   { id: "asayas", n: 11, name: "Asayas", kind: "sport", x: 41.4, y: 64.3, blurb: "Salle de conférence & événements", detail: "Salle de conférence pour réunions et événements, juste à côté du Social Hub." },
   { id: "bungalows-est", n: 12, name: "Bungalows Jardins Est", kind: "stay", x: 71.4, y: 78.7, blurb: "Bungalows côté piscines est", detail: "Rangées de bungalows dans les jardins est, entre les piscines et le chemin de la plage." },
   { id: "piscine-ayoub", n: 13, name: "Piscine & Snack Ayoub", kind: "water", x: 83.5, y: 80.2, blurb: "Piscine est + snack", detail: "La piscine est, la plus proche du chemin de la plage, avec le snack Ayoub à côté." },
-  { id: "beach", n: 14, name: "Accès Plage", kind: "access", x: 95.4, y: 64.3, blurb: "Chemin direct vers le sable", detail: "Une passerelle courte, droit vers l'Atlantique. Les cours de surf s'y retrouvent au lever du jour." },
+  { id: "beach", n: 14, name: "Accès Plage", kind: "access", x: 95.0, y: 66.4, blurb: "Chemin direct vers le sable", detail: "Une passerelle courte, droit vers l'Atlantique. Les cours de surf s'y retrouvent au lever du jour." },
   { id: "parking-n", n: 15, name: "Parking Nord", kind: "access", x: 23.9, y: 28.5, blurb: "Parking visiteurs", detail: "Parking près du portail nord, au plus près des jardins ouest et de l'accueil." },
   { id: "parking-s", n: 16, name: "Parking central", kind: "access", x: 43.9, y: 42.5, blurb: "Parking principal", detail: "Parking central près du Social Hub, avec zone de dépose pour navettes et taxis." },
 ];
