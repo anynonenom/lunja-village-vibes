@@ -34,6 +34,7 @@ import feed7 from "@/assets/feed7.jpg";
 import feed8 from "@/assets/feed8.jpg";
 import feed9 from "@/assets/feed9.jpg";
 import lunjaLogo from "@/assets/lunja-logo.png";
+import lunjaMark from "@/assets/lunja-mark.png";
 
 const CHILLOUT_URL = "https://chill-vibes-studio.vercel.app";
 const IG_URL = "https://www.instagram.com/lunjavillage.officiel/";
@@ -174,6 +175,23 @@ function Hero() {
           />
         ))}
       </div>
+
+      {/* LineUp Vibes Events */}
+      <a
+        href="https://www.instagram.com/lineupvibesevents"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LineUp Vibes Events sur Instagram"
+        className="animate-float group absolute left-4 top-20 z-20 flex flex-col items-center gap-2 sm:left-6 sm:top-28 lg:left-10"
+        style={{ ["--r" as string]: "-6deg" }}
+      >
+        <span className="grid size-16 place-items-center rounded-full bg-[#C8E420] ring-4 ring-ink shadow-hard transition-transform group-hover:scale-105 sm:size-28 lg:size-32">
+          <img src={lunjaMark} alt="LineUp Vibes Events" className="w-[58%]" />
+        </span>
+        <span className="bg-ink/70 px-2 py-0.5 font-display text-[0.6rem] uppercase tracking-widest text-linen backdrop-blur sm:text-xs">
+          LineUp Vibes Events
+        </span>
+      </a>
 
       <div className="animate-pop-in relative z-20 mx-auto flex min-h-screen max-w-7xl flex-col justify-end px-4 pb-24 pt-32 sm:px-6 sm:pb-32">
         <span className="font-script text-3xl text-yellow -rotate-2 inline-block">welcome to the village</span>

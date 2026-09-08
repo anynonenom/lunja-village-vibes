@@ -26,6 +26,7 @@ import { WHATSAPP } from "@/components/chrome";
 import { EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay } from "@/data/lunja";
 import heroImg from "@/assets/real-lunja-aerial.jpg";
 import lunjaLogo from "@/assets/lunja-logo.png";
+import lunjaMark from "@/assets/lunja-mark.png";
 
 function LogoMark({
   className = "size-10",
@@ -540,7 +541,24 @@ function JojoPage() {
           className="absolute inset-0 size-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10" />
+
         <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-12 pt-24 text-linen sm:px-6 sm:pt-28">
+          {/* LineUp Vibes Events — inline on mobile, pinned top-right on desktop */}
+          <a
+            href="https://www.instagram.com/lineupvibesevents"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LineUp Vibes Events sur Instagram"
+            className="jojo-bob group mb-5 flex w-fit flex-col items-center gap-2 rotate-[6deg] sm:absolute sm:right-4 sm:top-24 sm:mb-0 lg:right-6"
+          >
+            <span className="grid size-16 place-items-center rounded-full bg-[#C8E420] shadow-[0_10px_30px_-8px_rgba(0,0,0,0.5)] ring-4 ring-ink transition-transform group-hover:scale-105 sm:size-28 lg:size-32">
+              <img src={lunjaMark} alt="LineUp Vibes Events" className="w-[58%]" />
+            </span>
+            <span className="bg-ink/70 px-2 py-0.5 font-display text-[0.6rem] uppercase tracking-widest text-linen backdrop-blur sm:text-xs">
+              LineUp Vibes Events
+            </span>
+          </a>
+
           <div>
             <span className="inline-flex items-center gap-2 -rotate-2 bg-sun px-3 py-1 font-display text-xs uppercase tracking-widest text-ink ring-2 ring-ink sm:text-sm">
               <QrCode className="size-4 shrink-0" /> Vous avez scanné · bienvenue
