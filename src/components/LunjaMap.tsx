@@ -161,7 +161,7 @@ export function LunjaMap({
                       <span
                         className={`relative grid place-items-center size-4 rounded-full font-display text-[9px] leading-none shadow-md transition-transform group-hover:scale-125 sm:size-7 sm:text-sm ${
                           light ? "ring-1 ring-white sm:ring-2" : "ring-1 ring-ink sm:ring-2"
-                        } ${KIND_COLOR[p.kind]} ${on ? "scale-[1.35] z-20" : ""}`}
+                        } ${p.n === 2 ? "bg-[#e0231c] text-white" : KIND_COLOR[p.kind]} ${on ? "scale-[1.35] z-20" : ""}`}
                       >
                         {p.n}
                         {on && <span className="absolute inset-0 rounded-full animate-pulse-ring" />}
