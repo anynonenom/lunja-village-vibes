@@ -189,7 +189,7 @@ function Hero() {
           <img src={lunjaMark} alt="LineUp Vibes Events" className="w-[58%]" />
         </span>
         <span className="bg-ink/70 px-2 py-0.5 font-display text-[0.6rem] uppercase tracking-widest text-linen backdrop-blur sm:text-xs">
-          Exclusive for our lineupers
+          Exclusive for our line upers
         </span>
       </a>
 
