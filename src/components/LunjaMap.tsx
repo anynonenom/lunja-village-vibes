@@ -159,8 +159,8 @@ export function LunjaMap({
                       className="absolute -translate-x-1/2 -translate-y-1/2 group z-10"
                     >
                       <span
-                        className={`relative grid place-items-center size-5 rounded-full font-display text-[11px] leading-none shadow-md transition-transform group-hover:scale-125 sm:size-7 sm:text-sm ${
-                          light ? "ring-[1.5px] ring-white sm:ring-2" : "ring-[1.5px] ring-ink sm:ring-2"
+                        className={`relative grid place-items-center size-4 rounded-full font-display text-[9px] leading-none shadow-md transition-transform group-hover:scale-125 sm:size-5 sm:text-[11px] ${
+                          light ? "ring-1 ring-white sm:ring-[1.5px]" : "ring-1 ring-ink sm:ring-[1.5px]"
                         } ${KIND_COLOR[p.kind]} ${on ? "scale-[1.35] z-20" : ""}`}
                       >
                         {p.n}
