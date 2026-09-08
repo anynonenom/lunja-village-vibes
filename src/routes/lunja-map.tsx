@@ -602,7 +602,7 @@ function JojoPage() {
             <span key={k} className="flex">
               {["3 piscines", "terrain de sport", "kids club", "surf à côté", "pistes quad", "accès plage", "restaurant & bars", "38,5 ha de jardins"].map((t) => (
                 <span key={t} className="px-6">
-                  {t} <span className="text-linen/40">✦</span>
+                  {t} <span className="text-white">✦</span>
                 </span>
               ))}
             </span>
