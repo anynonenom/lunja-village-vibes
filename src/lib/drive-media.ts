@@ -94,3 +94,15 @@ export const uploadDriveMedia = createServerFn({ method: "POST" })
       createdAt: new Date().toISOString(),
     };
   });
+
+export const deleteDriveMedia = createServerFn({ method: "POST" })
+  .validator((path: string) => path)
+  .handler(async ({ data: path }): Promise<void> => {
+    const supabase = getSupabaseAdmin();
+
+    const { error: storageError } = await supabase.storage.from(DRIVE_BUCKET).remove([path]);
+    if (storageError) throw new Error(storageError.message);
+
+    const { error: deleteError } = await supabase.db.from(MEDIA_TABLE).delete().eq("path", path);
+    if (deleteError) throw new Error(deleteError.message);
+  });
