@@ -518,6 +518,7 @@ function JojoPage() {
             <a href="#map" className="transition-colors hover:text-[#c9971a]">The map</a>
             <a href="#rooms" className="transition-colors hover:text-[#c9971a]">Sleep</a>
             <a href="#doorstep" className="transition-colors hover:text-[#c9971a]">Doorstep</a>
+            <Link to="/lunja-drive" className="transition-colors hover:text-[#c9971a]">Our team</Link>
           </nav>
 
           <a
