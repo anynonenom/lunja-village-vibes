@@ -20,7 +20,7 @@ export const SITE_LOCKED =
   flag == null || flag === "" ? DEFAULT_LOCKED : flag.toLowerCase() !== "false";
 
 /** The only page reachable while the site is locked (the approved version). */
-export const PUBLIC_ROUTES = ["/lunja-map", "/lunja-drive"] as const;
+export const PUBLIC_ROUTES = ["/lunja-map", "/lunja-drive", "/drive-upload"] as const;
 
 /** Where locked traffic lands. */
 export const PUBLIC_ROUTE = PUBLIC_ROUTES[0];

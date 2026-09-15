@@ -14,6 +14,7 @@ import { Route as MapLunjaRouteImport } from './routes/map-lunja'
 import { Route as LunjaMapRouteImport } from './routes/lunja-map'
 import { Route as LunjaDriveRouteImport } from './routes/lunja-drive'
 import { Route as ExperienceRouteImport } from './routes/experience'
+import { Route as DriveUploadRouteImport } from './routes/drive-upload'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -42,6 +43,11 @@ const ExperienceRoute = ExperienceRouteImport.update({
   path: '/experience',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DriveUploadRoute = DriveUploadRouteImport.update({
+  id: '/drive-upload',
+  path: '/drive-upload',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -56,6 +62,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/drive-upload': typeof DriveUploadRoute
   '/experience': typeof ExperienceRoute
   '/lunja-drive': typeof LunjaDriveRoute
   '/lunja-map': typeof LunjaMapRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/drive-upload': typeof DriveUploadRoute
   '/experience': typeof ExperienceRoute
   '/lunja-drive': typeof LunjaDriveRoute
   '/lunja-map': typeof LunjaMapRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/drive-upload': typeof DriveUploadRoute
   '/experience': typeof ExperienceRoute
   '/lunja-drive': typeof LunjaDriveRoute
   '/lunja-map': typeof LunjaMapRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/contact'
+    | '/drive-upload'
     | '/experience'
     | '/lunja-drive'
     | '/lunja-map'
@@ -95,6 +105,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contact'
+    | '/drive-upload'
     | '/experience'
     | '/lunja-drive'
     | '/lunja-map'
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/contact'
+    | '/drive-upload'
     | '/experience'
     | '/lunja-drive'
     | '/lunja-map'
@@ -114,6 +126,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
+  DriveUploadRoute: typeof DriveUploadRoute
   ExperienceRoute: typeof ExperienceRoute
   LunjaDriveRoute: typeof LunjaDriveRoute
   LunjaMapRoute: typeof LunjaMapRoute
@@ -158,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExperienceRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/drive-upload': {
+      id: '/drive-upload'
+      path: '/drive-upload'
+      fullPath: '/drive-upload'
+      preLoaderRoute: typeof DriveUploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -178,6 +198,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
+  DriveUploadRoute: DriveUploadRoute,
   ExperienceRoute: ExperienceRoute,
   LunjaDriveRoute: LunjaDriveRoute,
   LunjaMapRoute: LunjaMapRoute,

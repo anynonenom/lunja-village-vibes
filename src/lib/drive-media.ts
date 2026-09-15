@@ -9,32 +9,49 @@ export type DriveMedia = {
   createdAt: string;
 };
 
+const MEDIA_TABLE = "drive_media";
+
 function mediaType(name: string): "image" | "video" {
   return /\.(mp4|mov|webm|m4v)$/i.test(name) ? "video" : "image";
 }
+
+function isUploadedFile(value: unknown): value is File {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "arrayBuffer" in value &&
+    "name" in value &&
+    "type" in value &&
+    typeof (value as { arrayBuffer: unknown }).arrayBuffer === "function"
+  );
+}
+
+type DriveMediaRow = {
+  name: string;
+  path: string;
+  url: string;
+  type: "image" | "video";
+  created_at: string;
+};
 
 export const listDriveMedia = createServerFn({ method: "GET" })
   .validator((folder: string) => folder)
   .handler(async ({ data: folder }): Promise<DriveMedia[]> => {
     const supabase = getSupabaseAdmin();
-    const { data: files, error } = await supabase.storage
-      .from(DRIVE_BUCKET)
-      .list(folder, { sortBy: { column: "created_at", order: "desc" } });
-    if (error) throw error;
+    const { data: rows, error } = await supabase.db
+      .from(MEDIA_TABLE)
+      .select("name, path, url, type, created_at")
+      .eq("folder", folder)
+      .order("created_at", { ascending: false });
+    if (error) throw new Error(error.message);
 
-    return (files ?? [])
-      .filter((file) => file.id && file.name !== ".emptyFolderPlaceholder")
-      .map((file) => {
-        const path = `${folder}/${file.name}`;
-        const { data: pub } = supabase.storage.from(DRIVE_BUCKET).getPublicUrl(path);
-        return {
-          name: file.name,
-          path,
-          url: pub.publicUrl,
-          type: mediaType(file.name),
-          createdAt: file.created_at ?? new Date().toISOString(),
-        };
-      });
+    return (rows ?? []).map((row: DriveMediaRow) => ({
+      name: row.name,
+      path: row.path,
+      url: row.url,
+      type: row.type,
+      createdAt: row.created_at,
+    }));
   });
 
 export const uploadDriveMedia = createServerFn({ method: "POST" })
@@ -43,23 +60,37 @@ export const uploadDriveMedia = createServerFn({ method: "POST" })
     const folder = String(formData.get("folder") ?? "");
     const file = formData.get("file");
     if (!folder) throw new Error("Missing folder");
-    if (!(file instanceof File)) throw new Error("Missing file");
+    if (!isUploadedFile(file)) throw new Error("Missing file");
 
     const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, "_");
     const path = `${folder}/${Date.now()}-${safeName}`;
+    const type = mediaType(safeName);
 
     const supabase = getSupabaseAdmin();
-    const { error } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from(DRIVE_BUCKET)
       .upload(path, file, { contentType: file.type, upsert: false });
-    if (error) throw error;
+    if (uploadError) throw new Error(uploadError.message);
 
     const { data: pub } = supabase.storage.from(DRIVE_BUCKET).getPublicUrl(path);
+
+    const { error: insertError } = await supabase.db.from(MEDIA_TABLE).insert({
+      folder,
+      name: safeName,
+      path,
+      url: pub.publicUrl,
+      type,
+    });
+    if (insertError) {
+      await supabase.storage.from(DRIVE_BUCKET).remove([path]);
+      throw new Error(insertError.message);
+    }
+
     return {
       name: safeName,
       path,
       url: pub.publicUrl,
-      type: mediaType(safeName),
+      type,
       createdAt: new Date().toISOString(),
     };
   });
