@@ -342,4 +342,5 @@
   .animate-menu-item, .animate-pop-in, .animate-kenburns, .animate-float, .animate-drift {
     animation: none !important;
   }
+  .transition-transform, .transition-\[width\] { transition: none !important; }
 }
