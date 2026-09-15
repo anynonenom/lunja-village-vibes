@@ -8,14 +8,23 @@ import {
   Image as ImageIcon,
   Loader2,
   Mail,
-  Play,
   Search,
-  Sparkles,
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import lunjaLogo from "@/assets/lunja-logo.png";
 import hero from "@/assets/hero-aerial.jpg";
+import pushPin from "@/assets/stickers/push-pin.png";
+import pushPinLime from "@/assets/stickers/push-pin-lime.png";
+import reviewedStamp from "@/assets/stickers/reviewed-stamp.png";
+import polaroidCorner from "@/assets/stickers/polaroid-corner.png";
+import palmWaveDoodle from "@/assets/stickers/palm-wave-doodle.png";
+import washiTape from "@/assets/stickers/washi-tape.png";
+import magnifyingGlass from "@/assets/stickers/magnifying-glass.png";
+import cameraDoodle from "@/assets/stickers/camera-doodle.png";
+import clapperboardDoodle from "@/assets/stickers/clapperboard-doodle.png";
+import sparkleScribbles from "@/assets/stickers/sparkle-scribbles.png";
+import playButton from "@/assets/stickers/play-button.png";
 import { listDriveMedia, type DriveMedia } from "@/lib/drive-media";
 import { listFolders, type FolderDef } from "@/lib/drive-folders";
 
@@ -77,14 +86,18 @@ function Hero() {
     <section className="relative isolate min-h-[60svh] overflow-hidden bg-ink pt-[4.5rem] text-linen grain-dark">
       <img src={hero} alt="Aerial view of Lunja Village beside the Atlantic" width={1400} height={788} className="absolute inset-0 size-full object-cover opacity-70" />
       <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/60 to-ink/15" />
+      <img src={reviewedStamp} alt="" className="pointer-events-none absolute right-6 top-24 w-20 -rotate-12 opacity-80 invert sm:right-10 sm:top-28 sm:w-28" />
       <div className="relative z-10 mx-auto flex min-h-[calc(60svh-4.5rem)] max-w-7xl items-end px-4 pb-14 pt-20 sm:px-6 sm:pb-16">
         <div className="max-w-4xl">
-          <div className="relative mb-6 inline-block -rotate-2 bg-[#FFF7D6] px-3 py-1.5 font-display text-xs font-bold uppercase tracking-widest text-neutral-800 shadow-[0_8px_20px_-8px_rgba(0,0,0,0.5)]">
-            <span className="absolute -top-2 left-1/2 h-4 w-10 -translate-x-1/2 rotate-1 bg-white/50" />
-            Réf. dossier · Imi Ouaddar
+          <div className="relative mb-6 inline-block">
+            <img src={washiTape} alt="" className="pointer-events-none absolute -top-3 left-1/2 w-24 -translate-x-1/2 -rotate-2 opacity-90" />
+            <span className="relative inline-block -rotate-2 bg-[#FFF7D6] px-3 py-1.5 font-display text-xs font-bold uppercase tracking-widest text-neutral-800 shadow-[0_8px_20px_-8px_rgba(0,0,0,0.5)]">
+              Réf. dossier · Imi Ouaddar
+            </span>
           </div>
-          <h1 className="font-display text-[clamp(3.2rem,9vw,7.5rem)] font-black uppercase leading-[0.8]">
+          <h1 className="relative font-display text-[clamp(3.2rem,9vw,7.5rem)] font-black uppercase leading-[0.8]">
             Lunja <span className="text-grunge text-[#FFE600]">Drive.</span>
+            <img src={sparkleScribbles} alt="" className="pointer-events-none absolute -right-2 -top-6 w-12 opacity-80 invert sm:w-16" />
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-linen/85 sm:text-lg">
             Toutes les photos et vidéos, classées par catégorie, à parcourir et à déposer au même endroit.
@@ -113,10 +126,10 @@ function FolderTile({ folder, count, index, onOpen }: { folder: FolderDef; count
       className={`group relative mb-5 block w-full break-inside-avoid rounded-xl bg-white p-2.5 pb-4 text-left shadow-[0_10px_30px_-12px_rgba(0,0,0,0.25)] transition-all hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-16px_rgba(0,0,0,0.3)] ${rotate} hover:rotate-0`}
     >
       {taped && (
-        <span className="pointer-events-none absolute -top-2 left-6 h-5 w-14 -rotate-3 bg-[#FFF7D6]/80 shadow-sm" />
+        <img src={index % 6 === 1 ? pushPin : pushPinLime} alt="" className="pointer-events-none absolute -top-4 left-6 w-7 -rotate-6 drop-shadow" />
       )}
       <div className="flex items-center justify-between px-0.5 pb-1.5 font-display text-[9px] font-bold uppercase tracking-widest text-neutral-400">
-        <span className="flex items-center gap-1">FILM <span className="text-neutral-300">400</span></span>
+        <span className="flex items-center gap-1">LUNJA <span className="text-neutral-300">DRIVE</span></span>
         <span className="flex items-center gap-1 text-neutral-500">{String(index + 1).padStart(2, "0")} <span className="text-[7px]">▶</span></span>
       </div>
       <div className="relative overflow-hidden rounded-sm bg-neutral-100">
@@ -130,6 +143,9 @@ function FolderTile({ folder, count, index, onOpen }: { folder: FolderDef; count
           <div className={`grid w-full place-items-center ${folder.tint} ${aspect}`}>
             <Folder className="size-10 text-neutral-900/70" />
           </div>
+        )}
+        {index % 3 === 0 && (
+          <img src={polaroidCorner} alt="" className="pointer-events-none absolute bottom-0 right-0 w-10 opacity-90" />
         )}
         <span className="absolute right-2 top-2 rounded-full bg-white/90 px-2 py-1 font-display text-[10px] font-bold uppercase text-neutral-700 shadow">
           {count === null ? "…" : `${count} média${count > 1 ? "s" : ""}`}
@@ -202,22 +218,31 @@ function FolderGrid({ onOpen }: { onOpen: (folder: FolderDef) => void }) {
   );
 }
 
+const MEDIA_ASPECTS = ["aspect-square", "aspect-[4/5]", "aspect-[3/4]", "aspect-square", "aspect-[5/6]", "aspect-[4/5]"];
+const MEDIA_ROTATIONS = ["rotate-0", "-rotate-1", "rotate-1", "rotate-0", "rotate-1", "-rotate-1"];
+const MEDIA_PIN_INDICES = new Set([0, 5]);
+
 function MediaTile({ item, index, onOpen }: { item: DriveMedia; index: number; onOpen: () => void }) {
+  const aspect = MEDIA_ASPECTS[index % MEDIA_ASPECTS.length];
+  const rotate = MEDIA_ROTATIONS[index % MEDIA_ROTATIONS.length];
+  const pinned = MEDIA_PIN_INDICES.has(index % 6);
+
   return (
     <button
       type="button"
       onClick={onOpen}
-      className="group block overflow-hidden rounded-xl bg-ink p-2 text-left shadow-lg transition-transform hover:-translate-y-1"
+      className={`group relative mb-3 block w-full break-inside-avoid overflow-hidden rounded-xl bg-white p-2 text-left shadow-[0_10px_25px_-12px_rgba(0,0,0,0.2)] transition-all hover:-translate-y-1 hover:shadow-[0_18px_35px_-14px_rgba(0,0,0,0.28)] ${rotate} hover:rotate-0`}
     >
-      <div className="flex items-center justify-between px-0.5 pb-1.5 font-display text-[9px] font-bold uppercase tracking-widest text-white/50">
+      {pinned && <img src={pushPin} alt="" className="pointer-events-none absolute -top-3 left-1/2 w-6 -translate-x-1/2 rotate-3 drop-shadow" />}
+      <div className="flex items-center justify-between px-0.5 pb-1.5 font-display text-[9px] font-bold uppercase tracking-widest text-neutral-400">
         <span className="flex items-center gap-1">
-          {item.type === "video" ? "VIDÉO" : "FILM"} <span className="text-white/30">400</span>
+          {item.type === "video" ? "VIDÉO" : "PHOTO"} <span className="text-neutral-300">LUNJA</span>
         </span>
-        <span className="flex items-center gap-1 text-white/70">
+        <span className="flex items-center gap-1 text-neutral-500">
           {String(index + 1).padStart(2, "0")} <span className="text-[7px]">▶</span>
         </span>
       </div>
-      <div className="relative aspect-square overflow-hidden rounded-sm bg-neutral-800">
+      <div className={`relative overflow-hidden rounded-sm bg-neutral-100 ${aspect}`}>
         {item.type === "video" ? (
           <video src={item.url} className="size-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105" muted playsInline preload="metadata" />
         ) : (
@@ -225,9 +250,7 @@ function MediaTile({ item, index, onOpen }: { item: DriveMedia; index: number; o
         )}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
         {item.type === "video" && (
-          <span className="absolute bottom-2 right-2 grid size-8 place-items-center rounded-full border border-black/10 bg-[#FFE600] shadow-lg">
-            <Play className="ml-0.5 size-3.5 fill-current" />
-          </span>
+          <img src={playButton} alt="" className="absolute bottom-2 right-2 w-8 drop-shadow" />
         )}
       </div>
     </button>
@@ -281,25 +304,26 @@ function FolderView({ folder, onClose, onOpenLightbox }: { folder: FolderDef; on
             <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrer par type">
               {(
                 [
-                  ["all", `Tout (${items.length})`],
-                  ["image", `Photos (${imageCount})`],
-                  ["video", `Vidéos (${videoCount})`],
+                  ["all", `Tout (${items.length})`, null],
+                  ["image", `Photos (${imageCount})`, cameraDoodle],
+                  ["video", `Vidéos (${videoCount})`, clapperboardDoodle],
                 ] as const
-              ).map(([value, label]) => (
+              ).map(([value, label, icon]) => (
                 <button
                   key={value}
                   type="button"
                   onClick={() => setFilter(value)}
-                  className={`rounded-full border border-black/10 px-4 py-2 font-display text-xs font-black uppercase transition-colors ${
+                  className={`inline-flex items-center gap-1.5 rounded-full border border-black/10 px-4 py-2 font-display text-xs font-black uppercase transition-colors ${
                     filter === value ? "bg-ink text-[#FFE600]" : "bg-white text-ink hover:bg-[#FFE600]"
                   }`}
                 >
+                  {icon && <img src={icon} alt="" className={`size-3.5 ${filter === value ? "invert" : ""}`} />}
                   {label}
                 </button>
               ))}
             </div>
             <div className="relative w-full sm:w-72">
-              <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-ink/40" />
+              <img src={magnifyingGlass} alt="" className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 opacity-50" />
               <input
                 type="text"
                 value={query}
@@ -330,7 +354,7 @@ function FolderView({ folder, onClose, onOpenLightbox }: { folder: FolderDef; on
         )}
 
         {visible.length > 0 && (
-          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-8 columns-2 sm:columns-3 lg:columns-4 lg:gap-4">
             {visible.map((item, index) => (
               <MediaTile key={item.path} item={item} index={index} onOpen={() => onOpenLightbox(visible, index)} />
             ))}
@@ -392,7 +416,7 @@ function Closing() {
       <div className="mx-auto max-w-[92rem] px-5 py-20 text-center sm:px-10 sm:py-28">
         <div className="flex items-center justify-center gap-4 sm:gap-6">
           <span className="grid size-14 shrink-0 place-items-center rounded-full border border-black/10 bg-[#FFE600] shadow-[0_16px_40px_-14px_rgba(0,0,0,0.35)] sm:size-20">
-            <Sparkles className="size-7 text-neutral-900 sm:size-9" />
+            <img src={palmWaveDoodle} alt="" className="size-8 sm:size-11" />
           </span>
           <h2 className="text-left font-display text-[clamp(2.2rem,8vw,5rem)] leading-[0.95] tracking-tight text-neutral-900">
             Tout Lunja,
@@ -463,7 +487,7 @@ function Footer() {
       </div>
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-5 py-4 text-xs uppercase tracking-widest text-white/60 sm:px-10 lg:px-16">
-          <span>© {new Date().getFullYear()} Lunja Village · Imi Ouaddar</span>
+          <span>© {new Date().getFullYear()} Lunja Village · Imi Ouaddar · Développé par EIDEN GROUP</span>
           <Link to="/lunja-map" className="text-[#FFE600] hover:text-white">Visiter le village <ArrowUpRight className="inline size-3.5" /></Link>
         </div>
       </div>

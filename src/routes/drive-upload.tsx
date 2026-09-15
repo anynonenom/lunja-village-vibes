@@ -193,7 +193,7 @@ function MediaThumb({ item, onDeleted }: { item: DriveMedia; onDeleted: () => vo
   }, [confirm, item.path, onDeleted]);
 
   return (
-    <div className="group relative aspect-square overflow-hidden rounded-xl border border-ink/15 bg-ink/5">
+    <div className="group relative aspect-square overflow-hidden rounded-md border-2 border-white bg-ink/5 shadow-[0_4px_10px_-4px_rgba(0,0,0,0.3)]">
       {item.type === "video" ? (
         <video src={item.url} className="size-full object-cover" muted playsInline preload="metadata" />
       ) : (
@@ -205,7 +205,7 @@ function MediaThumb({ item, onDeleted }: { item: DriveMedia; onDeleted: () => vo
         onClick={handleDelete}
         disabled={busy}
         aria-label="Supprimer ce média"
-        className="absolute right-1.5 top-1.5 grid size-6 place-items-center rounded-full bg-white/90 text-red-600 opacity-0 shadow transition-opacity group-hover:opacity-100 disabled:opacity-60"
+        className="absolute right-1 top-1 grid size-6 place-items-center rounded-full bg-white/90 text-red-600 opacity-0 shadow transition-opacity group-hover:opacity-100 disabled:opacity-60"
       >
         {busy ? <Loader2 className="size-3.5 animate-spin" /> : <Trash2 className="size-3.5" />}
       </button>
@@ -278,51 +278,61 @@ function FolderPanel({ folder, onRenamed, onDeleted }: { folder: FolderDef; onRe
   }, [confirm, folder.name, folder.slug, items, onDeleted]);
 
   return (
-    <div className="rounded-3xl border border-black/10 bg-white p-5 shadow-lg sm:p-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <FolderNameEditor folder={folder} onRenamed={onRenamed} />
-        <div className="flex items-center gap-3">
-          <span className="font-display text-xs font-bold uppercase text-ink/50">
-            {items === null ? "…" : `${items.length} média${items.length > 1 ? "s" : ""}`}
+    <div className="relative overflow-hidden rounded-2xl bg-white shadow-[0_16px_36px_-20px_rgba(0,0,0,0.35)]">
+      <div className={`h-2.5 w-full ${folder.tint}`} />
+      <div className="p-5 sm:p-6">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <span className="font-script text-lg text-[#c9971a]">dossier</span>
+            <FolderNameEditor folder={folder} onRenamed={onRenamed} />
+          </div>
+          <div className="flex items-center gap-2">
+            <span className={`-rotate-2 rounded-full border border-black/10 px-2.5 py-1 font-display text-[11px] font-bold uppercase ${folder.tint}`}>
+              {items === null ? "…" : `${items.length} média${items.length > 1 ? "s" : ""}`}
+            </span>
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={deleting}
+              aria-label="Supprimer la catégorie"
+              className="grid size-8 place-items-center rounded-full text-ink/40 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
+            >
+              {deleting ? <Loader2 className="size-4 animate-spin" /> : <Trash2 className="size-4" />}
+            </button>
+          </div>
+        </div>
+
+        <input
+          ref={inputRef}
+          type="file"
+          accept="image/*,video/*"
+          multiple
+          className="hidden"
+          onChange={(event) => handleFiles(event.target.files)}
+        />
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => inputRef.current?.click()}
+          className="mt-4 flex w-full items-center gap-3 rounded-full border border-dashed border-ink/25 bg-neutral-50 px-5 py-3.5 text-left transition-colors hover:border-ink hover:bg-[#FFE600]/10 disabled:opacity-60"
+        >
+          <span className="grid size-9 shrink-0 place-items-center rounded-full bg-ink text-white">
+            {busy ? <Loader2 className="size-4 animate-spin" /> : <Upload className="size-4" />}
           </span>
-          <button
-            type="button"
-            onClick={handleDelete}
-            disabled={deleting}
-            aria-label="Supprimer la catégorie"
-            className="grid size-8 place-items-center rounded-full border border-black/10 text-ink/50 hover:border-red-300 hover:bg-red-50 hover:text-red-600 disabled:opacity-50"
-          >
-            {deleting ? <Loader2 className="size-4 animate-spin" /> : <Trash2 className="size-4" />}
-          </button>
-        </div>
+          <span>
+            <span className="block font-display text-sm font-black uppercase">{busy ? "Envoi…" : "Déposer des fichiers"}</span>
+            <span className="block text-xs text-ink/50">Images et vidéos, plusieurs à la fois</span>
+          </span>
+        </button>
+
+        {items && items.length > 0 && (
+          <div className="mt-5 grid grid-cols-4 gap-2 sm:grid-cols-6">
+            {items.map((item) => (
+              <MediaThumb key={item.path} item={item} onDeleted={refresh} />
+            ))}
+          </div>
+        )}
       </div>
-
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*,video/*"
-        multiple
-        className="hidden"
-        onChange={(event) => handleFiles(event.target.files)}
-      />
-      <button
-        type="button"
-        disabled={busy}
-        onClick={() => inputRef.current?.click()}
-        className="mt-4 flex w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-ink/20 py-10 text-center transition-colors hover:border-ink hover:bg-[#FFE600]/10 disabled:opacity-60"
-      >
-        {busy ? <Loader2 className="size-6 animate-spin" /> : <Upload className="size-6" />}
-        <span className="font-display text-sm font-black uppercase">{busy ? "Envoi…" : "Déposer des fichiers"}</span>
-        <span className="text-xs text-ink/50">Images et vidéos, plusieurs fichiers possibles</span>
-      </button>
-
-      {items && items.length > 0 && (
-        <div className="mt-5 grid grid-cols-4 gap-2 sm:grid-cols-6">
-          {items.map((item) => (
-            <MediaThumb key={item.path} item={item} onDeleted={refresh} />
-          ))}
-        </div>
-      )}
     </div>
   );
 }
@@ -369,7 +379,10 @@ function NewFolderForm({ onCreated }: { onCreated: (folder: FolderDef) => void }
   }
 
   return (
-    <div className="rounded-3xl border border-black/10 bg-white p-5 shadow-lg sm:p-6">
+    <div className="overflow-hidden rounded-2xl bg-white shadow-[0_16px_36px_-20px_rgba(0,0,0,0.35)]">
+      <div className="h-2.5 w-full bg-[#FFE600]" />
+      <div className="p-5 sm:p-6">
+      <span className="font-script text-lg text-[#c9971a]">nouveau</span>
       <h3 className="text-xl leading-none">Nouvelle catégorie</h3>
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
         <input
@@ -416,6 +429,7 @@ function NewFolderForm({ onCreated }: { onCreated: (folder: FolderDef) => void }
         >
           Annuler
         </button>
+      </div>
       </div>
     </div>
   );
@@ -464,7 +478,7 @@ function DriveUploadPage() {
             Ajoutez, renommez ou supprimez des catégories, et déposez vos photos ou vidéos. Elles apparaissent immédiatement dans la médiathèque publique.
           </p>
 
-          <div className="mt-10 flex items-center gap-2 rounded-full border border-black/10 bg-[#C8E420]/30 px-4 py-3 font-display text-xs font-bold uppercase">
+          <div className="relative mt-10 inline-flex -rotate-1 items-center gap-2 bg-[#C8E420] px-4 py-2.5 font-display text-xs font-bold uppercase text-neutral-900 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.4)]">
             <CheckCircle2 className="size-4 shrink-0" /> Page interne — non listée publiquement
           </div>
 
