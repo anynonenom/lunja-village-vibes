@@ -7,13 +7,13 @@ import {
   Folder,
   Image as ImageIcon,
   Loader2,
-  Mail,
   Search,
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import lunjaLogo from "@/assets/lunja-logo.png";
 import hero from "@/assets/hero-aerial.jpg";
+import villageMap from "@/assets/lunja-map.png";
 import pushPin from "@/assets/stickers/push-pin.png";
 import pushPinLime from "@/assets/stickers/push-pin-lime.png";
 import reviewedStamp from "@/assets/stickers/reviewed-stamp.png";
@@ -27,6 +27,7 @@ import sparkleScribbles from "@/assets/stickers/sparkle-scribbles.png";
 import playButton from "@/assets/stickers/play-button.png";
 import { listDriveMedia, type DriveMedia } from "@/lib/drive-media";
 import { listFolders, type FolderDef } from "@/lib/drive-folders";
+import { IG_URL } from "@/components/chrome";
 
 export const Route = createFileRoute("/lunja-drive")({
   head: () => ({
@@ -50,11 +51,11 @@ export const Route = createFileRoute("/lunja-drive")({
 
 function Brand() {
   return (
-    <span className="flex items-center gap-2.5">
-      <span className="grid size-10 place-items-center overflow-hidden rounded-full border border-black/10 bg-[#FFE600] sm:size-12">
+    <span className="flex min-w-0 items-center gap-2 sm:gap-2.5">
+      <span className="grid size-8 shrink-0 place-items-center overflow-hidden rounded-full border border-black/10 bg-[#FFE600] sm:size-10 md:size-12">
         <img src={lunjaLogo} alt="" className="size-full object-cover" />
       </span>
-      <span className="font-display text-2xl font-black uppercase leading-none sm:text-3xl">
+      <span className="truncate font-display text-lg font-black uppercase leading-none sm:text-2xl md:text-3xl">
         Lunja <span className="inline-block -rotate-1 bg-[#FFE600] px-1.5 text-neutral-900">Village</span>
       </span>
     </span>
@@ -64,18 +65,22 @@ function Brand() {
 function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-40 bg-white/80 shadow-[0_1px_0_0_rgba(0,0,0,0.06)] backdrop-blur-md">
-      <div className="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-4 sm:px-6">
-        <Link to="/lunja-drive" aria-label="Lunja Drive home"><Brand /></Link>
-        <nav className="hidden items-center gap-6 font-display text-[13px] uppercase tracking-widest text-neutral-500 md:flex">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-[4.5rem] sm:px-6">
+        <Link to="/lunja-drive" aria-label="Lunja Drive home" className="min-w-0 shrink"><Brand /></Link>
+        <nav className="hidden items-center gap-6 font-display text-[13px] font-bold uppercase tracking-widest text-neutral-700 md:flex">
           <a href="#library" className="transition-colors hover:text-[#c9971a]">La médiathèque</a>
-          <Link to="/lunja-map" className="transition-colors hover:text-[#c9971a]">Le village</Link>
+          <a href="#village-map" className="transition-colors hover:text-[#c9971a]">Le village</a>
         </nav>
-        <Link
-          to="/contact"
-          className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE600] px-4 py-2.5 font-display text-xs uppercase tracking-widest text-neutral-900 shadow-md transition-transform hover:-translate-y-0.5 sm:px-5 sm:text-sm"
+        <a
+          href={IG_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#FFE600] px-3 py-2 font-display text-[11px] uppercase tracking-widest text-neutral-900 shadow-md transition-transform hover:-translate-y-0.5 sm:px-5 sm:py-2.5 sm:text-sm"
         >
-          Contact agence <ArrowUpRight className="size-4" />
-        </Link>
+          <span className="hidden sm:inline">Contact agence</span>
+          <span className="sm:hidden">Contact</span>
+          <ArrowUpRight className="size-4" />
+        </a>
       </div>
     </header>
   );
@@ -83,7 +88,7 @@ function Header() {
 
 function Hero() {
   return (
-    <section className="relative isolate min-h-[60svh] overflow-hidden bg-ink pt-[4.5rem] text-linen grain-dark">
+    <section className="relative isolate min-h-[60svh] overflow-hidden bg-ink pt-16 text-linen grain-dark sm:pt-[4.5rem]">
       <img src={hero} alt="Aerial view of Lunja Village beside the Atlantic" width={1400} height={788} className="absolute inset-0 size-full object-cover opacity-70" />
       <div className="absolute inset-0 bg-gradient-to-r from-ink/90 via-ink/60 to-ink/15" />
       <img src={reviewedStamp} alt="" className="pointer-events-none absolute right-6 top-24 w-20 -rotate-12 opacity-80 invert sm:right-10 sm:top-28 sm:w-28" />
@@ -410,6 +415,67 @@ function Lightbox({ items, index, onClose, onNavigate }: { items: DriveMedia[]; 
   );
 }
 
+function MapPreview() {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <section id="village-map" className="scroll-mt-20 bg-[#FFF7D6] py-20 sm:py-28">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+        <div>
+          <span className="font-script text-3xl text-[#c9971a]">se repérer</span>
+          <h2 className="mt-1 text-[clamp(2.6rem,7vw,4.5rem)] leading-[0.85] text-neutral-900">
+            Le plan du
+            <br /> village, en direct.
+          </h2>
+          <p className="mt-5 max-w-md text-base leading-relaxed text-neutral-600">
+            Chambres, piscines, restaurant, accès plage : chaque lieu du village est repéré sur un plan interactif, zoomable et à jour.
+          </p>
+          <button
+            type="button"
+            onClick={() => setExpanded(true)}
+            className="mt-7 inline-flex items-center gap-2 rounded-full bg-neutral-900 px-6 py-3.5 font-display text-sm uppercase tracking-wider text-[#FFE600] shadow-lg transition-transform hover:-translate-y-0.5"
+          >
+            Voir le plan en grand <ArrowUpRight className="size-4" />
+          </button>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setExpanded(true)}
+          className="group relative block rotate-1 overflow-hidden rounded-2xl border-8 border-white text-left shadow-[0_30px_60px_-24px_rgba(0,0,0,0.35)] transition-transform hover:rotate-0"
+        >
+          <img src={villageMap} alt="Plan du village Lunja" className="w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+          <div className="absolute inset-0 bg-ink/0 transition-colors group-hover:bg-ink/10" />
+          <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1.5 font-display text-[11px] font-bold uppercase text-neutral-800 shadow">
+            Voir en grand <ArrowUpRight className="size-3" />
+          </span>
+        </button>
+      </div>
+
+      {expanded && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-ink/90 p-4 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          onMouseDown={(event) => event.target === event.currentTarget && setExpanded(false)}
+        >
+          <div className="relative max-h-[85svh] max-w-5xl overflow-auto rounded-lg border-4 border-white bg-white shadow-2xl">
+            <button
+              type="button"
+              onClick={() => setExpanded(false)}
+              aria-label="Fermer"
+              className="absolute right-3 top-3 z-10 grid size-9 place-items-center rounded-full bg-white text-ink shadow-lg hover:bg-[#FFE600]"
+            >
+              <X className="size-4" />
+            </button>
+            <img src={villageMap} alt="Plan du village Lunja" className="w-full" />
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
 function Closing() {
   return (
     <section className="bg-white">
@@ -427,17 +493,13 @@ function Closing() {
           Besoin d'accès, ou envie d'ajouter des médias ? Contactez-nous, on s'en occupe.
         </p>
         <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:flex-wrap">
-          <Link
-            to="/contact"
+          <a
+            href={IG_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-[#FFE600] px-6 py-3.5 font-display text-sm uppercase tracking-wider text-neutral-900 shadow-lg transition-transform hover:-translate-y-0.5 sm:text-base"
           >
             Discutons-en <ArrowUpRight className="size-5" />
-          </Link>
-          <a
-            href="mailto:hello@lunjavillage.com"
-            className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-neutral-900 px-6 py-3.5 font-display text-sm uppercase tracking-wider text-neutral-900 transition-colors hover:bg-neutral-900 hover:text-white sm:text-base"
-          >
-            <Mail className="size-5" /> Écrire à Lunja
           </a>
         </div>
       </div>
@@ -466,7 +528,7 @@ function Footer() {
           <h4 className="font-display text-lg tracking-tight">Parcourir</h4>
           <div className="mt-3 flex flex-col gap-2 text-sm text-white/70">
             <a href="#library" className="hover:text-white">Toutes les catégories</a>
-            <Link to="/lunja-map" className="hover:text-white">Le plan du village</Link>
+            <a href="#village-map" className="hover:text-white">Le plan du village</a>
           </div>
         </div>
         <div>
@@ -488,7 +550,7 @@ function Footer() {
       <div className="border-t border-white/10">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-5 py-4 text-xs uppercase tracking-widest text-white/60 sm:px-10 lg:px-16">
           <span>© {new Date().getFullYear()} Lunja Village · Imi Ouaddar · Développé par EIDEN GROUP</span>
-          <Link to="/lunja-map" className="text-[#FFE600] hover:text-white">Visiter le village <ArrowUpRight className="inline size-3.5" /></Link>
+          <a href="#village-map" className="text-[#FFE600] hover:text-white">Voir le plan du village <ArrowUpRight className="inline size-3.5" /></a>
         </div>
       </div>
     </footer>
@@ -511,7 +573,10 @@ function LunjaDrivePage() {
             onOpenLightbox={(items, index) => setLightbox({ items, index })}
           />
         ) : (
-          <FolderGrid onOpen={setActiveFolder} />
+          <>
+            <FolderGrid onOpen={setActiveFolder} />
+            <MapPreview />
+          </>
         )}
         <Closing />
       </main>

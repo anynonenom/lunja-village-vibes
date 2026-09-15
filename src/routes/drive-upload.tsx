@@ -94,11 +94,11 @@ export const Route = createFileRoute("/drive-upload")({
 
 function Brand() {
   return (
-    <span className="flex items-center gap-2.5">
-      <span className="grid size-10 place-items-center overflow-hidden rounded-full border border-black/10 bg-[#FFE600] sm:size-12">
+    <span className="flex min-w-0 items-center gap-2 sm:gap-2.5">
+      <span className="grid size-8 shrink-0 place-items-center overflow-hidden rounded-full border border-black/10 bg-[#FFE600] sm:size-10 md:size-12">
         <img src={lunjaLogo} alt="" className="size-full object-cover" />
       </span>
-      <span className="font-display text-2xl font-black uppercase leading-none sm:text-3xl">
+      <span className="truncate font-display text-lg font-black uppercase leading-none sm:text-2xl md:text-3xl">
         Lunja <span className="inline-block -rotate-1 bg-[#FFE600] px-1.5 text-neutral-900">Village</span>
       </span>
     </span>
@@ -552,11 +552,12 @@ function DriveUploadPage() {
     <ConfirmProvider>
       <div className="min-h-screen bg-white text-ink">
         <header className="bg-white shadow-[0_1px_0_0_rgba(0,0,0,0.06)]">
-          <div className="mx-auto flex h-[4.5rem] max-w-4xl items-center justify-between px-4 sm:px-6">
+          <div className="mx-auto flex h-16 max-w-4xl items-center justify-between gap-3 px-4 sm:h-[4.5rem] sm:px-6">
             <Brand />
-            <div className="flex items-center gap-4">
+            <div className="flex shrink-0 items-center gap-3 sm:gap-4">
               <Link to="/lunja-drive" className="inline-flex items-center gap-2 font-display text-sm font-bold uppercase text-ink/60 hover:text-[#c9971a]">
-                <ArrowLeft className="size-4" /> Voir la médiathèque
+                <ArrowLeft className="size-4" />
+                <span className="hidden sm:inline">Voir la médiathèque</span>
               </Link>
               <button
                 type="button"
