@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { DRIVE_BUCKET, getSupabaseAdmin } from "@/lib/supabase-admin";
+import { requireDriveSession } from "@/lib/drive-auth";
 
 export type FolderDef = {
   slug: string;
@@ -64,6 +65,7 @@ export const listFolders = createServerFn({ method: "GET" }).handler(async (): P
 export const createFolder = createServerFn({ method: "POST" })
   .validator((formData: FormData) => formData)
   .handler(async ({ data: formData }): Promise<FolderDef> => {
+    requireDriveSession();
     const name = String(formData.get("name") ?? "").trim();
     if (!name) throw new Error("Missing folder name");
 
@@ -95,6 +97,7 @@ export const createFolder = createServerFn({ method: "POST" })
 export const renameFolder = createServerFn({ method: "POST" })
   .validator((data: { slug: string; name: string }) => data)
   .handler(async ({ data: { slug, name } }): Promise<void> => {
+    requireDriveSession();
     const trimmed = name.trim();
     if (!trimmed) throw new Error("Missing folder name");
     const supabase = getSupabaseAdmin();
@@ -105,6 +108,7 @@ export const renameFolder = createServerFn({ method: "POST" })
 export const deleteFolder = createServerFn({ method: "POST" })
   .validator((slug: string) => slug)
   .handler(async ({ data: slug }): Promise<void> => {
+    requireDriveSession();
     const supabase = getSupabaseAdmin();
 
     const { data: mediaRows, error: mediaError } = await supabase.db

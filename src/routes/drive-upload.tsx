@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { AlertTriangle, ArrowLeft, ArrowUpRight, Check, CheckCircle2, Loader2, Pencil, Plus, Trash2, Upload, X } from "lucide-react";
+import { AlertTriangle, ArrowLeft, ArrowUpRight, Check, CheckCircle2, Loader2, Lock, LogOut, Pencil, Plus, Trash2, Upload, X } from "lucide-react";
 import lunjaLogo from "@/assets/lunja-logo.png";
+import magnifyingGlass from "@/assets/stickers/magnifying-glass.png";
 import { deleteDriveMedia, listDriveMedia, uploadDriveMedia, type DriveMedia } from "@/lib/drive-media";
 import { createFolder, deleteFolder, listFolders, renameFolder, type FolderDef } from "@/lib/drive-folders";
+import { checkDriveSession, driveLogin, driveLogout } from "@/lib/drive-auth";
 
 type ConfirmOptions = {
   title: string;
@@ -435,16 +437,91 @@ function NewFolderForm({ onCreated }: { onCreated: (folder: FolderDef) => void }
   );
 }
 
+function LoginGate({ onSuccess }: { onSuccess: () => void }) {
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const submit = useCallback(async () => {
+    if (!password) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await driveLogin({ data: password });
+      onSuccess();
+    } catch (err) {
+      console.error(err);
+      setError("Mot de passe incorrect.");
+    } finally {
+      setBusy(false);
+    }
+  }, [password, onSuccess]);
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-white px-4 text-ink">
+      <div className="w-full max-w-sm">
+        <div className="mb-6 flex justify-center"><Brand /></div>
+        <div className="rounded-2xl bg-white p-6 shadow-[0_20px_45px_-20px_rgba(0,0,0,0.35)]">
+          <div className="flex justify-center">
+            <span className="grid size-12 place-items-center rounded-full bg-[#FFE600] text-neutral-900">
+              <Lock className="size-5" />
+            </span>
+          </div>
+          <h1 className="mt-4 text-center text-2xl leading-none">Accès équipe</h1>
+          <p className="mt-2 text-center text-sm text-ink/60">Cette page contient des fichiers sensibles. Entrez le mot de passe pour continuer.</p>
+          <input
+            type="password"
+            autoFocus
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            onKeyDown={(event) => event.key === "Enter" && submit()}
+            placeholder="Mot de passe"
+            className="mt-5 w-full rounded-full border border-black/15 px-4 py-2.5 text-sm outline-none focus:border-ink"
+          />
+          {error && <p className="mt-2 text-center text-xs font-bold text-red-600">{error}</p>}
+          <button
+            type="button"
+            onClick={submit}
+            disabled={busy || !password}
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#FFE600] px-5 py-2.5 font-display text-xs font-black uppercase text-neutral-900 hover:bg-ink hover:text-[#FFE600] disabled:opacity-50"
+          >
+            {busy ? <Loader2 className="size-4 animate-spin" /> : <Lock className="size-4" />}
+            Entrer
+          </button>
+        </div>
+        <Link to="/lunja-drive" className="mt-6 flex items-center justify-center gap-2 font-display text-xs font-bold uppercase text-ink/50 hover:text-[#c9971a]">
+          <ArrowLeft className="size-3.5" /> Retour à la médiathèque
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function DriveUploadPage() {
+  const [authenticated, setAuthenticated] = useState<boolean | null>(null);
   const [folders, setFolders] = useState<FolderDef[] | null>(null);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
+    checkDriveSession()
+      .then((result) => setAuthenticated(result.authenticated))
+      .catch(() => setAuthenticated(false));
+  }, []);
+
+  useEffect(() => {
+    if (!authenticated) return;
     listFolders()
       .then(setFolders)
       .catch((error) => {
         console.error(error);
         setFolders([]);
       });
+  }, [authenticated]);
+
+  const handleLogout = useCallback(async () => {
+    await driveLogout();
+    setAuthenticated(false);
+    setFolders(null);
   }, []);
 
   const handleRenamed = useCallback((slug: string, name: string) => {
@@ -459,15 +536,37 @@ function DriveUploadPage() {
     setFolders((prev) => [...(prev ?? []), folder]);
   }, []);
 
+  if (authenticated === null) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-ink">
+        <Loader2 className="size-6 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!authenticated) {
+    return <LoginGate onSuccess={() => setAuthenticated(true)} />;
+  }
+
   return (
     <ConfirmProvider>
       <div className="min-h-screen bg-white text-ink">
         <header className="bg-white shadow-[0_1px_0_0_rgba(0,0,0,0.06)]">
           <div className="mx-auto flex h-[4.5rem] max-w-4xl items-center justify-between px-4 sm:px-6">
             <Brand />
-            <Link to="/lunja-drive" className="inline-flex items-center gap-2 font-display text-sm font-bold uppercase text-ink/60 hover:text-[#c9971a]">
-              <ArrowLeft className="size-4" /> Voir la médiathèque
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link to="/lunja-drive" className="inline-flex items-center gap-2 font-display text-sm font-bold uppercase text-ink/60 hover:text-[#c9971a]">
+                <ArrowLeft className="size-4" /> Voir la médiathèque
+              </Link>
+              <button
+                type="button"
+                onClick={handleLogout}
+                aria-label="Se déconnecter"
+                className="grid size-9 place-items-center rounded-full text-ink/40 hover:bg-ink/5 hover:text-ink"
+              >
+                <LogOut className="size-4" />
+              </button>
+            </div>
           </div>
         </header>
 
@@ -485,17 +584,34 @@ function DriveUploadPage() {
           {folders === null ? (
             <div className="mt-10 flex items-center gap-3 text-ink/60"><Loader2 className="size-5 animate-spin" /> Chargement…</div>
           ) : (
-            <div className="mt-8 grid gap-6">
-              {folders.map((folder) => (
-                <FolderPanel
-                  key={folder.slug}
-                  folder={folder}
-                  onRenamed={(name) => handleRenamed(folder.slug, name)}
-                  onDeleted={() => handleDeleted(folder.slug)}
-                />
-              ))}
-              <NewFolderForm onCreated={handleCreated} />
-            </div>
+            <>
+              {folders.length > 1 && (
+                <div className="relative mt-8 max-w-sm">
+                  <img src={magnifyingGlass} alt="" className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 opacity-50" />
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    placeholder="Rechercher une catégorie…"
+                    className="w-full rounded-full border border-black/15 bg-white py-2.5 pl-9 pr-4 text-sm outline-none focus:border-ink"
+                  />
+                </div>
+              )}
+
+              <div className="mt-8 grid gap-6">
+                {folders
+                  .filter((folder) => folder.name.toLowerCase().includes(query.trim().toLowerCase()))
+                  .map((folder) => (
+                    <FolderPanel
+                      key={folder.slug}
+                      folder={folder}
+                      onRenamed={(name) => handleRenamed(folder.slug, name)}
+                      onDeleted={() => handleDeleted(folder.slug)}
+                    />
+                  ))}
+                <NewFolderForm onCreated={handleCreated} />
+              </div>
+            </>
           )}
 
           <a

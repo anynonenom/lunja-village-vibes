@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { DRIVE_BUCKET, getSupabaseAdmin } from "@/lib/supabase-admin";
+import { requireDriveSession } from "@/lib/drive-auth";
 
 export type DriveMedia = {
   name: string;
@@ -57,6 +58,7 @@ export const listDriveMedia = createServerFn({ method: "GET" })
 export const uploadDriveMedia = createServerFn({ method: "POST" })
   .validator((formData: FormData) => formData)
   .handler(async ({ data: formData }): Promise<DriveMedia> => {
+    requireDriveSession();
     const folder = String(formData.get("folder") ?? "");
     const file = formData.get("file");
     if (!folder) throw new Error("Missing folder");
@@ -98,6 +100,7 @@ export const uploadDriveMedia = createServerFn({ method: "POST" })
 export const deleteDriveMedia = createServerFn({ method: "POST" })
   .validator((path: string) => path)
   .handler(async ({ data: path }): Promise<void> => {
+    requireDriveSession();
     const supabase = getSupabaseAdmin();
 
     const { error: storageError } = await supabase.storage.from(DRIVE_BUCKET).remove([path]);
