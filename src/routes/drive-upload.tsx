@@ -94,11 +94,11 @@ export const Route = createFileRoute("/drive-upload")({
 
 function Brand() {
   return (
-    <span className="flex min-w-0 items-center gap-2 sm:gap-2.5">
+    <span className="flex items-center gap-2 sm:gap-2.5">
       <span className="grid size-8 shrink-0 place-items-center overflow-hidden rounded-full border border-black/10 bg-[#FFE600] sm:size-10 md:size-12">
         <img src={lunjaLogo} alt="" className="size-full object-cover" />
       </span>
-      <span className="truncate font-display text-lg font-black uppercase leading-none sm:text-2xl md:text-3xl">
+      <span className="whitespace-nowrap font-display text-base font-black uppercase leading-none sm:text-2xl md:text-3xl">
         Lunja <span className="inline-block -rotate-1 bg-[#FFE600] px-1.5 text-neutral-900">Village</span>
       </span>
     </span>

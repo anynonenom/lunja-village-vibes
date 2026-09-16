@@ -51,11 +51,11 @@ export const Route = createFileRoute("/lunja-drive")({
 
 function Brand() {
   return (
-    <span className="flex min-w-0 items-center gap-2 sm:gap-2.5">
+    <span className="flex items-center gap-2 sm:gap-2.5">
       <span className="grid size-8 shrink-0 place-items-center overflow-hidden rounded-full border border-black/10 bg-[#FFE600] sm:size-10 md:size-12">
         <img src={lunjaLogo} alt="" className="size-full object-cover" />
       </span>
-      <span className="truncate font-display text-lg font-black uppercase leading-none sm:text-2xl md:text-3xl">
+      <span className="whitespace-nowrap font-display text-base font-black uppercase leading-none sm:text-2xl md:text-3xl">
         Lunja <span className="inline-block -rotate-1 bg-[#FFE600] px-1.5 text-neutral-900">Village</span>
       </span>
     </span>
@@ -66,7 +66,7 @@ function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-40 bg-white/80 shadow-[0_1px_0_0_rgba(0,0,0,0.06)] backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:h-[4.5rem] sm:px-6">
-        <Link to="/lunja-drive" aria-label="Lunja Drive home" className="min-w-0 shrink"><Brand /></Link>
+        <Brand />
         <nav className="hidden items-center gap-6 font-display text-[13px] font-bold uppercase tracking-widest text-neutral-700 md:flex">
           <a href="#library" className="transition-colors hover:text-[#c9971a]">La médiathèque</a>
           <a href="#village-map" className="transition-colors hover:text-[#c9971a]">Le village</a>
