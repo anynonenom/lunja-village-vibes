@@ -4,6 +4,7 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
+  Download,
   Folder,
   Image as ImageIcon,
   Loader2,
@@ -14,6 +15,8 @@ import { Button } from "@/components/ui/button";
 import lunjaLogo from "@/assets/lunja-logo.png";
 import hero from "@/assets/hero-aerial.jpg";
 import villageMap from "@/assets/lunja-map.png";
+import docCoverPool from "@/assets/hero-pool.jpg";
+import docCoverFiche from "@/assets/real-lunja-aerial.jpg";
 import pushPin from "@/assets/stickers/push-pin.png";
 import pushPinLime from "@/assets/stickers/push-pin-lime.png";
 import reviewedStamp from "@/assets/stickers/reviewed-stamp.png";
@@ -69,6 +72,7 @@ function Header() {
         <Brand />
         <nav className="hidden items-center gap-6 font-display text-[13px] font-bold uppercase tracking-widest text-neutral-700 md:flex">
           <a href="#library" className="transition-colors hover:text-[#c9971a]">La médiathèque</a>
+          <a href="#documents" className="transition-colors hover:text-[#c9971a]">Documents</a>
           <a href="#village-map" className="transition-colors hover:text-[#c9971a]">Le village</a>
         </nav>
         <a
@@ -476,6 +480,101 @@ function MapPreview() {
   );
 }
 
+type DocEntry = {
+  code: string;
+  title: string;
+  meta: string;
+  lang: string;
+  url: string | null;
+  cover: string;
+};
+
+const DOCUMENTS: DocEntry[] = [
+  {
+    code: "EN",
+    title: "Presentation",
+    meta: "Village overview, accommodation & services",
+    lang: "English",
+    url: "https://gskrfvszynfcpputwbff.supabase.co/storage/v1/object/public/lunja-drive/_documents/lunja-presentation-en.pdf",
+    cover: hero,
+  },
+  {
+    code: "FR",
+    title: "Présentation",
+    meta: "Vue d'ensemble du village, hébergements et services",
+    lang: "Français",
+    url: "https://gskrfvszynfcpputwbff.supabase.co/storage/v1/object/public/lunja-drive/_documents/lunja-presentation-fr.pdf",
+    cover: docCoverPool,
+  },
+  {
+    code: "F2",
+    title: "Fiche technique",
+    meta: "Spécifications détaillées du village",
+    lang: "PDF",
+    url: "https://gskrfvszynfcpputwbff.supabase.co/storage/v1/object/public/lunja-drive/_documents/fiche-technique-f2.pdf",
+    cover: docCoverFiche,
+  },
+];
+
+function DocumentCard({ doc, index }: { doc: DocEntry; index: number }) {
+  const available = Boolean(doc.url);
+  const Wrapper = available ? "a" : "div";
+
+  return (
+    <Wrapper
+      {...(available ? { href: doc.url!, target: "_blank", rel: "noopener noreferrer" } : {})}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-sm bg-white shadow-[6px_10px_0_-4px_rgba(0,0,0,0.05),10px_16px_0_-8px_rgba(0,0,0,0.04),0_25px_50px_-24px_rgba(0,0,0,0.35)] transition-transform ${available ? "hover:-translate-y-2" : "opacity-60"}`}
+    >
+      <div className="relative aspect-[3/4] w-full overflow-hidden">
+        <img src={doc.cover} alt="" className="size-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-transparent" />
+        <div className="absolute inset-0 border border-[#c9971a]/30" />
+        <span className="absolute left-5 top-5 font-display text-6xl font-black leading-none text-white/70 [text-shadow:0_2px_10px_rgba(0,0,0,0.25)]">{doc.code}</span>
+        <span className="absolute right-5 top-5 font-display text-xs text-neutral-900/40">{String(index + 1).padStart(2, "0")} / 03</span>
+
+        <div className="absolute inset-x-5 bottom-5">
+          <span className="block h-px w-10 bg-[#c9971a]" />
+          <h3 className="mt-3 font-display text-2xl uppercase leading-[0.95] text-neutral-900 sm:text-3xl">{doc.title}</h3>
+          <p className="mt-2 text-xs leading-relaxed text-neutral-600">{doc.meta}</p>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between border-t border-black/10 bg-white px-5 py-4">
+        <span className="font-display text-[11px] font-bold uppercase tracking-widest text-neutral-500">{doc.lang}</span>
+        {available ? (
+          <span className="grid size-9 place-items-center rounded-full border border-[#c9971a]/60 text-[#c9971a] transition-all group-hover:bg-[#c9971a] group-hover:text-white">
+            <Download className="size-4" />
+          </span>
+        ) : (
+          <span className="font-display text-[11px] font-bold uppercase tracking-widest text-neutral-400">Bientôt</span>
+        )}
+      </div>
+    </Wrapper>
+  );
+}
+
+function DocumentsSection() {
+  return (
+    <section id="documents" className="scroll-mt-20 bg-[#FFF7D6] py-20 sm:py-28">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="font-display text-xs font-bold uppercase tracking-[0.3em] text-[#c9971a]">Press kit</span>
+            <h2 className="mt-2 text-[clamp(2.4rem,6vw,4rem)] font-display uppercase leading-[0.9] text-neutral-900">Documents officiels</h2>
+          </div>
+          <p className="max-w-xs text-sm text-neutral-600">Dossiers de présentation et fiches techniques, prêts à télécharger.</p>
+        </div>
+
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {DOCUMENTS.map((doc, index) => (
+            <DocumentCard key={doc.code} doc={doc} index={index} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Closing() {
   return (
     <section className="bg-white">
@@ -528,6 +627,7 @@ function Footer() {
           <h4 className="font-display text-lg tracking-tight">Parcourir</h4>
           <div className="mt-3 flex flex-col gap-2 text-sm text-white/70">
             <a href="#library" className="hover:text-white">Toutes les catégories</a>
+            <a href="#documents" className="hover:text-white">Documents officiels</a>
             <a href="#village-map" className="hover:text-white">Le plan du village</a>
           </div>
         </div>
@@ -575,6 +675,7 @@ function LunjaDrivePage() {
         ) : (
           <>
             <FolderGrid onOpen={setActiveFolder} />
+            <DocumentsSection />
             <MapPreview />
           </>
         )}
