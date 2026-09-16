@@ -492,8 +492,8 @@ type DocEntry = {
 const DOCUMENTS: DocEntry[] = [
   {
     code: "EN",
-    title: "Presentation",
-    meta: "Village overview, accommodation & services",
+    title: "Présentation",
+    meta: "Vue d'ensemble du village, hébergements et services",
     lang: "English",
     url: "https://gskrfvszynfcpputwbff.supabase.co/storage/v1/object/public/lunja-drive/_documents/lunja-presentation-en.pdf",
     cover: hero,
