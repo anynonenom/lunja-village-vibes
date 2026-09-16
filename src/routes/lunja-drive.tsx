@@ -17,6 +17,7 @@ import hero from "@/assets/hero-aerial.jpg";
 import villageMap from "@/assets/lunja-map.png";
 import docCoverPool from "@/assets/hero-pool.jpg";
 import docCoverFiche from "@/assets/real-lunja-aerial.jpg";
+import documentsBg from "@/assets/documents-bg.png";
 import pushPin from "@/assets/stickers/push-pin.png";
 import pushPinLime from "@/assets/stickers/push-pin-lime.png";
 import reviewedStamp from "@/assets/stickers/reviewed-stamp.png";
@@ -54,14 +55,14 @@ export const Route = createFileRoute("/lunja-drive")({
 
 function Brand() {
   return (
-    <span className="flex items-center gap-2 sm:gap-2.5">
+    <Link to="/lunja-map" className="flex items-center gap-2 sm:gap-2.5">
       <span className="grid size-8 shrink-0 place-items-center overflow-hidden rounded-full border border-black/10 bg-[#FFE600] sm:size-10 md:size-12">
         <img src={lunjaLogo} alt="" className="size-full object-cover" />
       </span>
       <span className="whitespace-nowrap font-display text-base font-black uppercase leading-none sm:text-2xl md:text-3xl">
         Lunja <span className="inline-block -rotate-1 bg-[#FFE600] px-1.5 text-neutral-900">Village</span>
       </span>
-    </span>
+    </Link>
   );
 }
 
@@ -555,14 +556,15 @@ function DocumentCard({ doc, index }: { doc: DocEntry; index: number }) {
 
 function DocumentsSection() {
   return (
-    <section id="documents" className="scroll-mt-20 bg-[#FFF7D6] py-20 sm:py-28">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+    <section id="documents" className="relative scroll-mt-20 overflow-hidden py-20 sm:py-28">
+      <img src={documentsBg} alt="" className="absolute inset-0 size-full object-cover" />
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <span className="font-display text-xs font-bold uppercase tracking-[0.3em] text-[#c9971a]">Press kit</span>
-            <h2 className="mt-2 text-[clamp(2.4rem,6vw,4rem)] font-display uppercase leading-[0.9] text-neutral-900">Documents officiels</h2>
+            <h2 className="mt-2 text-[clamp(2.4rem,6vw,4rem)] font-display uppercase leading-[0.9] text-linen">Documents officiels</h2>
           </div>
-          <p className="max-w-xs text-sm text-neutral-600">Dossiers de présentation et fiches techniques, prêts à télécharger.</p>
+          <p className="max-w-xs text-sm text-white/60">Dossiers de présentation et fiches techniques, prêts à télécharger.</p>
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
