@@ -300,7 +300,7 @@ function FolderView({ folder, onClose, onOpenLightbox }: { folder: FolderDef; on
   const videoCount = (items ?? []).filter((item) => item.type === "video").length;
 
   return (
-    <section className="scroll-mt-20 bg-white py-16 grain sm:py-20">
+    <section className="scroll-mt-20 bg-white pb-16 pt-24 grain sm:pb-20 sm:pt-32">
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
         <button type="button" onClick={onClose} className="inline-flex items-center gap-2 font-display text-sm font-bold uppercase text-ink/60 hover:text-[#c9971a]">
           <ArrowLeft className="size-4" /> Toutes les catégories
@@ -663,20 +663,30 @@ function LunjaDrivePage() {
   const [activeFolder, setActiveFolder] = useState<FolderDef | null>(null);
   const [lightbox, setLightbox] = useState<{ items: DriveMedia[]; index: number } | null>(null);
 
+  const openFolder = (folder: FolderDef) => {
+    setActiveFolder(folder);
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+  };
+
+  const closeFolder = () => {
+    setActiveFolder(null);
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+  };
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-white text-ink">
       <Header />
       <main>
-        <Hero />
         {activeFolder ? (
           <FolderView
             folder={activeFolder}
-            onClose={() => setActiveFolder(null)}
+            onClose={closeFolder}
             onOpenLightbox={(items, index) => setLightbox({ items, index })}
           />
         ) : (
           <>
-            <FolderGrid onOpen={setActiveFolder} />
+            <Hero />
+            <FolderGrid onOpen={openFolder} />
             <DocumentsSection />
             <MapPreview />
           </>
