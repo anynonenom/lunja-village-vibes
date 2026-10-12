@@ -1,830 +1,579 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Nav, Footer, LightboxProvider, useLightbox } from "@/components/chrome";
-import { useLandingCover } from "@/lib/landing-cover";
-import { MapPin, Trophy, Waves, TreePalm, Heart, MessageCircle, Check, Sparkles } from "lucide-react";
-
-// PLACEHOLDER photos — copied from the Chillout gallery so the site renders locally.
-// TODO: replace each with a real Lunja Village resort photo (pools, bungalows,
-// apartments, ocean, gardens, breakfast) from @lunjavillage.officiel.
-import dj from "@/assets/ph-dj.jpg";
-import dj2 from "@/assets/ph-dj2.jpg";
-import drinks from "@/assets/ph-drinks.jpg";
-import hostel from "@/assets/ph-hostel.jpg";
-import market from "@/assets/ph-market.jpg";
-import surf from "@/assets/ph-surf.jpg";
-import poster from "@/assets/ph-poster.jpg";
-import worldcup from "@/assets/worldcup.jpg";
-
-// Generated resort images
-import heroPool from "@/assets/hero-pool.jpg";
-import heroAerial from "@/assets/hero-aerial.jpg";
-import bungalow from "@/assets/bungalow.jpg";
-import apartment from "@/assets/apartment.jpg";
-import party from "@/assets/party.jpg";
-import yoga from "@/assets/yoga.jpg";
-
-// Real @lunjavillage.officiel Instagram posts for the feed grid
-import feed1 from "@/assets/feed1.jpg";
-import feed2 from "@/assets/feed2.jpg";
-import feed3 from "@/assets/feed3.jpg";
-import feed4 from "@/assets/feed4.jpg";
-import feed5 from "@/assets/feed5.jpg";
-import feed6 from "@/assets/feed6.jpg";
-import feed7 from "@/assets/feed7.jpg";
-import feed8 from "@/assets/feed8.jpg";
-import feed9 from "@/assets/feed9.jpg";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Instagram,
+  MapPin,
+  QrCode,
+  BedDouble,
+  Users,
+  UtensilsCrossed,
+  Waves,
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Maximize2,
+  X,
+  Phone,
+  TreePalm,
+  Wifi,
+  Baby,
+  Dumbbell,
+  Wine,
+} from "lucide-react";
+import { LunjaMap } from "@/components/LunjaMap";
+import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { PageShell, WHATSAPP } from "@/components/chrome";
+import { ACCOR_URL, EXPERIENCES, INSTAGRAM_URL, STAYS, type Stay } from "@/data/lunja";
+import { SITE_LOCKED } from "@/lib/site-lock";
+import heroImg from "@/assets/real-lunja-aerial.jpg";
 import lunjaLogo from "@/assets/lunja-logo.png";
 import lunjaMark from "@/assets/lunja-mark.png";
 
-const CHILLOUT_URL = "https://chill-vibes-studio.vercel.app";
-const IG_URL = "https://www.instagram.com/lunjavillage.officiel/";
-const IG_CHILLOUT = "https://www.instagram.com/chillout_taghazout/";
-const WHATSAPP = "+212 644 96 78 58";
+function LogoMark({
+  className = "size-10",
+  borderClass = "border-2 border-neutral-900",
+}: {
+  className?: string;
+  borderClass?: string;
+}) {
+  return (
+    <span
+      className={`grid shrink-0 place-items-center overflow-hidden rounded-full bg-[#FFE600] ${borderClass} ${className}`}
+    >
+      <img src={lunjaLogo} alt="Lunja Village" className="h-full w-full object-contain" />
+    </span>
+  );
+}
+
+/** Site wordmark: "LUNJA" + a yellow "VILLAGE" tag, echoing the hero. */
+function Wordmark({ dark = false }: { dark?: boolean }) {
+  return (
+    <span className="flex items-baseline gap-1.5 font-display leading-none tracking-tight">
+      <span className={`text-xl sm:text-2xl ${dark ? "text-white" : "text-neutral-900"}`}>LUNJA</span>
+      <span className="rounded-[3px] bg-[#FFE600] px-1.5 py-0.5 text-sm text-neutral-900 sm:text-base">
+        VILLAGE
+      </span>
+    </span>
+  );
+}
 
 export const Route = createFileRoute("/")({
-  component: Home,
+  head: () => ({
+    meta: [
+      { title: "Lunja Village Imi Ouaddar · Plan du village, appartements & bungalows" },
+      { name: "description", content: "Scanned the code? Welcome to Lunja Village, Imi Ouaddar. Explore the interactive village map, garden and sea-view bungalows, apartments, three pools, gardens and the beach path." },
+      { property: "og:title", content: "Lunja Village · Explore the whole village" },
+      { property: "og:description", content: "Interactive map, bungalows, apartments, pools, surf and quad. One Atlantic address in Imi Ouaddar." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: JojoPage,
 });
 
-// ---------- utilities ----------
 function useReveal() {
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const els = document.querySelectorAll(".reveal");
+    const el = ref.current;
+    if (!el) return;
+    const items = el.querySelectorAll<HTMLElement>(".reveal");
     const io = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => {
+        for (const e of entries) {
           if (e.isIntersecting) {
             e.target.classList.add("in");
             io.unobserve(e.target);
           }
-        });
+        }
       },
-      { threshold: 0.12 }
+      { threshold: 0, rootMargin: "0px 0px -8% 0px" },
     );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-}
-
-function useCountUp(target: number, active: boolean, duration = 1400) {
-  const [v, setV] = useState(0);
-  useEffect(() => {
-    if (!active) return;
-    let raf = 0;
-    const start = performance.now();
-    const step = (t: number) => {
-      const p = Math.min(1, (t - start) / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setV(target * eased);
-      if (p < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [active, target, duration]);
-  return v;
-}
-
-// Drag-to-scroll for the polaroid row (mouse drag on desktop; touch uses native swipe)
-function useDragScroll<T extends HTMLElement>() {
-  const ref = useRef<T | null>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    let down = false, startX = 0, startScroll = 0, moved = 0;
-    const onDown = (e: PointerEvent) => {
-      if (e.pointerType !== "mouse") return;
-      down = true; startX = e.clientX; startScroll = el.scrollLeft; moved = 0; el.style.cursor = "grabbing";
-    };
-    const onMove = (e: PointerEvent) => {
-      if (!down) return;
-      moved = Math.max(moved, Math.abs(e.clientX - startX));
-      el.scrollLeft = startScroll - (e.clientX - startX);
-    };
-    const stop = () => { down = false; el.style.cursor = ""; };
-    // suppress the click that follows a drag so it doesn't open the lightbox
-    const onClickCapture = (e: MouseEvent) => { if (moved > 6) { e.stopPropagation(); e.preventDefault(); } };
-    el.addEventListener("pointerdown", onDown);
-    window.addEventListener("pointermove", onMove);
-    window.addEventListener("pointerup", stop);
-    el.addEventListener("click", onClickCapture, true);
+    items.forEach((i) => io.observe(i));
+    const t = window.setTimeout(() => items.forEach((i) => i.classList.add("in")), 1200);
     return () => {
-      el.removeEventListener("pointerdown", onDown);
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("pointerup", stop);
-      el.removeEventListener("click", onClickCapture, true);
+      io.disconnect();
+      window.clearTimeout(t);
     };
   }, []);
   return ref;
 }
 
-// ---------- Scroll progress ----------
-function ScrollProgress() {
-  const [p, setP] = useState(0);
-  useEffect(() => {
-    const on = () => {
-      const h = document.documentElement;
-      const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
-      setP(Math.max(0, Math.min(1, scrolled)));
-    };
-    on();
-    window.addEventListener("scroll", on, { passive: true });
-    return () => window.removeEventListener("scroll", on);
-  }, []);
-  return (
-    <div className="fixed inset-x-0 top-0 z-[70] h-1 bg-transparent">
-      <div className="h-full bg-yellow transition-[width] duration-100" style={{ width: `${p * 100}%` }} />
-    </div>
-  );
-}
-
-// ---------- Hero ----------
-const HERO_SLIDES = [heroPool, heroAerial, surf, poster];
-
-function Hero() {
+/** Swipeable photo slider for a stay (no external library). */
+function StayGallery({ images, alt }: { images: string[]; alt: string }) {
   const [i, setI] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setI((v) => (v + 1) % HERO_SLIDES.length), 5000);
-    return () => clearInterval(t);
-  }, []);
-  return (
-    <section id="top" className="relative isolate min-h-screen w-full overflow-hidden bg-ink text-linen grain-dark">
-      {HERO_SLIDES.map((src, idx) => (
-        <div
-          key={src}
-          className="absolute inset-0 transition-opacity duration-[1400ms]"
-          style={{ opacity: i === idx ? 1 : 0 }}
-        >
-          <img src={src} alt="" className="h-full w-full object-cover animate-kenburns" />
-          <div className="absolute inset-0 bg-gradient-to-b from-ink/40 via-ink/50 to-ink/85" />
-        </div>
-      ))}
+  const startX = useRef<number | null>(null);
+  const n = images.length;
+  const go = (d: number) => setI((p) => (p + d + n) % n);
 
-      {/* floating particles */}
-      <div className="pointer-events-none absolute inset-0 z-10">
-        {[...Array(14)].map((_, k) => (
-          <span
-            key={k}
-            className="absolute block h-1.5 w-1.5 rounded-full bg-yellow animate-drift"
-            style={{
-              left: `${(k * 73) % 100}%`,
-              bottom: `-10px`,
-              animationDelay: `${k * 1.1}s`,
-              // @ts-expect-error CSS var
-              "--dx": `${((k % 3) - 1) * 60}px`,
-              opacity: 0.9,
-            }}
+  return (
+    <div
+      className="relative overflow-hidden select-none"
+      onPointerDown={(e) => (startX.current = e.clientX)}
+      onPointerUp={(e) => {
+        if (startX.current === null) return;
+        const dx = e.clientX - startX.current;
+        if (dx > 40) go(-1);
+        else if (dx < -40) go(1);
+        startX.current = null;
+      }}
+    >
+      <div
+        className="flex transition-transform duration-500 ease-out"
+        style={{ transform: `translateX(-${i * 100}%)` }}
+      >
+        {images.map((src, k) => (
+          <img
+            key={src}
+            src={src}
+            alt={`${alt} — photo ${k + 1} of ${n}`}
+            loading={k === 0 ? "eager" : "lazy"}
+            width={1200}
+            height={900}
+            className="w-full shrink-0 aspect-[4/3] object-cover"
+            draggable={false}
           />
         ))}
       </div>
 
-      {/* LineUp Vibes Events */}
-      <a
-        href="https://www.instagram.com/lineupvibesevents"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="LineUp Vibes Events sur Instagram"
-        className="animate-float group absolute left-4 top-20 z-20 flex flex-col items-center gap-2 sm:left-6 sm:top-28 lg:left-10"
-        style={{ ["--r" as string]: "-6deg" }}
-      >
-        <span className="grid size-16 place-items-center rounded-full bg-[#C8E420] ring-4 ring-ink shadow-hard transition-transform group-hover:scale-105 sm:size-28 lg:size-32">
-          <img src={lunjaMark} alt="LineUp Vibes Events" className="w-[58%]" />
-        </span>
-        <span className="bg-ink/70 px-2 py-0.5 font-display text-[0.6rem] uppercase tracking-widest text-linen backdrop-blur sm:text-xs">
-          Exclusive for our line upers
-        </span>
-      </a>
-
-      <div className="animate-pop-in relative z-20 mx-auto flex min-h-screen max-w-7xl flex-col justify-end px-4 pb-24 pt-32 sm:px-6 sm:pb-32">
-        <span className="font-script text-3xl text-yellow -rotate-2 inline-block">welcome to the village</span>
-        <h1 className="mt-2 font-display text-[22vw] font-black leading-[0.82] tracking-tighter sm:text-[16vw] lg:text-[13rem]">
-          <span className="text-grunge text-linen block">LUNJA</span>
-          <span className="text-grunge text-yellow block">VILLAGE.</span>
-        </h1>
-        <p className="mt-6 max-w-2xl font-body text-lg text-linen/90 sm:text-xl">
-          Ta parenthèse ensoleillée à Imi Ouaddar — appartements &amp; bungalows,
-          piscines, live music & bonne énergie. À 30 min d'Agadir.
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Badge><MapPin size={13} className="mr-1.5" /> Imi Ouaddar · Agadir</Badge>
-          <Badge>Ouvert 7/7 · À 5 min de l'océan</Badge>
-        </div>
-        <div className="mt-8 flex flex-wrap gap-4">
-          <a
-            href="#book"
-            className="inline-flex items-center gap-2 border-2 border-linen bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard transition-transform hover:-translate-y-0.5"
+      {n > 1 && (
+        <>
+          <button
+            type="button"
+            aria-label="Previous photo"
+            onClick={() => go(-1)}
+            className="absolute left-2 top-1/2 -translate-y-1/2 size-9 grid place-items-center bg-ink/80 text-linen ring-2 ring-linen/30 hover:bg-ink transition-colors"
           >
-            Réserve ton séjour →
-          </a>
-          <a
-            href="#village"
-            className="inline-flex items-center gap-2 border-2 border-linen bg-transparent px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-linen hover:bg-linen hover:text-ink"
+            <ChevronLeft className="size-5" />
+          </button>
+          <button
+            type="button"
+            aria-label="Next photo"
+            onClick={() => go(1)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 size-9 grid place-items-center bg-ink/80 text-linen ring-2 ring-linen/30 hover:bg-ink transition-colors"
           >
-            Découvre le village
-          </a>
-        </div>
+            <ChevronRight className="size-5" />
+          </button>
+          <span className="absolute top-3 right-3 bg-ink/80 text-linen px-2 py-1 font-display uppercase text-xs tracking-widest">
+            {i + 1} / {n}
+          </span>
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+            {images.map((src, k) => (
+              <button
+                key={src}
+                type="button"
+                aria-label={`Go to photo ${k + 1}`}
+                onClick={() => setI(k)}
+                className={`h-2 rounded-full transition-all ${k === i ? "w-5 bg-sun" : "w-2 bg-linen/60"}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
-        {/* Slide dots */}
-        <div className="mt-10 flex items-center gap-3">
-          {HERO_SLIDES.map((_, idx) => (
-            <button
-              key={idx}
-              aria-label={`slide ${idx + 1}`}
-              onClick={() => setI(idx)}
-              className={`h-2 border border-linen transition-all ${i === idx ? "w-10 bg-coral" : "w-5 bg-transparent"}`}
-            />
+/** Slide-out right panel with the full room detail sheet. */
+function StayDetailsPanel({ s }: { s: Stay }) {
+  return (
+    <SheetContent
+      side="right"
+      className="w-full sm:max-w-lg overflow-y-auto bg-linen text-ink border-l-4 border-ink p-0"
+    >
+      <div className="relative">
+        {s.images && s.images.length > 0 ? (
+          <StayGallery images={s.images} alt={s.name} />
+        ) : (
+          <img src={s.img} alt={s.name} className="w-full aspect-[4/3] object-cover" />
+        )}
+        <span className="absolute top-3 left-3 z-10 bg-sun text-ink px-2 py-1 font-display uppercase text-xs tracking-widest ring-2 ring-ink">
+          {s.code}
+        </span>
+      </div>
+
+      <div className="p-5 sm:p-6">
+        <h3 className="font-display uppercase text-3xl leading-none tracking-tight text-neutral-900">{s.name}</h3>
+        <p className="mt-1 text-sm text-neutral-500">{s.sleeps} · {s.size}</p>
+        {s.description && <p className="mt-3 text-sm leading-relaxed text-neutral-600">{s.description}</p>}
+
+        <ul className="mt-4 flex flex-wrap gap-2">
+          {s.perks.map((p) => (
+            <li key={p} className="bg-ink text-sun px-2 py-1 text-[11px] uppercase tracking-widest font-semibold">
+              {p}
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-5 space-y-4 text-sm">
+          {s.bedding && (
+            <div>
+              <p className="font-display uppercase text-xs tracking-widest text-terra">Bedding</p>
+              <ul className="mt-1 flex flex-wrap gap-2">
+                {s.bedding.map((b) => (
+                  <li key={b} className="ring-1 ring-ink/20 px-2 py-0.5 text-[12px]">{b}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {s.specs?.map((grp) => (
+            <div key={grp.group}>
+              <p className="font-display uppercase text-xs tracking-widest text-terra">{grp.group}</p>
+              <ul className="mt-1 list-disc pl-4 text-ink/75 space-y-0.5">
+                {grp.items.map((it) => (
+                  <li key={it}>{it}</li>
+                ))}
+              </ul>
+            </div>
           ))}
         </div>
 
-        {/* Sticker */}
-        <SinceStamp className="absolute right-4 top-28 hidden sm:block" />
-      </div>
-
-      {/* scroll hint */}
-      <div className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 text-center text-linen/80">
-        <div className="font-script text-xl">scroll</div>
-        <div className="mx-auto mt-1 h-8 w-0.5 bg-linen/70" />
-      </div>
-
-      {/* wave divider */}
-      <WaveDivider className="absolute -bottom-1 left-0 right-0 z-30 text-linen" flip />
-    </section>
-  );
-}
-
-function Badge({ children }: { children: ReactNode }) {
-  return (
-    <span className="inline-flex items-center border-2 border-linen/80 bg-ink/40 px-3 py-1.5 font-display text-xs font-bold uppercase tracking-widest text-linen backdrop-blur">
-      {children}
-    </span>
-  );
-}
-
-function SinceStamp({ className = "" }: { className?: string }) {
-  return (
-    <div className={`animate-float ${className}`} style={{ ["--r" as string]: "-8deg" }}>
-      <svg viewBox="0 0 160 160" className="h-32 w-32">
-        <defs>
-          <path id="cir" d="M 80,80 m -60,0 a 60,60 0 1,1 120,0 a 60,60 0 1,1 -120,0" />
-        </defs>
-        <circle cx="80" cy="80" r="72" fill="#FBF304" stroke="#141010" strokeWidth="3" />
-        <circle cx="80" cy="80" r="55" fill="none" stroke="#141010" strokeWidth="2" strokeDasharray="4 4" />
-        <text fontFamily="Barlow Condensed" fontWeight="900" fontSize="13" fill="#141010" letterSpacing="2">
-          <textPath href="#cir" startOffset="0">SINCE · IMI OUADDAR · OPEN 7/7 · </textPath>
-        </text>
-        <text x="80" y="76" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="900" fontSize="26" fill="#141010">
-          VIBE
-        </text>
-        <text x="80" y="100" textAnchor="middle" fontFamily="Barlow Condensed" fontWeight="900" fontSize="26" fill="#F25C2A">
-          VILLAGE
-        </text>
-      </svg>
-    </div>
-  );
-}
-
-// ---------- Wave divider ----------
-function WaveDivider({ className = "", flip = false }: { className?: string; flip?: boolean }) {
-  return (
-    <svg
-      viewBox="0 0 1440 80"
-      preserveAspectRatio="none"
-      className={`block h-10 w-full sm:h-14 ${className}`}
-      style={{ transform: flip ? "scaleY(-1)" : undefined }}
-      aria-hidden
-    >
-      <path
-        d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
-// ---------- Marquee ----------
-function Marquee() {
-  const items = ["Surf", "Sunset", "Pool Days", "Live Music", "Good Vibes", "Imi Ouaddar", "Community", "World Cup 2030"];
-  const full = [...items, ...items, ...items, ...items];
-  return (
-    <div className="relative overflow-hidden border-y-2 border-ink bg-yellow py-4">
-      <div className="flex w-max animate-marquee whitespace-nowrap">
-        {full.map((it, i) => (
-          <span key={i} className="mx-6 flex items-center gap-6 font-display text-3xl font-black uppercase tracking-tight text-ink">
-            {it}
-            <Sparkles className="text-coral" size={20} />
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ---------- Village ----------
-function StatCard({ n, unit, label, tape: tp, tilt, photo }: { n: number; unit?: string; label: string; tape: string; tilt: number; photo: string }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const [seen, setSeen] = useState(false);
-  useEffect(() => {
-    if (!ref.current) return;
-    const io = new IntersectionObserver((e) => e[0].isIntersecting && setSeen(true), { threshold: 0.4 });
-    io.observe(ref.current);
-    return () => io.disconnect();
-  }, []);
-  const v = useCountUp(n, seen);
-  const display = n % 1 === 0 ? Math.round(v) : v.toFixed(1);
-  return (
-    <div
-      ref={ref}
-      className="polaroid group hover:!-rotate-0 hover:!-translate-y-2"
-      style={{ transform: `rotate(${tilt}deg)` }}
-    >
-      <div className="relative aspect-[4/3] overflow-hidden bg-ink">
-        <img src={photo} alt={label} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <span className="tape absolute -top-2 left-3">{tp}</span>
-      </div>
-      <div className="mt-3 px-1 text-center font-display">
-        <div className="text-6xl font-black text-coral">
-          {display}
-          {unit && <span className="text-3xl text-ink">{unit}</span>}
-        </div>
-        <div className="mt-1 text-sm font-bold uppercase tracking-widest text-ink/80">{label}</div>
-      </div>
-    </div>
-  );
-}
-
-function VillageSection() {
-  return (
-    <section id="village" className="relative bg-linen py-24 sm:py-32 grain">
-      <div className="relative z-10 mx-auto grid max-w-7xl gap-14 px-4 sm:px-6 lg:grid-cols-2 lg:gap-20">
-        <div className="reveal">
-          <div className="mb-4 flex items-center gap-3 font-display text-sm font-bold uppercase tracking-[0.3em] text-muted-foreground">
-            <span className="h-px w-10 bg-ink" /> 01 / Découvre
-          </div>
-          <div className="font-script text-4xl text-coral -rotate-2">le spot</div>
-          <h2 className="mt-2 text-[15vw] leading-[0.82] sm:text-7xl lg:text-[6.5rem]">
-            Live in the{" "}
-            <span className="inline-block -rotate-1 border-2 border-ink bg-teal px-3 text-linen shadow-hard-lg">
-              Village
-            </span>
-          </h2>
-          <p className="mt-6 max-w-lg font-body text-lg leading-relaxed text-ink/80">
-            Un village de vacances laid-back à deux pas des vagues. Un grand jardin,
-            des piscines, des marchés le week-end, du live music tous les soirs
-            et une communauté d'humains solaires venus de partout.
-            <br />
-            <br />
-            Tu poses tes valises, tu déposes tes soucis à l'accueil.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <span className="tape !bg-coral !text-linen">Piscines</span>
-            <span className="tape !bg-teal !text-linen">Jardins</span>
-            <span className="tape">Live music</span>
-            <span className="tape !bg-linen !text-ink border-2 border-ink">Surf & yoga</span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-6 sm:gap-8 reveal">
-          <StatCard n={104} label="Chalets" tape="Bungalows" tilt={-3} photo={bungalow} />
-          <StatCard n={180} label="Appartements" tape="Sea view" tilt={2} photo={apartment} />
-          <StatCard n={210} label="Suites" tape="B&B" tilt={2} photo={heroPool} />
-          <StatCard n={5} unit=" MIN" label="De l'océan" tape="Beach walk" tilt={-2} photo={surf} />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ---------- Stay / Tarifs ----------
-type Room = { name: string; price: number; group: "Appartements" | "Bungalows"; tape: string; photo: string };
-const ROOMS: Room[] = [
-  { name: "Appartement Double", price: 1180, group: "Appartements", tape: "Duo", photo: apartment },
-  { name: "Appartement Triple", price: 1250, group: "Appartements", tape: "Trio", photo: heroPool },
-  { name: "Appartement Quadruple", price: 1320, group: "Appartements", tape: "Squad", photo: heroAerial },
-  { name: "Bungalow Double", price: 1380, group: "Bungalows", tape: "Cosy", photo: bungalow },
-  { name: "Bungalow Triple", price: 1480, group: "Bungalows", tape: "Trio", photo: hostel },
-  { name: "Bungalow Quadruple", price: 1580, group: "Bungalows", tape: "Family", photo: bungalow },
-];
-
-function RoomCard({ r, i }: { r: Room; i: number }) {
-  const tilt = (i % 2 ? 1.5 : -1.5);
-  return (
-    <div
-      className="polaroid group relative hover:!-rotate-0 hover:!-translate-y-2 reveal"
-      style={{ transform: `rotate(${tilt}deg)` }}
-    >
-      <div className="relative aspect-[4/3] overflow-hidden bg-ink">
-        <img src={r.photo} alt={r.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-        <span className="tape absolute -top-2 left-4">{r.tape}</span>
-        <span className="absolute -bottom-2 right-2 border-2 border-ink bg-yellow px-2 py-0.5 font-display text-xs font-black uppercase">B&B incl.</span>
-      </div>
-      <div className="mt-3 px-2">
-        <div className="font-display text-2xl font-black uppercase leading-none">{r.name}</div>
-        <div className="mt-3 flex items-end justify-between">
-          <div>
-            <div className="font-display text-5xl font-black leading-none text-coral">{r.price.toLocaleString("fr-FR")}<span className="text-2xl text-ink"> MAD</span></div>
-            <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground">par nuit · petit-déj inclus</div>
-          </div>
+        <div className="mt-6 flex items-center justify-between gap-3">
+          <p className="font-script text-2xl text-terra">{s.from}</p>
           <a
-            href="#book"
-            className="inline-flex items-center border-2 border-ink bg-yellow px-3 py-2 font-display text-sm font-black uppercase text-ink shadow-hard transition-transform group-hover:-translate-y-0.5"
+            href={ACCOR_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 font-display uppercase tracking-wider bg-ink text-sun px-4 py-2 hover:bg-terra hover:text-linen transition-colors"
           >
-            Book →
+            Check rates <ArrowRight className="size-4" />
           </a>
         </div>
       </div>
+    </SheetContent>
+  );
+}
+
+function StayCard({ s, index }: { s: Stay; index: number }) {
+  const hasDetails = Boolean(s.description || s.bedding || s.specs);
+  return (
+    <article
+      className="reveal bg-linen text-ink ring-2 ring-sun/30 overflow-hidden flex flex-col h-full"
+      style={{ animationDelay: `${index * 0.08}s` }}
+    >
+      <div className="relative">
+        {s.images && s.images.length > 0 ? (
+          <StayGallery images={s.images} alt={s.name} />
+        ) : (
+          <img
+            src={s.img}
+            alt={s.name}
+            loading="lazy"
+            width={1200}
+            height={900}
+            className="w-full aspect-[4/3] object-cover"
+          />
+        )}
+        <span className="absolute top-3 left-3 z-10 bg-sun text-ink px-2 py-1 font-display uppercase text-xs tracking-widest ring-2 ring-ink">
+          {s.code}
+        </span>
+      </div>
+
+      <div className="p-4 sm:p-5 flex flex-col flex-1">
+        <h3 className="font-display uppercase text-2xl sm:text-3xl leading-none tracking-tight">{s.name}</h3>
+        <p className="mt-1 text-sm text-ink/60">{s.sleeps} · {s.size}</p>
+
+        <ul className="mt-3 flex flex-wrap gap-2">
+          {s.perks.map((p) => (
+            <li key={p} className="bg-ink text-sun px-2 py-1 text-[11px] uppercase tracking-widest font-semibold">
+              {p}
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-auto pt-4 flex flex-wrap items-center gap-3">
+          {hasDetails ? (
+            <Sheet>
+              <SheetTrigger className="inline-flex items-center gap-2 font-display uppercase tracking-wider text-sm border-2 border-ink px-4 py-2 hover:bg-ink hover:text-sun transition-colors">
+                View details <ArrowRight className="size-4" />
+              </SheetTrigger>
+              <StayDetailsPanel s={s} />
+            </Sheet>
+          ) : (
+            <a
+              href={ACCOR_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 font-display uppercase tracking-wider text-sm bg-ink text-sun px-4 py-2 hover:bg-terra hover:text-linen transition-colors"
+            >
+              Check rates <ArrowRight className="size-4" />
+            </a>
+          )}
+          <p className="font-script text-xl text-terra">{s.from}</p>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+const SLEEP_CARDS = ["apartment", "bungalow"]
+  .map((id) => STAYS.find((s) => s.id === id))
+  .filter((s): s is (typeof STAYS)[number] => Boolean(s));
+
+function StaysSection() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 items-stretch">
+      {SLEEP_CARDS.map((s, i) => (
+        <StayCard key={s.id} s={s} index={i} />
+      ))}
     </div>
   );
 }
 
-function StaySection() {
-  const groups: Room["group"][] = ["Appartements", "Bungalows"];
+const FACILITIES = [
+  { Icon: Waves, label: "3 piscines" },
+  { Icon: Baby, label: "Kids club" },
+  { Icon: Dumbbell, label: "Terrain de sport" },
+  { Icon: Wifi, label: "Wi-Fi gratuit" },
+  { Icon: MapPin, label: "Parking gratuit" },
+];
+
+function JojoPage() {
+  const rootRef = useReveal();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const dark = !scrolled;
+
   return (
-    <section id="stay" className="relative bg-paper py-24 sm:py-32 grain">
-      <WaveDivider className="absolute -top-1 left-0 right-0 text-linen" />
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="mb-14 flex flex-wrap items-end justify-between gap-6 reveal">
+    <PageShell>
+      <div ref={rootRef} className="map-lunja bg-linen text-ink font-sans selection:bg-sun selection:text-ink overflow-x-hidden">
+      {/* HEADER */}
+      <header
+        className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
+          scrolled
+            ? "border-b border-black/5 bg-white/90 shadow-sm backdrop-blur"
+            : "bg-gradient-to-b from-black/45 via-black/20 to-transparent"
+        }`}
+      >
+        <div className="h-1 w-full bg-[#FFE600]" />
+        <div className="mx-auto flex h-16 max-w-[92rem] items-center justify-between px-5 sm:h-20 sm:px-10 lg:px-16">
+          <Link to="/" className="group flex items-center gap-3">
+            <LogoMark
+              className="size-11 transition-transform group-hover:-rotate-6 sm:size-14"
+              borderClass={scrolled ? "border-2 border-neutral-900" : "border-2 border-white/90"}
+            />
+            <span className="hidden flex-col gap-0.5 sm:flex">
+              <Wordmark dark={dark} />
+              <span
+                className={`font-display text-[10px] uppercase tracking-[0.25em] ${
+                  dark ? "text-white/70" : "text-neutral-400"
+                }`}
+              >
+                Imi Ouaddar · Atlantique
+              </span>
+            </span>
+          </Link>
+
+          <nav
+            className={`hidden items-center gap-8 font-display text-[13px] uppercase tracking-widest md:flex ${
+              dark ? "text-white/85" : "text-neutral-500"
+            }`}
+          >
+            <a href="#map" className="transition-colors hover:text-[#c9971a]">Le plan</a>
+            <a href="#stay" className="transition-colors hover:text-[#c9971a]">Dormir</a>
+            <a href="#doorstep" className="transition-colors hover:text-[#c9971a]">Aux alentours</a>
+          </nav>
+
+          <a
+            href="#reserver"
+            className="inline-flex items-center gap-1.5 rounded-full bg-[#FFE600] px-4 py-2.5 font-display text-xs uppercase tracking-widest text-neutral-900 shadow-md transition-transform hover:-translate-y-0.5 sm:px-5 sm:text-sm"
+          >
+            Réserver son séjour <ArrowRight className="size-4" />
+          </a>
+        </div>
+      </header>
+
+      {/* HERO */}
+      <section className="relative min-h-[62svh] sm:min-h-[72svh] flex items-center overflow-hidden grain">
+        <img
+          src={heroImg}
+          alt="Sea view terrace at Lunja Village, Imi Ouaddar"
+          width={1200}
+          height={900}
+          className="absolute inset-0 size-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10" />
+        <div className="relative z-10 max-w-6xl mx-auto w-full px-4 sm:px-6 pb-12 pt-28 sm:pt-32 text-linen">
           <div>
-            <div className="mb-4 flex items-center gap-3 font-display text-sm font-bold uppercase tracking-[0.3em] text-muted-foreground">
-              <span className="h-px w-10 bg-ink" /> 02 / Dors ici
+            <span className="inline-flex items-center gap-2 bg-sun text-ink px-3 py-1 font-display uppercase text-xs sm:text-sm tracking-widest -rotate-2 ring-2 ring-ink">
+              <QrCode className="size-4 shrink-0" /> Vous avez scanné · bienvenue
+            </span>
+            <h1 className="mt-4 sm:mt-5 font-display uppercase leading-[0.82] tracking-tight text-[clamp(2.75rem,9vw,6.5rem)]">
+              LUNJA
+              <br />
+              <span className="text-sun">VILLAGE</span>
+            </h1>
+            <p className="font-script text-2xl sm:text-4xl text-terra mt-1 ml-1 rotate-[-2deg]">
+              Imi Ouaddar · côté Atlantique
+            </p>
+            <p className="mt-5 sm:mt-6 max-w-xl text-sm sm:text-base text-linen/80">
+              284 bungalows et appartements posés sur 38,5 hectares de jardins, entre mer et
+              montagne : trois piscines, un terrain de sport, un kids club, un restaurant et
+              des lounge bars, plus un chemin privé vers la plage. Tout ce qui suit, c'est le
+              vrai village, alors explorez-le avant même de défaire les valises.
+            </p>
+            <div className="mt-6 sm:mt-7 flex flex-col sm:flex-row flex-wrap gap-3">
+              <a href="#map" className="inline-flex items-center justify-center gap-2 bg-sun text-ink font-display uppercase tracking-wider text-sm sm:text-base px-5 py-3 ring-2 ring-ink hover:bg-terra hover:text-linen transition-colors">
+                <MapPin className="size-5 shrink-0" /> Explorer le plan
+              </a>
+              <a href="#stay" className="inline-flex items-center justify-center gap-2 border-2 border-linen font-display uppercase tracking-wider text-sm sm:text-base px-5 py-3 hover:bg-linen hover:text-ink transition-colors">
+                Où dormir
+              </a>
             </div>
-            <div className="font-script text-4xl text-coral -rotate-2">les tarifs</div>
-            <h2 className="mt-1 text-6xl sm:text-8xl">
-              Les <span className="text-grunge text-ink">chambres</span>.
+          </div>
+        </div>
+      </section>
+
+      {/* MARQUEE */}
+      <div className="bg-ink text-sun py-3 overflow-hidden border-y-4 border-terra">
+        <div className="flex w-max animate-marquee font-display uppercase text-2xl tracking-widest">
+          {Array.from({ length: 2 }).map((_, k) => (
+            <span key={k} className="flex">
+              {["3 piscines", "terrain de sport", "kids club", "surf à côté", "pistes quad", "accès plage", "restaurant & bars", "38,5 ha de jardins"].map((t) => (
+                <span key={t} className="px-6">
+                  {t} <span className="text-terra">✦</span>
+                </span>
+              ))}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* MAP */}
+      <section id="map" className="py-14 sm:py-24 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="reveal mb-6 sm:mb-8">
+            <span className="font-script text-2xl sm:text-3xl text-terra">À découvrir</span>
+            <h2 className="font-display uppercase text-[clamp(2.25rem,8vw,5.5rem)] leading-[0.85] tracking-tight">
+              Le village, <span className="text-terra italic">point par point</span>
+            </h2>
+            <p className="mt-3 max-w-xl text-sm sm:text-base text-ink/70">
+              Zoomez, glissez, touchez les numéros. Chaque point est un vrai lieu du plan de
+              Lunja, de l'accueil au chemin de la plage.
+            </p>
+          </div>
+          <div className="reveal">
+            <LunjaMap />
+          </div>
+        </div>
+      </section>
+
+      {/* STAY */}
+      <section id="stay" className="bg-ink text-linen py-14 sm:py-24 px-4 sm:px-6 grain">
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className="reveal mb-8 sm:mb-10">
+            <span className="font-script text-2xl sm:text-3xl text-sun">Dormir ici</span>
+            <h2 className="font-display uppercase text-[clamp(2.25rem,8vw,5.5rem)] leading-[0.85] tracking-tight">
+              Bungalows &amp; <span className="text-sun">appartements</span>
+            </h2>
+            <p className="mt-3 max-w-xl text-sm sm:text-base text-linen/70">
+              Deux façons de séjourner, toutes deux dans l'enceinte du village : un appartement ou
+              un bungalow, chacun de 75 m² pour quatre personnes maximum. Variantes côté jardin,
+              piscine ou vue mer, et tarifs en direct sur la page de réservation officielle ALL.com.
+            </p>
+          </div>
+
+          <StaysSection />
+        </div>
+      </section>
+
+      {/* EXPERIENCES */}
+      <section className="py-14 sm:py-24 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="reveal mb-8 sm:mb-10">
+            <span className="font-script text-2xl sm:text-3xl text-terra">Les journées ici</span>
+            <h2 className="font-display uppercase text-[clamp(2.25rem,8vw,5.5rem)] leading-[0.85] tracking-tight">
+              Profiter de <span className="text-terra italic">tout ou de rien</span>
             </h2>
           </div>
-          <p className="max-w-sm font-body text-ink/80">
-            Appartements lumineux ou bungalows cocoon — tous avec <b>petit-déjeuner inclus</b>,
-            accès aux piscines, jardins et bonne énergie.
-          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
+            {EXPERIENCES.map((e, i) => (
+              <article
+                key={e.id}
+                className="reveal relative overflow-hidden ring-2 ring-ink group"
+                style={{ animationDelay: `${i * 0.1}s` }}
+              >
+                <img
+                  src={e.img}
+                  alt={e.title}
+                  loading="lazy"
+                  width={1200}
+                  height={900}
+                  className="w-full aspect-[16/10] sm:aspect-[4/5] object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/90 to-transparent" />
+                <div className="absolute bottom-0 p-4 sm:p-5 text-linen">
+                  <h3 className="font-display uppercase text-3xl sm:text-4xl leading-none tracking-tight">{e.title}</h3>
+                  <p className="mt-2 text-sm text-linen/80">{e.line}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
+      </section>
 
-        {groups.map((g) => (
-          <div key={g} className="mb-16 last:mb-0">
-            <div className="mb-8 flex items-center gap-4">
-              <span className="tape !bg-teal !text-linen text-base">{g}</span>
-              <div className="h-0.5 flex-1 bg-ink/30" />
-            </div>
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {ROOMS.filter((r) => r.group === g).map((r, i) => (
-                <RoomCard key={r.name} r={r} i={i} />
+      {/* FACILITIES */}
+      <section className="bg-neutral-50 py-16 sm:py-24 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="reveal grid items-center gap-6 sm:gap-10 md:grid-cols-[auto_1fr]">
+            <h3 className="font-display text-[clamp(1.9rem,7vw,3.25rem)] leading-[1] tracking-tight text-neutral-900">
+              Inclus pour chaque séjour…
+            </h3>
+            <div className="flex flex-wrap justify-center gap-3 sm:justify-between sm:gap-4">
+              {FACILITIES.map(({ Icon, label }, k) => (
+                <div
+                  key={label}
+                  className="reveal grid size-24 place-items-center rounded-full bg-white text-center shadow-[0_15px_40px_-25px_rgba(0,0,0,0.4)] sm:size-32"
+                  style={{ ["--reveal-delay" as string]: `${k * 0.06}s` }}
+                >
+                  <div>
+                    <Icon className="mx-auto size-5 text-neutral-500 sm:size-6" strokeWidth={1.5} />
+                    <div className="mt-1 px-1.5 text-[10px] font-semibold uppercase leading-tight tracking-wide text-neutral-600 sm:px-2 sm:text-[11px]">
+                      {label}
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
-        ))}
+        </div>
+      </section>
 
-        <p className="mt-8 text-center font-body text-sm text-muted-foreground">
-          + Taxe touristique&nbsp;: <b>13,20 MAD / personne / nuit</b>
-        </p>
-      </div>
-    </section>
-  );
-}
-
-// ---------- Agenda ----------
-type Event = { title: string; when: string; desc: string; tape: string; tapeColor?: string; photo?: string; featured?: boolean; tilt: number };
-const EVENTS: Event[] = [
-  { title: "Road to 2030", when: "Match nights · 2026 →", desc: "Fan-village World Cup — écrans géants, fan zone, live bands. Le Maroc joue, on vibre.", tape: "Next up", tapeColor: "coral", featured: true, photo: worldcup, tilt: -2 },
-  { title: "DJ Sunset Sessions", when: "Vend. · Sam. · 18h → 23h", desc: "Le soleil tombe, les basses montent. Sets house & afro sur la piscine.", tape: "Live", photo: dj, tilt: 1.5 },
-  { title: "Salsa Weekend", when: "Sam. · 21h", desc: "Initiations gratuites puis piste ouverte jusqu'à tard.", tape: "Danse", tapeColor: "teal", photo: party, tilt: -1.5 },
-  { title: "Surf & Yoga Mornings", when: "Mer. → Dim. · 7h30", desc: "Session sunrise avec les surf coachs, retour au village pour un flow yoga.", tape: "Wellness", photo: yoga, tilt: 2 },
-  { title: "Market Day", when: "Dimanche · 11h → 17h", desc: "Artisans, créateurs locaux, food stalls, DJ résident.", tape: "Souk", tapeColor: "coral", photo: market, tilt: -2 },
-  { title: "Live Band Night", when: "Jeudi · 20h30", desc: "Groupes de la région et invités du Nord — reggae, gnawa, indie.", tape: "Concert", photo: dj2, tilt: 1 },
-];
-
-// Scattered polaroid with a handwritten caption (distinct dark "Gram" style)
-function PolaroidShot({ e }: { e: Event }) {
-  const openLightbox = useLightbox();
-  return (
-    <figure
-      className="polaroid group shrink-0 w-72 snap-start hover:!-rotate-0 reveal sm:w-80 lg:w-[22rem]"
-      style={{ transform: `rotate(${e.tilt}deg)` }}
-    >
-      <button
-        type="button"
-        onClick={() => e.photo && openLightbox(e.photo, e.title)}
-        className="relative block aspect-[4/5] w-full cursor-zoom-in overflow-hidden bg-ink"
-        aria-label={`Voir ${e.title}`}
-      >
-        <img
-          src={e.photo}
-          alt={e.title}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-        />
-        {e.featured && (
-          <span className="absolute right-2 top-2 inline-flex items-center gap-1 -rotate-6 border-2 border-linen bg-coral px-2 py-0.5 font-display text-[10px] font-black uppercase text-linen shadow-hard">
-            <Trophy size={11} /> 2030
-          </span>
-        )}
-      </button>
-      <figcaption className="mt-3 text-center font-script text-2xl leading-none text-ink">{e.title}</figcaption>
-      <div className="mt-1 text-center font-body text-[10px] font-bold uppercase tracking-widest text-ink/55">{e.when}</div>
-    </figure>
-  );
-}
-
-function AgendaSection() {
-  const rowRef = useDragScroll<HTMLDivElement>();
-  return (
-    <section id="agenda" className="relative overflow-hidden bg-teal py-20 text-linen sm:py-28 grain">
-      <WaveDivider className="absolute -top-1 left-0 right-0 z-10 text-paper" />
-      <div className="relative z-10 mx-auto max-w-7xl px-4 pt-6 sm:px-6">
-        <div className="mb-9 reveal">
-          <span className="inline-block bg-yellow px-3 py-1 font-display text-xs font-black uppercase tracking-[0.2em] text-ink">
-            03 · L'agenda
-          </span>
-          <div className="mt-5 font-script text-3xl text-yellow -rotate-2 sm:text-4xl">what's poppin'</div>
-          <h2 className="mt-1 text-5xl leading-[0.82] sm:text-8xl lg:text-9xl">
-            <span className="neon-yellow">CETTE</span>{" "}
-            <span className="font-script text-linen">semaine</span>
+      {/* CTA */}
+      <section id="reserver" className="scroll-mt-20 bg-sun text-ink py-16 sm:py-24 px-4 sm:px-6 grain">
+        <div className="max-w-4xl mx-auto text-center relative z-10 reveal">
+          <span className="font-script text-2xl sm:text-3xl text-terra">Prêt pour l'Atlantique</span>
+          <h2 className="font-display uppercase text-[clamp(2.5rem,10vw,6rem)] leading-[0.82] tracking-tight">
+            Réserver <span className="text-terra italic">votre séjour</span>
           </h2>
-          <p className="mt-5 max-w-xl font-body text-sm text-linen/85 sm:text-base">
-            Chaque semaine remixée par la crew — DJ sunsets, live bands, surf, yoga & marché du
-            dimanche. Tag{" "}
-            <a href={IG_URL} target="_blank" rel="noreferrer" className="font-bold text-yellow hover:underline">
-              @lunjavillage.officiel
-            </a>.
-          </p>
-        </div>
-      </div>
-
-      {/* horizontal scattered polaroid row — drag on desktop, swipe on mobile */}
-      <div
-        ref={rowRef}
-        className="relative z-10 flex cursor-grab snap-x snap-mandatory select-none gap-6 overflow-x-auto px-4 py-5 sm:gap-8 sm:px-6 [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-      >
-        {EVENTS.map((e) => (
-          <PolaroidShot key={e.title} e={e} />
-        ))}
-        <div className="w-1 shrink-0" aria-hidden />
-      </div>
-
-      <div className="relative z-10 mt-4 flex flex-col items-center gap-3 px-4 text-center reveal sm:mt-8">
-        <span className="font-script text-xl text-linen/70">← glisse pour explorer →</span>
-        <Link
-          to="/experience"
-          className="inline-flex items-center gap-3 border-2 border-ink bg-yellow px-6 py-4 font-display text-base font-black uppercase tracking-wider text-ink shadow-hard-lg transition-transform hover:-translate-y-0.5 sm:text-lg"
-        >
-          Voir le line-up complet →
-        </Link>
-      </div>
-    </section>
-  );
-}
-
-// ---------- Chillout Crossover ----------
-// Main bar image is the manageable restaurant/bar cover (see /drive-upload).
-// Falls back to the bundled local asset until staff saves a genuine photo.
-function ChilloutSection() {
-  const cover = useLandingCover(drinks);
-  return (
-    <section id="chillout" className="relative overflow-hidden bg-teal-deep py-24 text-linen sm:py-32 grain-dark">
-      <WaveDivider className="absolute -top-1 left-0 right-0 text-teal" />
-      <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2 lg:gap-20">
-        <div className="reveal">
-          <div className="font-script text-4xl text-yellow -rotate-2">when the sun goes down</div>
-          <h2 className="mt-2 text-[13vw] leading-[0.85] sm:text-8xl lg:text-9xl">
-            After dark?
-            <br />
-            It's <span className="inline-block -rotate-1 border-2 border-linen bg-yellow px-3 text-ink shadow-hard">CHILLOUT</span>
-          </h2>
-          <p className="mt-6 max-w-lg font-body text-lg text-linen/85">
-            Le lounge bar du village. Live music, cocktails signature, tapas et sunset
-            sessions. Un rideau tombe côté piscine, un autre s'ouvre côté bar.
-          </p>
-          <a
-            href={CHILLOUT_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-8 inline-flex items-center gap-3 border-2 border-linen bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg transition-transform hover:-translate-y-0.5"
-          >
-            Enter Chillout →
-          </a>
-        </div>
-        <div className="relative reveal">
-          <img
-            src={cover.src}
-            alt="Bar et espace restaurant Chillout à Lunja Village"
-            loading="lazy"
-            onError={(e) => {
-              const img = e.currentTarget;
-              if (!img.dataset.fallback) {
-                img.dataset.fallback = "1";
-                img.src = drinks;
-              }
-            }}
-            className="aspect-[4/3] w-full border-2 border-linen object-cover shadow-hard-lg"
-            style={{ transform: "rotate(2deg)" }}
-          />
-          <img
-            src={dj}
-            alt="DJ set"
-            loading="lazy"
-            className="absolute -bottom-6 -left-6 hidden w-44 border-2 border-linen shadow-hard-lg sm:block"
-            style={{ transform: "rotate(-6deg)" }}
-          />
-          <span className="tape absolute -top-4 right-6 !bg-yellow !text-ink text-base">Bar · 7/7</span>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ---------- Feed ----------
-const FEED = [feed1, feed2, feed3, feed4, feed5, feed6, feed7, feed8, feed9];
-
-function FeedSection() {
-  return (
-    <section id="feed" className="relative bg-paper py-24 sm:py-32 grain">
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="mb-10 reveal border-2 border-ink bg-linen p-6 shadow-hard-lg">
-          <div className="flex flex-wrap items-center gap-5">
-            <div className="relative">
-              <div className="rounded-full bg-gradient-to-tr from-coral via-yellow to-teal p-1">
-                <div className="h-20 w-20 overflow-hidden rounded-full border-2 border-linen bg-linen">
-                  <img src={lunjaLogo} alt="Lunja Village" className="h-full w-full object-cover" />
-                </div>
-              </div>
-              <span className="absolute -bottom-1 -right-1 tape !bg-coral !text-linen text-[10px]">Live</span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex flex-wrap items-center gap-3">
-                <span className="font-display text-2xl font-black uppercase">@lunjavillage.officiel</span>
-                <a
-                  href={IG_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center border-2 border-ink bg-yellow px-3 py-1.5 font-display text-xs font-black uppercase text-ink shadow-hard hover:-translate-y-0.5 transition-transform"
-                >
-                  Follow
-                </a>
-              </div>
-              <div className="mt-2 flex flex-wrap gap-6 font-body text-sm">
-                <span><b className="font-display text-lg">312</b> posts</span>
-                <span><b className="font-display text-lg">24.8k</b> followers</span>
-                <span><b className="font-display text-lg">198</b> following</span>
-              </div>
-              <p className="mt-2 flex flex-wrap items-center gap-1.5 max-w-md text-sm text-ink/80">vibe village in Imi Ouaddar <Waves size={14} /> <TreePalm size={14} /> stay · surf · party</p>
-            </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <a
+              href={ACCOR_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-ink text-sun font-display uppercase tracking-wider px-6 py-4 hover:bg-terra hover:text-linen transition-colors shadow-lg"
+            >
+              Réserver sur ALL.com <ArrowRight className="size-5" />
+            </a>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border-2 border-ink font-display uppercase tracking-wider px-6 py-4 hover:bg-ink hover:text-sun transition-colors"
+            >
+              <Instagram className="size-5" /> @lunjavillage.officiel
+            </a>
           </div>
+          <p className="mt-8 font-script text-2xl -rotate-2">À très vite au village ✦</p>
         </div>
-
-        <div className="grid grid-cols-3 gap-1 border-2 border-ink bg-ink reveal">
-          {FEED.map((src, i) => (
-            <FeedTile key={i} src={src} likes={230 + i * 73} comments={12 + i * 4} />
-          ))}
-        </div>
-
-        <div className="mt-10 text-center reveal">
-          <a
-            href={IG_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-3 border-2 border-ink bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg hover:-translate-y-0.5 transition-transform"
-          >
-            Follow @lunjavillage.officiel →
-          </a>
-        </div>
+      </section>
       </div>
-    </section>
-  );
-}
-
-function FeedTile({ src, likes, comments }: { src: string; likes: number; comments: number }) {
-  const [flash, setFlash] = useState(false);
-  const openLightbox = useLightbox();
-  return (
-    <button
-      className="group relative block aspect-square cursor-zoom-in overflow-hidden bg-ink"
-      onMouseEnter={() => { setFlash(true); setTimeout(() => setFlash(false), 300); }}
-      onClick={() => openLightbox(src)}
-    >
-      <img src={src} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
-      <div className="absolute inset-0 bg-ink/0 transition-colors group-hover:bg-ink/60" />
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center gap-4 opacity-0 transition-opacity group-hover:opacity-100">
-        <span className="inline-flex items-center gap-1.5 font-display text-linen text-lg font-black"><Heart size={18} fill="currentColor" /> {likes}</span>
-        <span className="inline-flex items-center gap-1.5 font-display text-linen text-lg font-black"><MessageCircle size={18} fill="currentColor" /> {comments}</span>
-      </div>
-      {flash && <div className="absolute inset-0 bg-linen/70 animate-pulse" />}
-    </button>
-  );
-}
-
-// ---------- Book ----------
-function BookSection() {
-  const [sent, setSent] = useState(false);
-  function submit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const name = String(fd.get("name") || "");
-    const type = String(fd.get("type") || "");
-    const arrival = String(fd.get("arrival") || "");
-    const nights = String(fd.get("nights") || "");
-    const people = String(fd.get("people") || "");
-    const msg = String(fd.get("msg") || "");
-    const text = `Bonjour Lunja Village!%0AJe m'appelle ${encodeURIComponent(name)}.%0ALogement: ${encodeURIComponent(type)}%0AArrivée: ${encodeURIComponent(arrival)} · ${encodeURIComponent(nights)} nuits · ${encodeURIComponent(people)} pers.%0A${encodeURIComponent(msg)}`;
-    const phone = WHATSAPP.replace(/[^0-9]/g, "");
-    setSent(true);
-    setTimeout(() => window.open(`https://wa.me/${phone}?text=${text}`, "_blank"), 800);
-  }
-  return (
-    <section id="book" className="relative overflow-hidden bg-ink py-24 text-linen sm:py-32 grain-dark">
-      <div className="relative z-10 mx-auto grid max-w-7xl gap-14 px-4 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
-        <div className="reveal">
-          <div className="font-script text-4xl text-yellow -rotate-2">don't sleep on it</div>
-          <h2 className="mt-2 text-[14vw] leading-[0.85] sm:text-8xl lg:text-9xl">
-            Book your
-            <br />
-            <span className="inline-block -rotate-1 border-2 border-linen bg-yellow px-3 text-ink shadow-hard">STAY</span>.
-          </h2>
-          <ul className="mt-8 space-y-3 font-display text-lg font-bold uppercase tracking-wide">
-            {["Petit-déj inclus", "Piscines & jardins", "À 5 min de l'océan", "Live music 7/7"].map((p) => (
-              <li key={p} className="flex items-center gap-3">
-                <span className="inline-block h-3 w-3 rotate-45 bg-coral" /> {p}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <span className="tape !bg-yellow !text-ink">WhatsApp {WHATSAPP}</span>
-            <span className="tape !bg-teal !text-linen">Réponse 24h</span>
-          </div>
-        </div>
-
-        <form
-          onSubmit={submit}
-          className="relative border-2 border-linen bg-linen p-6 text-ink shadow-hard-lg sm:p-8"
-          style={{ transform: "rotate(-0.5deg)" }}
-        >
-          <span className="tape absolute -top-4 left-6 text-base">Résa express</span>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field name="name" label="Nom" placeholder="Ton prénom" required />
-            <Field name="contact" label="Email / WhatsApp" placeholder="hello@..." required />
-            <Field name="type" label="Logement" as="select">
-              {ROOMS.map((r) => <option key={r.name}>{r.name}</option>)}
-            </Field>
-            <Field name="arrival" label="Arrivée" type="date" required />
-            <Field name="nights" label="Nuits" type="number" defaultValue={3} min={1} />
-            <Field name="people" label="Personnes" type="number" defaultValue={2} min={1} />
-          </div>
-          <div className="mt-4">
-            <Field name="msg" label="Message" as="textarea" placeholder="Occasion, besoins, questions…" />
-          </div>
-          <button
-            type="submit"
-            className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-ink bg-yellow px-6 py-4 font-display text-lg font-black uppercase tracking-wider text-ink shadow-hard-lg hover:-translate-y-0.5 transition-transform"
-          >
-            Envoyer & ouvrir WhatsApp →
-          </button>
-          {sent && (
-            <div className="mt-4 flex items-center gap-2 border-2 border-ink bg-yellow px-4 py-3 font-display text-sm font-black uppercase text-ink">
-              <Check size={16} /> Merci ! On t'ouvre WhatsApp pour finaliser.
-            </div>
-          )}
-        </form>
-      </div>
-    </section>
-  );
-}
-
-function Field({
-  label, name, as, children, ...rest
-}: {
-  label: string; name: string; as?: "select" | "textarea"; children?: ReactNode;
-} & React.InputHTMLAttributes<HTMLInputElement>) {
-  const base = "mt-1 w-full border-2 border-ink bg-linen px-3 py-2.5 font-body text-ink focus:outline-none focus:ring-4 focus:ring-coral/40";
-  return (
-    <label className="block">
-      <span className="font-display text-xs font-black uppercase tracking-widest text-ink/80">{label}</span>
-      {as === "select" ? (
-        <select name={name} className={base} required>{children}</select>
-      ) : as === "textarea" ? (
-        <textarea name={name} rows={3} className={base} placeholder={rest.placeholder as string} />
-      ) : (
-        <input name={name} className={base} {...rest} />
-      )}
-    </label>
-  );
-}
-
-// ---------- Page ----------
-function Home() {
-  useReveal();
-  return (
-    <LightboxProvider>
-      <div className="min-h-screen bg-linen text-ink">
-        <ScrollProgress />
-        <Nav />
-        <main>
-          <Hero />
-          <Marquee />
-          <VillageSection />
-          <StaySection />
-          <AgendaSection />
-          <ChilloutSection />
-          <FeedSection />
-          <BookSection />
-        </main>
-        <Footer />
-      </div>
-    </LightboxProvider>
+    </PageShell>
   );
 }
