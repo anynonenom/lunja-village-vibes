@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { AlertTriangle, ArrowLeft, ArrowUpRight, Check, CheckCircle2, Loader2, Lock, LogOut, Pencil, Plus, Trash2, Upload, X } from "lucide-react";
+import { AlertTriangle, ArrowLeft, ArrowUpRight, Check, CheckCircle2, GripVertical, Loader2, Lock, LogOut, Pencil, Plus, Trash2, Upload, X } from "lucide-react";
 import lunjaLogo from "@/assets/lunja-logo.png";
 import magnifyingGlass from "@/assets/stickers/magnifying-glass.png";
-import { deleteDriveMedia, listDriveMedia, uploadDriveMedia, type DriveMedia } from "@/lib/drive-media";
+import { deleteDriveMedia, listDriveMedia, reorderDriveMedia, uploadDriveMedia, type DriveMedia } from "@/lib/drive-media";
 import { createFolder, deleteFolder, listFolders, renameFolder, type FolderDef } from "@/lib/drive-folders";
 import { checkDriveSession, driveLogin, driveLogout } from "@/lib/drive-auth";
 
@@ -173,7 +173,21 @@ function FolderNameEditor({ folder, onRenamed }: { folder: FolderDef; onRenamed:
   );
 }
 
-function MediaThumb({ item, onDeleted }: { item: DriveMedia; onDeleted: () => void }) {
+function MediaThumb({
+  item,
+  onDeleted,
+  grip,
+  dimmed,
+  highlighted,
+  isCover,
+}: {
+  item: DriveMedia;
+  onDeleted: () => void;
+  grip?: React.ReactNode;
+  dimmed?: boolean;
+  highlighted?: boolean;
+  isCover?: boolean;
+}) {
   const confirm = useConfirm();
   const [busy, setBusy] = useState(false);
 
@@ -195,13 +209,24 @@ function MediaThumb({ item, onDeleted }: { item: DriveMedia; onDeleted: () => vo
   }, [confirm, item.path, onDeleted]);
 
   return (
-    <div className="group relative aspect-square overflow-hidden rounded-md border-2 border-white bg-ink/5 shadow-[0_4px_10px_-4px_rgba(0,0,0,0.3)]">
+    <div
+      data-thumb={item.path}
+      className={`group relative aspect-square overflow-hidden rounded-md border-2 border-white bg-ink/5 shadow-[0_4px_10px_-4px_rgba(0,0,0,0.3)] ${
+        dimmed ? "opacity-40 saturate-50" : ""
+      } ${highlighted ? "outline outline-2 outline-offset-2 outline-[#FFE600]" : ""}`}
+    >
       {item.type === "video" ? (
         <video src={item.url} className="size-full object-cover" muted playsInline preload="metadata" />
       ) : (
         <img src={item.url} alt={item.name} className="size-full object-cover" loading="lazy" />
       )}
       <div className="absolute inset-0 bg-ink/0 transition-colors group-hover:bg-ink/30" />
+      {grip}
+      {isCover && (
+        <span className="absolute bottom-1 left-1 rounded-full bg-[#FFE600] px-2 py-0.5 font-display text-[10px] font-bold uppercase text-neutral-900 shadow">
+          Couverture
+        </span>
+      )}
       <button
         type="button"
         onClick={handleDelete}
@@ -221,15 +246,164 @@ function FolderPanel({ folder, onRenamed, onDeleted }: { folder: FolderDef; onRe
   const [busy, setBusy] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [items, setItems] = useState<DriveMedia[] | null>(null);
+  const [savingOrder, setSavingOrder] = useState(false);
+  const [orderError, setOrderError] = useState<string | null>(null);
+  const [dragPath, setDragPath] = useState<string | null>(null);
+  const [hintPath, setHintPath] = useState<string | null>(null);
+
+  // Last server-confirmed order (auto-save rollback target).
+  const committedRef = useRef<DriveMedia[]>([]);
+  const itemsRef = useRef<DriveMedia[]>([]);
+  itemsRef.current = items ?? [];
+  const dragMovedRef = useRef(false);
+  const savingRef = useRef(false);
+  const queuedRef = useRef<DriveMedia[] | null>(null);
 
   const refresh = useCallback(() => {
     listDriveMedia({ data: folder.slug })
-      .then(setItems)
+      .then((result) => {
+        committedRef.current = result;
+        setItems(result);
+        setOrderError(null);
+      })
       .catch((error) => {
         console.error(error);
+        committedRef.current = [];
         setItems([]);
       });
   }, [folder.slug]);
+
+  const persistOrder = useCallback(
+    async (ordered: DriveMedia[]) => {
+      if (savingRef.current) {
+        queuedRef.current = ordered;
+        return;
+      }
+      savingRef.current = true;
+      setSavingOrder(true);
+      setOrderError(null);
+      let current = ordered;
+      try {
+        for (;;) {
+          await reorderDriveMedia({
+            data: { folder: folder.slug, paths: current.map((i) => i.path) },
+          });
+          committedRef.current = current;
+          if (queuedRef.current && queuedRef.current !== current) {
+            current = queuedRef.current;
+            queuedRef.current = null;
+            continue;
+          }
+          queuedRef.current = null;
+          break;
+        }
+      } catch (error) {
+        console.error(error);
+        setItems([...committedRef.current]);
+        queuedRef.current = null;
+        setOrderError(
+          error instanceof Error ? error.message : "L’enregistrement de l’ordre a échoué.",
+        );
+      } finally {
+        savingRef.current = false;
+        setSavingOrder(false);
+      }
+    },
+    [folder.slug],
+  );
+
+  const sameOrder = useCallback((a: DriveMedia[], b: DriveMedia[]) => {
+    if (a.length !== b.length) return false;
+    return a.every((item, i) => item.path === b[i]?.path);
+  }, []);
+
+  const pathAtPoint = useCallback((x: number, y: number): string | null => {
+    const el = document.elementFromPoint(x, y)?.closest?.("[data-thumb]");
+    return el instanceof HTMLElement ? (el.dataset.thumb ?? null) : null;
+  }, []);
+
+  const moveDraggedTo = useCallback(
+    (overPath: string | null) => {
+      const list = itemsRef.current;
+      const from = list.findIndex((i) => i.path === dragPath);
+      if (from < 0) return;
+      if (!overPath || overPath === dragPath) {
+        setHintPath(null);
+        return;
+      }
+      const to = list.findIndex((i) => i.path === overPath);
+      if (to < 0) return;
+      setHintPath(overPath);
+      const next = [...list];
+      const [moved] = next.splice(from, 1);
+      if (!moved) return;
+      next.splice(to, 0, moved);
+      if (!sameOrder(next, list)) {
+        dragMovedRef.current = true;
+        setItems(next);
+      }
+    },
+    [dragPath, sameOrder],
+  );
+
+  const startDrag = useCallback(
+    (e: React.PointerEvent<HTMLButtonElement>, path: string) => {
+      if (busy || deleting) return;
+      e.preventDefault();
+      e.currentTarget.setPointerCapture(e.pointerId);
+      dragMovedRef.current = false;
+      setDragPath(path);
+      setHintPath(null);
+      setOrderError(null);
+    },
+    [busy, deleting],
+  );
+
+  const continueDrag = useCallback(
+    (e: React.PointerEvent<HTMLButtonElement>) => {
+      if (!dragPath) return;
+      e.preventDefault();
+      moveDraggedTo(pathAtPoint(e.clientX, e.clientY));
+    },
+    [dragPath, moveDraggedTo, pathAtPoint],
+  );
+
+  const endDrag = useCallback(() => {
+    if (!dragPath) return;
+    const view = itemsRef.current;
+    setDragPath(null);
+    setHintPath(null);
+    if (dragMovedRef.current && !sameOrder(view, committedRef.current)) {
+      persistOrder(view);
+    }
+    dragMovedRef.current = false;
+  }, [dragPath, persistOrder, sameOrder]);
+
+  const keyMove = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+      const list = itemsRef.current;
+      let to = -1;
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") to = index - 1;
+      else if (e.key === "ArrowRight" || e.key === "ArrowDown") to = index + 1;
+      else if (e.key === "Home") to = 0;
+      else if (e.key === "End") to = list.length - 1;
+      else return;
+      e.preventDefault();
+      if (to < 0 || to >= list.length || busy || deleting) return;
+      const next = [...list];
+      const [moved] = next.splice(index, 1);
+      if (!moved) return;
+      next.splice(to, 0, moved);
+      setItems(next);
+      persistOrder(next);
+    },
+    [busy, deleting, persistOrder],
+  );
+
+  const retryOrder = useCallback(() => {
+    setOrderError(null);
+    persistOrder(itemsRef.current);
+  }, [persistOrder]);
 
   useEffect(() => {
     refresh();
@@ -328,11 +502,58 @@ function FolderPanel({ folder, onRenamed, onDeleted }: { folder: FolderDef; onRe
         </button>
 
         {items && items.length > 0 && (
-          <div className="mt-5 grid grid-cols-4 gap-2 sm:grid-cols-6">
-            {items.map((item) => (
-              <MediaThumb key={item.path} item={item} onDeleted={refresh} />
-            ))}
-          </div>
+          <>
+            <p className="mt-3 text-xs text-ink/50">
+              Glissez-déposez les images pour changer leur ordre — enregistré automatiquement.
+            </p>
+            {savingOrder && (
+              <p className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-ink/60">
+                <Loader2 className="size-3.5 animate-spin" /> Enregistrement de l’ordre…
+              </p>
+            )}
+            {orderError && (
+              <p role="alert" className="mt-2 rounded-xl bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-700">
+                {orderError}{" "}
+                <button type="button" onClick={retryOrder} className="underline hover:no-underline">
+                  Réessayer
+                </button>
+              </p>
+            )}
+            <div
+              className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-6"
+              onContextMenu={(e) => {
+                if (dragPath) e.preventDefault();
+              }}
+            >
+              {items.map((item, index) => (
+                <MediaThumb
+                  key={item.path}
+                  item={item}
+                  onDeleted={refresh}
+                  dimmed={dragPath === item.path}
+                  highlighted={hintPath === item.path && dragPath !== item.path}
+                  isCover={index === 0}
+                  grip={
+                    items.length > 1 ? (
+                      <button
+                        type="button"
+                        aria-label={`Déplacer ${item.name}`}
+                        title="Glisser pour réordonner"
+                        onPointerDown={(e) => startDrag(e, item.path)}
+                        onPointerMove={continueDrag}
+                        onPointerUp={endDrag}
+                        onPointerCancel={endDrag}
+                        onKeyDown={(e) => keyMove(e, index)}
+                        className="absolute left-1 top-1 grid size-6 cursor-grab touch-none place-items-center rounded-full bg-white/90 text-ink/70 opacity-100 shadow transition-opacity active:cursor-grabbing md:opacity-0 md:group-hover:opacity-100 md:focus-visible:opacity-100"
+                      >
+                        <GripVertical className="size-3.5" />
+                      </button>
+                    ) : undefined
+                  }
+                />
+              ))}
+            </div>
+          </>
         )}
       </div>
     </div>

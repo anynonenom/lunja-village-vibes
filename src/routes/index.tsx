@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Nav, Footer, LightboxProvider, useLightbox } from "@/components/chrome";
+import { useLandingCover } from "@/lib/landing-cover";
 import { MapPin, Trophy, Waves, TreePalm, Heart, MessageCircle, Check, Sparkles } from "lucide-react";
 
 // PLACEHOLDER photos — copied from the Chillout gallery so the site renders locally.
@@ -571,7 +572,10 @@ function AgendaSection() {
 }
 
 // ---------- Chillout Crossover ----------
+// Main bar image is the manageable restaurant/bar cover (see /drive-upload).
+// Falls back to the bundled local asset until staff saves a genuine photo.
 function ChilloutSection() {
+  const cover = useLandingCover(drinks);
   return (
     <section id="chillout" className="relative overflow-hidden bg-teal-deep py-24 text-linen sm:py-32 grain-dark">
       <WaveDivider className="absolute -top-1 left-0 right-0 text-teal" />
@@ -598,10 +602,17 @@ function ChilloutSection() {
         </div>
         <div className="relative reveal">
           <img
-            src={drinks}
-            alt="Cocktails Chillout"
+            src={cover.src}
+            alt="Bar et espace restaurant Chillout à Lunja Village"
             loading="lazy"
-            className="w-full border-2 border-linen shadow-hard-lg"
+            onError={(e) => {
+              const img = e.currentTarget;
+              if (!img.dataset.fallback) {
+                img.dataset.fallback = "1";
+                img.src = drinks;
+              }
+            }}
+            className="aspect-[4/3] w-full border-2 border-linen object-cover shadow-hard-lg"
             style={{ transform: "rotate(2deg)" }}
           />
           <img
