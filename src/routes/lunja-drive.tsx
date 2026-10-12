@@ -55,7 +55,7 @@ export const Route = createFileRoute("/lunja-drive")({
 
 function Brand() {
   return (
-    <Link to="/lunja-map" className="flex items-center gap-2 sm:gap-2.5">
+    <Link to="/" className="flex items-center gap-2 sm:gap-2.5">
       <span className="grid size-8 shrink-0 place-items-center overflow-hidden rounded-full border border-black/10 bg-[#FFE600] sm:size-10 md:size-12">
         <img src={lunjaLogo} alt="" className="size-full object-cover" />
       </span>
